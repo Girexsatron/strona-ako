@@ -959,6 +959,222 @@ ul, ol {
     transform: translateY(-5px);
 }
 
+/* ======= PROJECTS GALLERY / GALERIA REALIZACJI ======= */
+
+.projects-gallery {
+    background-color: var(--light-color);
+    padding: 80px 0;
+}
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    margin-bottom: 40px;
+    color: var(--secondary-color);
+}
+
+/* Filtry galerii */
+.gallery-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    gap: 10px;
+}
+
+.filter-btn {
+    background: none;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 8px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.filter-btn:hover, 
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Container galerii */
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Pojedynczy element galerii */
+.gallery-item {
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-sm);
+    transition: var(--transition);
+    position: relative;
+}
+
+.gallery-item:hover {
+    box-shadow: var(--box-shadow);
+    transform: translateY(-5px);
+}
+
+.gallery-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.gallery-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover .gallery-image img {
+    transform: scale(1.1);
+}
+
+/* Overlay z informacjami */
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-info {
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.gallery-info h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.gallery-info p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.gallery-zoom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.gallery-zoom:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+/* Przycisk "Zobacz więcej" */
+.gallery-button {
+    text-align: center;
+    margin-top: 20px;
+}
+
+/* Modal z powiększonym zdjęciem */
+.gallery-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content img {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: cover;
+}
+
+.modal-content h3 {
+    padding: 20px 20px 10px;
+    margin: 0;
+}
+
+.modal-content p {
+    padding: 0 20px 20px;
+    margin: 0;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.modal-close:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+/* Dodatkowe animacje dla modalu */
+.modal-content img {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.3s ease;
+}
+
+.modal-content img.loaded {
+    opacity: 1;
+    transform: scale(1);
+}
+
 /* Styl dla małych ekranów */
 @media (max-width: 767px) {
     .scroll-top {
