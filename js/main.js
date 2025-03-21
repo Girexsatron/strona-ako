@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 🔽 Zamykanie menu rozwijanego przy przewijaniu
     setupDropdownCloseOnScroll();
+    
+    // ✨ Efekt parallax dla tła bannera
+    setupParallaxEffect();
 
     // 🔔 Inicjalizuj inne funkcje tutaj, jeśli potrzebujesz
     console.log('✅ Strona załadowana poprawnie');
@@ -422,7 +425,7 @@ function setupScrollToTop() {
     });
 }
 
-// 🔽 ZAMYKANIE DROPDOWN MENU PRZY PRZEWIJANIU - POPRAWIONA WERSJA
+// 🔽 ZAMYKANIE DROPDOWN MENU PRZY PRZEWIJANIU
 function setupDropdownCloseOnScroll() {
     // POPRAWKA: Funkcja zamykająca menu dropdown - używa klas zamiast bezpośredniej manipulacji stylami
     function closeDropdowns() {
@@ -467,4 +470,20 @@ function setupDropdownCloseOnScroll() {
             }
         }
     });
+}
+
+// ✨ EFEKT PARALLAX DLA BANNERA GŁÓWNEGO
+function setupParallaxEffect() {
+    const bannerBackground = document.querySelector('.banner-background');
+    
+    if (bannerBackground) {
+        window.addEventListener('scroll', function() {
+            // Obliczamy o ile przesunąć tło (im większa liczba, tym wolniejszy efekt)
+            const offset = window.pageYOffset;
+            const parallaxSpeed = 0.5;
+            
+            // Przesuwamy tło wolniej niż przewija się strona, tworząc efekt parallax
+            bannerBackground.style.transform = `translateY(${offset * parallaxSpeed}px) scale(1.1)`;
+        });
+    }
 }

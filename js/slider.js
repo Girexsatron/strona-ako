@@ -23,6 +23,8 @@ function initHeroSlider() {
     if (slides.length <= 1) {
         if (slides.length === 1) {
             slides[0].classList.add('active');
+            slides[0].style.opacity = '1'; // Zapewnia widoczność slajdu
+            slides[0].style.position = 'relative'; // Poprawia pozycjonowanie
         }
         return;
     }
@@ -441,4 +443,33 @@ function initTestimonialsSlider() {
             }
         }
     });
+    // ✨ EFEKT PARALLAX DLA BANNERA GŁÓWNEGO
+function setupParallaxEffect() {
+    const bannerBackground = document.querySelector('.banner-background');
+    
+    if (bannerBackground) {
+        window.addEventListener('scroll', function() {
+            // Obliczamy o ile przesunąć tło (im większa liczba, tym wolniejszy efekt)
+            const offset = window.pageYOffset;
+            const parallaxSpeed = 0.5;
+            
+            // Przesuwamy tło wolniej niż przewija się strona, tworząc efekt parallax
+            bannerBackground.style.transform = `translateY(${offset * parallaxSpeed}px) scale(1.1)`;
+        });
+    }
+}
+
+// Dodaj wywołanie funkcji parallax do istniejących wywołań przy ładowaniu strony
+document.addEventListener('DOMContentLoaded', function() {
+    // Uruchom nową funkcję parallax
+    setupParallaxEffect();
+    
+    // Istniejące funkcje, które już masz
+    setupMobileMenu();
+    setupFaqAccordion();
+    setupCounters();
+    setupContactForm();
+    setupScrollToTop();
+    setupDropdownCloseOnScroll();
+});
 }

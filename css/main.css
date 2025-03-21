@@ -1184,4 +1184,123 @@ ul, ol {
         height: 40px;
         font-size: 1rem;
     }
+    /* ======= DODATKOWE STYLE FORMULARZA I KOMUNIKATÓW ======= */
+/* Dodaj te style na końcu pliku main.css */
+
+/* Style dla pól z błędami */
+.form-group input.error,
+.form-group textarea.error {
+    border-color: #e74c3c;
+    background-color: rgba(231, 76, 60, 0.05);
+}
+
+/* Komunikaty formularza */
+.form-message {
+    padding: 15px;
+    margin-bottom: 20px;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    opacity: 0;
+    transform: translateY(-10px);
+}
+
+.form-message.show {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+.form-message.success {
+    background-color: rgba(46, 204, 113, 0.1);
+    border-left: 4px solid #2ecc71;
+    color: #27ae60;
+}
+
+.form-message.error {
+    background-color: rgba(231, 76, 60, 0.1);
+    border-left: 4px solid #e74c3c;
+    color: #c0392b;
+}
+
+/* Animacja potrząśnięcia dla błędnych pól */
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+    20%, 40%, 60%, 80% { transform: translateX(5px); }
+}
+
+.shake {
+    animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+}
+
+/* Style dla dostępności - elementy tylko dla czytników ekranu */
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Animacje dla galerii */
+.gallery-item {
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.gallery-item.hidden {
+    display: none;
+}
+
+.gallery-item.visible {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* Animacja dla modalu galerii */
+.gallery-modal {
+    transition: opacity 0.3s ease;
+}
+
+.gallery-modal.closing {
+    opacity: 0;
+}
+
+/* Dodatkowe style dla przycisków formularza podczas ładowania */
+button[type="submit"] .fa-spinner {
+    margin-left: 5px;
+}
+
+/* Hover efekty dla przycisków */
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* Lepsza dostępność - fokus na elementach interaktywnych */
+a:focus, button:focus, input:focus, textarea:focus, select:focus, 
+.btn:focus, [tabindex="0"]:focus {
+    outline: 3px solid rgba(0, 86, 179, 0.5);
+    outline-offset: 2px;
+}
+
+/* Wyświetlanie tylko dla czytników ekranu */
+.filter-message {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
 }

@@ -1,37 +1,37 @@
-<!DOCTYPE html> <!-- To jest deklaracja typu dokumentu HTML5 -->
-<html lang="pl"> <!-- Otwieramy tag html i ustawiamy język strony na polski -->
-<head> <!-- Sekcja head zawiera metadane, tytuł, linki do css, itp. -->
-    <meta charset="UTF-8"> <!-- Ustawiamy kodowanie znaków na UTF-8, co pozwala na obsługę polskich znaków -->
-    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Ta meta zapewnia prawidłowe skalowanie na urządzeniach mobilnych -->
-    <title>AKO - Producent okien i drzwi | Tradycja od 1995 roku</title> <!-- Tytuł strony widoczny na karcie przeglądarki -->
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AKO - Producent okien i drzwi | Tradycja od 1995 roku</title>
     
     <!-- Linkujemy pliki CSS w odpowiedniej kolejności -->
-    <link rel="stylesheet" href="css/normalize.css"> <!-- Resetuje domyślne style przeglądarek -->
-    <link rel="stylesheet" href="css/main.css"> <!-- Główne style strony -->
-    <link rel="stylesheet" href="css/responsive.css"> <!-- Style odpowiedzialne za dostosowanie do różnych ekranów -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/responsive.css">
     
-    <!-- Link do ikon FontAwesome (będziemy ich używać do elementów graficznych) -->
+    <!-- Link do ikon FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- Link do czcionek Google Fonts (Roboto i Montserrat) -->
+    <!-- Link do czcionek Google Fonts -->
     <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
 </head>
-<body> <!-- Tutaj zaczyna się zawartość widoczna dla użytkownika -->
+<body>
     
     <!-- NAGŁÓWEK STRONY - zawiera logo, menu i przycisk kontaktowy -->
     <header class="main-header">
-        <div class="container"> <!-- Container ogranicza szerokość treści i wyśrodkowuje ją -->
+        <div class="container">
             <div class="logo">
                 <a href="index.html">
-                    <img src="images/logo.png" alt="Logo AKO - Producent okien i drzwi"> <!-- Logo firmy z tekstem alternatywnym -->
+                    <img src="images/logo.png" alt="Logo AKO - Producent okien i drzwi">
                 </a>
             </div>
             
             <!-- Menu nawigacyjne -->
             <nav class="main-menu">
                 <ul>
-                    <li><a href="index.html" class="active">Strona Główna</a></li> <!-- Klasa active oznacza aktualną stronę -->
-                    <li class="dropdown"> <!-- Dropdown to menu rozwijane po najechaniu/kliknięciu -->
+                    <li><a href="index.html" class="active">Strona Główna</a></li>
+                    <li class="dropdown">
                         <a href="#">Produkty</a>
                         <ul class="dropdown-menu">
                             <li><a href="products/windows.html">Okna</a></li>
@@ -49,39 +49,59 @@
                 <a href="contact.html" class="btn btn-primary">Bezpłatna wycena</a>
             </div>
             
-            <!-- Przycisk menu mobilnego (widoczny tylko na małych ekranach) -->
+            <!-- Przycisk menu mobilnego -->
             <div class="mobile-menu-toggle">
-                <i class="fas fa-bars"></i> <!-- Ikona "hamburger menu" -->
+                <i class="fas fa-bars"></i>
             </div>
         </div>
     </header>
     
-    <!-- SEKCJA GŁÓWNA - duży banner z hasłem i przyciskiem -->
-    <section class="hero">
-        <div class="hero-slider"> <!-- Ten div będzie kontrolowany przez slider.js -->
-            <div class="slide"> <!-- Pierwszy slajd -->
-                <div class="slide-content">
-                    <h1>Najwyższej jakości stolarka okienna i drzwiowa</h1>
-                    <p>Produkujemy i montujemy okna oraz drzwi z najlepszych materiałów już od 30 lat</p>
-                    <a href="contact.html" class="btn btn-light">Zamów bezpłatną wycenę</a>
-                </div>
-                <div class="slide-bg" style="background-image: url('images/banners/banner1.jpg');"></div>
-                <!-- ⚠️ WAŻNE: Utwórz katalog images/banners/ i dodaj tam plik banner1.jpg -->
-            </div>
-            <!-- Możesz dodać więcej slajdów podobnie jak powyżej -->
+    <!-- SEKCJA GŁÓWNA - banner z profesjonalnymi animacjami -->
+<section class="hero" style="position: relative; height: 600px; overflow: hidden;">
+    <!-- Obraz tła z animacją zoom -->
+    <div class="banner-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                background-image: url('images/banners/banner1.jpg'); 
+                background-size: cover; background-position: center; z-index: -1;
+                animation: subtle-zoom 20s infinite alternate ease-in-out;">
+    </div>
+    
+    <!-- Ciemna nakładka dla lepszej czytelności tekstu -->
+    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
+                background-color: rgba(0, 0, 0, 0.5);
+                animation: fade-in 1.5s ease-out;">
+    </div>
+    
+    <!-- Treść bannera z animacjami -->
+    <div class="container" style="position: relative; z-index: 2; height: 100%; 
+                                 display: flex; align-items: center; justify-content: center;">
+        <div style="max-width: 600px; text-align: center; color: white;">
+            <h1 style="font-size: 2.8rem; margin-bottom: 1.5rem; color: white; 
+                      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                      animation: slide-up 0.8s ease-out, fade-in 1s ease-out;">
+                Najwyższej jakości stolarka okienna i drzwiowa
+            </h1>
+            <p style="font-size: 1.2rem; margin-bottom: 2rem; 
+                    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+                    animation: slide-up 0.8s ease-out 0.3s both, fade-in 1s ease-out 0.3s both;">
+                Produkujemy i montujemy okna oraz drzwi z najlepszych materiałów już od 30 lat
+            </p>
+            <a href="contact.html" class="btn btn-light animated-button" style="animation: slide-up 0.8s ease-out 0.6s both, fade-in 1s ease-out 0.6s both;">
+                Zamów bezpłatną wycenę
+            </a>
         </div>
-    </section>
+    </div>
+</section>
     
     <!-- SEKCJA "DLACZEGO MY" - nasze zalety -->
     <section class="features">
         <div class="container">
             <h2>Dlaczego warto wybrać nasze produkty? 🏆</h2>
-            <div class="features-grid"> <!-- Użyjemy CSS Grid do układu -->
+            <div class="features-grid">
                 
                 <!-- Zaleta 1 -->
                 <div class="feature">
                     <div class="feature-icon">
-                        <i class="fas fa-certificate"></i> <!-- Ikona FontAwesome -->
+                        <i class="fas fa-certificate"></i>
                     </div>
                     <h3>Najwyższa jakość</h3>
                     <p>Korzystamy z rozwiązań najlepszych producentów i najnowocześniejszych technologii produkcji.</p>
@@ -117,7 +137,7 @@
         </div>
     </section>
     
-    <!-- LICZNIK OSIĄGNIĘĆ - NOWA SEKCJA! 🎯 -->
+    <!-- LICZNIK OSIĄGNIĘĆ -->
     <section class="counter-section">
         <div class="container">
             <h2>Liczby, które mówią same za siebie 📊</h2>
@@ -142,7 +162,7 @@
         </div>
     </section>
     
-    <!-- SEKCJA PRODUKTOWA - główne kategorie produktów -->
+    <!-- SEKCJA PRODUKTOWA -->
     <section class="products-showcase">
         <div class="container">
             <h2>Nasze produkty 🏠</h2>
@@ -152,7 +172,6 @@
                 <div class="product-category">
                     <div class="product-image">
                         <img src="images/products/windows-thumb.jpg" alt="Okna PVC i aluminiowe AKO">
-                        <!-- ⚠️ WAŻNE: Utwórz katalog images/products/ i dodaj tam plik windows-thumb.jpg -->
                     </div>
                     <div class="product-info">
                         <h3>Okna</h3>
@@ -165,7 +184,6 @@
                 <div class="product-category">
                     <div class="product-image">
                         <img src="images/products/doors-thumb.jpg" alt="Drzwi wejściowe i wewnętrzne AKO">
-                        <!-- ⚠️ WAŻNE: Dodaj plik doors-thumb.jpg do katalogu images/products/ -->
                     </div>
                     <div class="product-info">
                         <h3>Drzwi</h3>
@@ -178,7 +196,6 @@
                 <div class="product-category">
                     <div class="product-image">
                         <img src="images/products/systems-thumb.jpg" alt="Systemy osłonowe - rolety i żaluzje AKO">
-                        <!-- ⚠️ WAŻNE: Dodaj plik systems-thumb.jpg do katalogu images/products/ -->
                     </div>
                     <div class="product-info">
                         <h3>Systemy osłonowe</h3>
@@ -190,7 +207,7 @@
         </div>
     </section>
     
-    <!-- SEKCJA PROMOCYJNA - NOWA SEKCJA! 🔥 -->
+    <!-- SEKCJA PROMOCYJNA -->
     <section class="promo-section">
         <div class="container">
             <div class="promo-content">
@@ -208,13 +225,12 @@
                 </div>
                 <div class="promo-image">
                     <img src="images/promo-spring.jpg" alt="Wiosenna promocja na okna i rolety AKO">
-                    <!-- ⚠️ WAŻNE: Dodaj plik promo-spring.jpg do katalogu images/ -->
                 </div>
             </div>
         </div>
     </section>
     
-    <!-- SEKCJA PROCESU - jak wygląda współpraca z nami -->
+    <!-- SEKCJA PROCESU -->
     <section class="process">
         <div class="container">
             <h2>Jak wygląda współpraca z nami? 🤝</h2>
@@ -267,10 +283,10 @@
     <section class="testimonials">
         <div class="container">
             <h2>Co mówią nasi klienci 😊</h2>
-            <div class="testimonials-slider"> <!-- Ten div będzie kontrolowany przez slider.js -->
+            <div class="testimonials-slider">
                 
                 <!-- Opinia 1 -->
-                <div class="testimonial">
+                <div class="testimonial active">
                     <div class="testimonial-content">
                         <p>"Bardzo profesjonalna firma. Okna montowane przez AKO działają bez zarzutu już od 5 lat. Polecam!"</p>
                     </div>
@@ -290,13 +306,11 @@
                         <div class="author-location">Kraków</div>
                     </div>
                 </div>
-                
-                <!-- Tutaj możesz dodać więcej opinii podobnie jak powyżej -->
             </div>
         </div>
     </section>
     
-    <!-- SEKCJA FAQ - NOWA SEKCJA! ❓ -->
+    <!-- SEKCJA FAQ -->
     <section class="faq-section">
         <div class="container">
             <h2>Najczęściej zadawane pytania 🤔</h2>
@@ -459,9 +473,107 @@
         <i class="fas fa-arrow-up"></i>
     </a>
 
-    <!-- POPRAWKA: Usunięto podwójne podłączenie skryptów JavaScript -->
-    <script src="js/main.js"></script> <!-- Główny plik JavaScript -->
-    <script src="js/slider.js"></script> <!-- Plik odpowiedzialny za slidery -->
-    <script src="js/gallery.js"></script> <!-- Plik obsługujący galerię realizacji -->
+    <!-- Skrypty JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/slider.js"></script>
+    <script src="js/gallery.js"></script>
+    
+    <!-- Dodatkowe style CSS dla formularza i animacji -->
+    <style>
+    /* Style dla formularza */
+    .form-message {
+        padding: 15px;
+        margin-bottom: 20px;
+        border-radius: var(--border-radius);
+        font-weight: 500;
+        transition: opacity 0.3s ease, transform 0.3s ease;
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    .form-message.show {
+        opacity: 1;
+        transform: translateY(0);
+    }
+
+    .form-message.success {
+        background-color: rgba(46, 204, 113, 0.1);
+        border-left: 4px solid #2ecc71;
+        color: #27ae60;
+    }
+
+    .form-message.error {
+        background-color: rgba(231, 76, 60, 0.1);
+        border-left: 4px solid #e74c3c;
+        color: #c0392b;
+    }
+
+    .form-group input.error,
+    .form-group textarea.error {
+        border-color: #e74c3c;
+        background-color: rgba(231, 76, 60, 0.05);
+    }
+
+    @keyframes shake {
+        0%, 100% { transform: translateX(0); }
+        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
+        20%, 40%, 60%, 80% { transform: translateX(5px); }
+    }
+
+    .shake {
+        animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+    }
+    </style>
+
+    <!-- Dodatkowe style dla animacji bannera -->
+<style>
+    /* Animacje dla bannera */
+    @keyframes fade-in {
+        from { opacity: 0; }
+        to { opacity: 1; }
+    }
+    
+    @keyframes slide-up {
+        from { transform: translateY(30px); }
+        to { transform: translateY(0); }
+    }
+    
+    @keyframes subtle-zoom {
+        from { transform: scale(1); }
+        to { transform: scale(1.1); }
+    }
+    
+    /* Animowany przycisk */
+    .animated-button {
+        position: relative;
+        overflow: hidden;
+        transition: all 0.3s ease;
+    }
+    
+    .animated-button:hover {
+        transform: translateY(-3px) !important;
+        box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
+    }
+    
+    .animated-button:before {
+        content: '';
+        position: absolute;
+        top: 0;
+        left: -100%;
+        width: 100%;
+        height: 100%;
+        background: linear-gradient(
+            90deg, 
+            rgba(255, 255, 255, 0) 0%, 
+            rgba(255, 255, 255, 0.2) 50%, 
+            rgba(255, 255, 255, 0) 100%
+        );
+        transition: left 0.7s ease;
+    }
+    
+    .animated-button:hover:before {
+        left: 100%;
+    }
+    </style>
 </body>
 </html>
