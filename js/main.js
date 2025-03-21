@@ -2,13 +2,6 @@
 // 🛠️ Ten plik zawiera główne funkcje potrzebne do działania strony
 
 document.addEventListener('DOMContentLoaded', function() {
-    // inne funkcje...
-    
-    // Tutaj dodaj:
-    closeDropdownsOnScroll();
-});
-
-document.addEventListener('DOMContentLoaded', function() {
     // 🔄 Funkcja menu mobilnego
     setupMobileMenu();
     
@@ -20,6 +13,12 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 📝 Obsługa formularza kontaktowego
     setupContactForm();
+    
+    // ⬆️ Przycisk powrotu do góry
+    setupScrollToTop();
+    
+    // 🔽 Zamykanie menu rozwijanego przy przewijaniu
+    setupDropdownCloseOnScroll();
 });
 
 // 🔄 MENU MOBILNE
@@ -245,48 +244,66 @@ function setupContactForm() {
     }
 }
 
-// 🔄 POKAZYWANIE PRZYCISKU "WRÓĆ DO GÓRY" PO PRZEWINIĘCIU
+// ⬆️ PRZYCISK "WRÓĆ DO GÓRY"
 function setupScrollToTop() {
-    const scrollTopBtn = document.querySelector('.scroll-top');
+    // Najpierw sprawdzamy, czy przycisk już istnieje - jeśli nie, tworzymy go
+    let scrollTopBtn = document.querySelector('.scroll-top');
     
-    if (scrollTopBtn) {
-        // Pokazujemy przycisk po przewinięciu
-        window.addEventListener('scroll', function() {
-            if (window.pageYOffset > 300) {
-                scrollTopBtn.classList.add('visible');
-            } else {
-                scrollTopBtn.classList.remove('visible');
-            }
-        });
-        
-        // Przewijamy do góry po kliknięciu
-        scrollTopBtn.addEventListener('click', function(e) {
-            e.preventDefault();
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            // Funkcja do zamykania menu dropdown przy przewijaniu
-function closeDropdownsOnScroll() {
+    if (!scrollTopBtn) {
+        // Tworzymy przycisk i dodajemy go do strony
+        scrollTopBtn = document.createElement('a');
+        scrollTopBtn.className = 'scroll-top';
+        scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        scrollTopBtn.setAttribute('href', '#');
+        scrollTopBtn.setAttribute('aria-label', 'Przewiń do góry');
+        document.body.appendChild(scrollTopBtn);
+    }
+    
+    // Pokazujemy przycisk po przewinięciu
     window.addEventListener('scroll', function() {
-        // Znajdź wszystkie otwarte menu dropdown
-        const dropdownMenus = document.querySelectorAll('.dropdown-menu');
-        const dropdowns = document.querySelectorAll('.dropdown');
-        
-        // Ukryj wszystkie menu dropdown
-        dropdownMenus.forEach(menu => {
-            menu.style.display = 'none';
-        });
-        
-        // Usuń klasę active z dropdownów (jeśli używasz jej do wersji mobilnej)
-        dropdowns.forEach(dropdown => {
-            dropdown.classList.remove('active');
+        if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
+    });
+    
+    // Przewijamy do góry po kliknięciu
+    scrollTopBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
         });
     });
 }
 
-// Dodaj wywołanie tej funkcji wewnątrz DOMContentLoaded
-closeDropdownsOnScroll();
+// 🔽 ZAMYKANIE DROPDOWN MENU PRZY PRZEWIJANIU
+function setupDropdownCloseOnScroll() {
+    // Funkcja zamykająca menu dropdown
+    function closeDropdowns() {
+        // Znajdź wszystkie menu dropdown
+        const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+        
+        // Ukryj wszystkie dropdown menu
+        dropdownMenus.forEach(menu => {
+            menu.style.display = 'none';
+        });
+        
+        // Usuń klasę active z elementów dropdown (jeśli używasz jej w wersji mobilnej)
+        const dropdowns = document.querySelectorAll('.dropdown');
+        dropdowns.forEach(dropdown => {
+            dropdown.classList.remove('active');
         });
     }
+    
+    // Zamykaj menu przy przewijaniu
+    window.addEventListener('scroll', closeDropdowns);
+    
+    // Zamykaj menu przy kliknięciu poza dropdown
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            closeDropdowns();
+        }
+    });
 }
