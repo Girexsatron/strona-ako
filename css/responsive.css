@@ -1,0 +1,305 @@
+/* ======= RESPONSIVE STYLES - STYLE RESPONSYWNE ======= */
+/* 📱 Te style sprawią, że strona będzie dobrze wyglądać na wszystkich urządzeniach */
+
+/* Duże ekrany (powyżej 1200px) */
+@media (min-width: 1200px) {
+    /* Na dużych ekranach można dodać dodatkowe przestrzenie */
+    .container {
+        max-width: 1140px;
+    }
+    
+    /* Możemy powiększyć niektóre elementy na dużych ekranach */
+    .hero {
+        height: 700px; /* Większy slider na dużych ekranach */
+    }
+    
+    .slide-content h1 {
+        font-size: 3.2rem;
+    }
+}
+
+/* Średnie ekrany (992px - 1199px) - np. małe laptopy */
+@media (max-width: 1199px) {
+    /* Zmniejszamy nieco rozmiary czcionek */
+    h1 {
+        font-size: 2.2rem;
+    }
+    
+    h2 {
+        font-size: 1.8rem;
+    }
+    
+    /* Zmniejszamy padding dla sekcji */
+    section {
+        padding: 60px 0;
+    }
+    
+    /* Zmniejszamy wysokość głównego slidera */
+    .hero {
+        height: 550px;
+    }
+    
+    /* Dostosowujemy sekcję promocyjną */
+    .promo-content {
+        gap: 30px;
+    }
+}
+
+/* Tablety (768px - 991px) */
+@media (max-width: 991px) {
+    /* 🔄 Menu mobilne będzie teraz aktywne */
+    .main-header .container {
+        padding: 10px 15px;
+    }
+    
+    .main-menu {
+        display: none; /* 🙈 Ukrywamy standardowe menu */
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        box-shadow: var(--box-shadow);
+        padding: 20px;
+        z-index: 1000;
+    }
+    
+    .main-menu.active {
+        display: block; /* 👀 Pokazujemy menu po kliknięciu przycisku */
+    }
+    
+    .main-menu ul {
+        flex-direction: column; /* 📊 Układamy menu w kolumnę */
+    }
+    
+    .main-menu li {
+        margin: 10px 0;
+    }
+    
+    /* Pokazujemy przycisk menu mobilnego */
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    /* Dropdown w menu mobilnym */
+    .dropdown-menu {
+        position: static;
+        box-shadow: none;
+        display: none;
+        padding-left: 20px;
+        width: 100%;
+    }
+    
+    .dropdown.active .dropdown-menu {
+        display: block;
+    }
+    
+    /* Ukrywamy hover efekt dla menu rozwijanego na tabletach/telefonach */
+    .dropdown:hover .dropdown-menu {
+        display: none;
+    }
+    
+    .dropdown.active:hover .dropdown-menu {
+        display: block;
+    }
+    
+    /* Mniej kolumn w gridach */
+    .features-grid,
+    .counters {
+        grid-template-columns: repeat(2, 1fr); /* 🧩 2 kolumny zamiast 4 */
+        gap: 30px;
+    }
+    
+    .process-steps {
+        grid-template-columns: repeat(2, 1fr); /* 🧩 2 kolumny zamiast 4 */
+    }
+    
+    .products-grid {
+        grid-template-columns: repeat(2, 1fr); /* 🧩 2 kolumny zamiast 3 */
+    }
+    
+    .footer-grid {
+        grid-template-columns: repeat(2, 1fr); /* 🧩 2 kolumny zamiast 4 */
+        gap: 30px;
+    }
+    
+    /* Sekcja promo - zmiana z poziomej na pionową */
+    .promo-content {
+        flex-direction: column;
+    }
+    
+    .promo-text,
+    .promo-image {
+        width: 100%;
+    }
+    
+    /* Formularz kontaktowy - zmiana z 2 kolumn na 1 */
+    .contact-grid {
+        grid-template-columns: 1fr;
+        gap: 40px;
+    }
+    
+    /* Zmniejszamy slider główny */
+    .hero {
+        height: 500px;
+    }
+    
+    .slide-content {
+        padding: 100px 20px;
+    }
+}
+
+/* Telefony komórkowe (do 767px) */
+@media (max-width: 767px) {
+    /* 📱 Tu style specjalnie dla telefonów */
+    body {
+        font-size: 15px;
+    }
+    
+    h1 {
+        font-size: 1.8rem;
+    }
+    
+    h2 {
+        font-size: 1.5rem;
+    }
+    
+    h3 {
+        font-size: 1.3rem;
+    }
+    
+    /* Mniejszy padding dla sekcji */
+    section {
+        padding: 40px 0;
+    }
+    
+    /* Zmniejszamy przyciski */
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+    
+    /* Jeden element w rzędzie dla wszystkich gridów */
+    .features-grid,
+    .products-grid,
+    .counters,
+    .process-steps {
+        grid-template-columns: 1fr; /* 📊 Tylko jedna kolumna */
+    }
+    
+    /* Zmniejszamy liczniki */
+    .counter-value {
+        font-size: 2.5rem;
+    }
+    
+    /* Zmniejszamy slider główny */
+    .hero {
+        height: 400px;
+    }
+    
+    .slide-content {
+        padding: 80px 20px;
+    }
+    
+    .slide-content h1 {
+        font-size: 1.8rem;
+    }
+    
+    .slide-content p {
+        font-size: 1rem;
+    }
+    
+    /* Poprawiamy nawigację slidera */
+    .slider-nav {
+        width: 40px;
+        height: 40px;
+        font-size: 1rem;
+    }
+    
+    /* Stopka w jednej kolumnie */
+    .footer-grid {
+        grid-template-columns: 1fr;
+    }
+    
+    .footer-bottom {
+        flex-direction: column;
+        text-align: center;
+    }
+    
+    .footer-legal {
+        margin-top: 15px;
+    }
+    
+    /* Sekcja FAQ */
+    .faq-question h3 {
+        font-size: 1rem;
+    }
+}
+
+/* Bardzo małe telefony (do 480px) */
+@media (max-width: 480px) {
+    /* 📱📱 Style dla najmniejszych ekranów */
+    body {
+        font-size: 14px;
+    }
+    
+    /* Ukrywamy przycisk CTA w nagłówku */
+    .cta-button {
+        display: none; /* 🙈 Ukrywamy przycisk CTA w nagłówku */
+    }
+    
+    /* Zmniejszamy logo */
+    .logo img {
+        max-height: 50px;
+    }
+    
+    /* Zmniejszamy slider główny jeszcze bardziej */
+    .hero {
+        height: 350px;
+    }
+    
+    .slide-content {
+        padding: 60px 15px;
+    }
+    
+    /* Zmniejszamy przyciski nawigacyjne slidera */
+    .slider-nav {
+        width: 35px;
+        height: 35px;
+        font-size: 0.9rem;
+    }
+    
+    .slider-nav.prev {
+        left: 10px;
+    }
+    
+    .slider-nav.next {
+        right: 10px;
+    }
+    
+    /* Zmniejszamy padding we wszystkich elementach */
+    .feature, 
+    .step, 
+    .testimonial-content {
+        padding: 20px;
+    }
+    
+    /* Mniejsze liczniki */
+    .counter-value {
+        font-size: 2rem;
+    }
+    
+    /* Mniejsze odstępy w stopce */
+    .main-footer {
+        padding: 50px 0 0;
+    }
+    
+    .footer-bottom {
+        margin-top: 40px;
+    }
+    
+    .footer-legal {
+        flex-direction: column;
+        gap: 10px;
+    }
+}
