@@ -1,0 +1,290 @@
+/* ======= PODSTAWOWE STYLE I ZMIENNE ======= */
+
+:root {
+    /* Kolory główne - możesz zmieniać te wartości, aby dostosować paletę kolorów */
+    --primary-color: #0056b3;      /* Główny kolor (ciemny niebieski) */
+    --secondary-color: #17a2b8;    /* Drugi kolor (turkusowy) */
+    --accent-color: #ffc107;       /* Kolor akcentowy (żółty) */
+    --dark-color: #343a40;         /* Ciemny (prawie czarny) */
+    --light-color: #f8f9fa;        /* Jasny (prawie biały) */
+    --text-color: #333333;         /* Kolor tekstu */
+    --light-gray: #e9ecef;         /* Jasny szary */
+    --medium-gray: #ced4da;        /* Średni szary */
+    --border-color: #dee2e6;       /* Kolor obramowań */
+    
+    /* Typografia */
+    --heading-font: 'Montserrat', sans-serif;  /* Czcionka dla nagłówków */
+    --body-font: 'Roboto', sans-serif;         /* Czcionka dla tekstu */
+    
+    /* Cienie */
+    --box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); /* Standardowy cień */
+    --box-shadow-sm: 0 0.125rem 0.25rem rgba(0, 0, 0, 0.075); /* Mały cień */
+    
+    /* Zaokrąglenia */
+    --border-radius: 0.25rem;      /* Standardowe zaokrąglenie */
+    --border-radius-sm: 0.125rem;  /* Małe zaokrąglenie */
+    --border-radius-lg: 0.5rem;    /* Duże zaokrąglenie */
+    
+    /* Przejścia (animacje) */
+    --transition: all 0.3s ease;   /* Standardowe przejście */
+}
+
+/* ======= RESETOWANIE I PODSTAWOWE STYLE ======= */
+
+/* Resetowanie podstawowych marginesów i paddingów */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Podstawowe style dla całej strony */
+body {
+    font-family: var(--body-font);
+    font-size: 16px;
+    line-height: 1.6;
+    color: var(--text-color);
+    background-color: #ffffff;
+}
+
+/* Kontener centrujący zawartość i ograniczający szerokość */
+.container {
+    width: 100%;
+    max-width: 1200px; /* Maksymalna szerokość zawartości */
+    margin: 0 auto;    /* Wyśrodkowanie */
+    padding: 0 15px;   /* Padding boczny */
+}
+
+/* Style dla sekcji */
+section {
+    padding: 80px 0; /* Standardowy padding górny i dolny dla sekcji */
+}
+
+section:nth-child(even) {
+    background-color: var(--light-color); /* Naprzemienne tła sekcji */
+}
+
+/* ======= TYPOGRAFIA ======= */
+
+/* Nagłówki */
+h1, h2, h3, h4, h5, h6 {
+    font-family: var(--heading-font);
+    font-weight: 700;
+    line-height: 1.2;
+    margin-bottom: 1rem;
+    color: var(--dark-color);
+}
+
+h1 {
+    font-size: 2.5rem; /* 40px przy 16px bazowym */
+}
+
+h2 {
+    font-size: 2rem; /* 32px */
+    margin-bottom: 2rem;
+    text-align: center;
+    position: relative;
+    padding-bottom: 1rem;
+}
+
+/* Linia pod nagłówkami sekcji */
+h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background-color: var(--primary-color);
+}
+
+h3 {
+    font-size: 1.5rem; /* 24px */
+}
+
+h4 {
+    font-size: 1.25rem; /* 20px */
+}
+
+/* Paragrafy */
+p {
+    margin-bottom: 1rem;
+}
+
+/* Linki */
+a {
+    color: var(--primary-color);
+    text-decoration: none;
+    transition: var(--transition);
+}
+
+a:hover {
+    color: var(--secondary-color);
+}
+
+/* Listy */
+ul, ol {
+    list-style-position: inside;
+    margin-bottom: 1rem;
+}
+
+/* ======= PRZYCISKI ======= */
+
+.btn {
+    display: inline-block;
+    font-weight: 500;
+    text-align: center;
+    white-space: nowrap;
+    vertical-align: middle;
+    user-select: none;
+    border: 1px solid transparent;
+    padding: 0.75rem 1.5rem;
+    font-size: 1rem;
+    line-height: 1.5;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+/* Główny przycisk */
+.btn-primary {
+    color: white;
+    background-color: var(--primary-color);
+    border-color: var(--primary-color);
+}
+
+.btn-primary:hover {
+    background-color: #004494; /* Ciemniejszy odcień głównego koloru */
+    border-color: #004494;
+}
+
+/* Drugi przycisk */
+.btn-secondary {
+    color: white;
+    background-color: var(--secondary-color);
+    border-color: var(--secondary-color);
+}
+
+.btn-secondary:hover {
+    background-color: #138496; /* Ciemniejszy odcień drugiego koloru */
+    border-color: #138496;
+}
+
+/* Jasny przycisk */
+.btn-light {
+    color: var(--text-color);
+    background-color: var(--light-color);
+    border-color: var(--light-color);
+}
+
+.btn-light:hover {
+    background-color: #e2e6ea;
+    border-color: #e2e6ea;
+}
+
+/* ======= HEADER / MENU ======= */
+
+.main-header {
+    background-color: white;
+    box-shadow: var(--box-shadow-sm);
+    position: sticky; /* Przykleja menu do górnej krawędzi przeglądarki */
+    top: 0;
+    z-index: 1000; /* Zapewnia wyświetlanie menu nad innymi elementami */
+}
+
+.main-header .container {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 15px;
+}
+
+/* Logo */
+.logo img {
+    max-height: 60px;
+}
+
+/* Menu główne */
+.main-menu ul {
+    display: flex;
+    list-style: none;
+    margin: 0;
+}
+
+.main-menu li {
+    position: relative; /* Dla poprawnego pozycjonowania menu rozwijanego */
+    margin: 0 15px;
+}
+
+.main-menu a {
+    color: var(--text-color);
+    font-weight: 500;
+    position: relative;
+    padding: 0.5rem 0;
+    display: block;
+}
+
+/* Podkreślenie aktywnej pozycji menu */
+.main-menu a::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 0; /* Domyślnie linia ma zerową szerokość */
+    height: 2px;
+    background-color: var(--primary-color);
+    transition: var(--transition);
+}
+
+.main-menu a:hover::after,
+.main-menu a.active::after {
+    width: 100%; /* Po najechaniu lub dla aktywnej podstrony linia zajmuje całą szerokość */
+}
+
+/* Menu rozwijane */
+.dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    min-width: 180px;
+    background-color: white;
+    box-shadow: var(--box-shadow);
+    border-radius: var(--border-radius);
+    padding: 0.5rem 0;
+    display: none; /* Domyślnie ukryte */
+    z-index: 1000;
+}
+
+.dropdown-menu li {
+    margin: 0;
+}
+
+.dropdown-menu a {
+    padding: 0.5rem 1rem;
+    color: var(--text-color);
+}
+
+.dropdown-menu a:hover {
+    background-color: var(--light-gray);
+}
+
+/* Pokazywanie menu rozwijanego po najechaniu */
+.dropdown:hover .dropdown-menu {
+    display: block;
+}
+
+/* Przycisk CTA w menu */
+.cta-button {
+    margin-left: 20px;
+}
+
+/* Przycisk menu mobilnego */
+.mobile-menu-toggle {
+    display: none; /* Ukryte na dużych ekranach */
+    font-size: 1.5rem;
+    cursor: pointer;
+    color: var(--dark-color);
+}

@@ -1,0 +1,291 @@
+/*! normalize.css v8.0.1 | MIT License | github.com/necolas/normalize.css */
+
+/* Document
+   ========================================================================== */
+
+/**
+ * 1. Ustawia box-sizing na border-box dla wszystkich elementów
+ * 2. Korekta linii w systemie iOS
+ */
+
+ html {
+    box-sizing: border-box; /* 1 */
+    -webkit-text-size-adjust: 100%; /* 2 */
+  }
+  
+  *, *::before, *::after {
+    box-sizing: inherit;
+  }
+  
+  /* Sections
+     ========================================================================== */
+  
+  /**
+   * Usuwa marginesy we wszystkich przeglądarkach
+   */
+  
+  body {
+    margin: 0;
+  }
+  
+  /**
+   * Poprawia spójność renderowania elementów `main` w IE
+   */
+  
+  main {
+    display: block;
+  }
+  
+  /**
+   * Korekta rozmiaru czcionki i marginesu w elementach `h1`
+   */
+  
+  h1 {
+    font-size: 2em;
+    margin: 0.67em 0;
+  }
+  
+  /* Grouping content
+     ========================================================================== */
+  
+  /**
+   * 1. Dodaje prawidłowe wyświetlanie box w IE
+   * 2. Poprawia przepełnienie w IE
+   */
+  
+  hr {
+    box-sizing: content-box; /* 1 */
+    height: 0; /* 1 */
+    overflow: visible; /* 2 */
+  }
+  
+  /**
+   * 1. Korekta dziedziczenia czcionki w Edge, IE
+   * 2. Korekta rozmiaru czcionki w Chrome, Firefox i Safari
+   */
+  
+  pre {
+    font-family: monospace, monospace; /* 1 */
+    font-size: 1em; /* 2 */
+  }
+  
+  /* Text-level semantics
+     ========================================================================== */
+  
+  /**
+   * Usuwa szary background w aktywnych linkach w IE 10
+   */
+  
+  a {
+    background-color: transparent;
+  }
+  
+  /**
+   * 1. Usuwa dolną granicę w Chrome 57-
+   * 2. Dodaje poprawne dekoracje tekstu w Chrome, Edge, IE, Opera i Safari
+   */
+  
+  abbr[title] {
+    border-bottom: none; /* 1 */
+    text-decoration: underline; /* 2 */
+    text-decoration: underline dotted; /* 2 */
+  }
+  
+  /**
+   * Dodaje poprawną wagę czcionki w Chrome, Edge i Safari
+   */
+  
+  b,
+  strong {
+    font-weight: bolder;
+  }
+  
+  /**
+   * 1. Korekta dziedziczenia czcionki w Edge, IE
+   * 2. Korekta rozmiaru czcionki w Chrome, Firefox i Safari
+   */
+  
+  code,
+  kbd,
+  samp {
+    font-family: monospace, monospace; /* 1 */
+    font-size: 1em; /* 2 */
+  }
+  
+  /**
+   * Dodaje poprawny rozmiar czcionki we wszystkich przeglądarkach
+   */
+  
+  small {
+    font-size: 80%;
+  }
+  
+  /* Embedded content
+     ========================================================================== */
+  
+  /**
+   * Usuwa granicę obrazów wewnątrz linków w IE 10
+   */
+  
+  img {
+    border-style: none;
+    max-width: 100%; /* Zapewnia responsywność obrazów */
+    height: auto;
+  }
+  
+  /* Forms
+     ========================================================================== */
+  
+  /**
+   * 1. Zmienia style czcionek we wszystkich przeglądarkach
+   * 2. Usuwa margin w Firefox i Safari
+   */
+  
+  button,
+  input,
+  optgroup,
+  select,
+  textarea {
+    font-family: inherit; /* 1 */
+    font-size: 100%; /* 1 */
+    line-height: 1.15; /* 1 */
+    margin: 0; /* 2 */
+  }
+  
+  /**
+   * Pokazuje przepełnienie w IE
+   * 1. Poprawia wyświetlanie tekstu w Edge i IE
+   */
+  
+  button,
+  input { /* 1 */
+    overflow: visible;
+  }
+  
+  /**
+   * Usuwa dziedziczenie transformacji tekstu w Edge, Firefox i IE
+   * 1. Usuwa dziedziczenie transformacji tekstu w Firefox
+   */
+  
+  button,
+  select { /* 1 */
+    text-transform: none;
+  }
+  
+  /**
+   * Korekta niezdolności do stylizowania interaktywnych typów w iOS i Safari
+   */
+  
+  button,
+  [type="button"],
+  [type="reset"],
+  [type="submit"] {
+    -webkit-appearance: button;
+  }
+  
+  /**
+   * Resetuje style wewnętrznej ramki i paddingu w Firefox
+   */
+  
+  button::-moz-focus-inner,
+  [type="button"]::-moz-focus-inner,
+  [type="reset"]::-moz-focus-inner,
+  [type="submit"]::-moz-focus-inner {
+    border-style: none;
+    padding: 0;
+  }
+  
+  /**
+   * Przywraca poprzednie style focusu
+   */
+  
+  button:-moz-focusring,
+  [type="button"]:-moz-focusring,
+  [type="reset"]:-moz-focusring,
+  [type="submit"]:-moz-focusring {
+    outline: 1px dotted ButtonText;
+  }
+  
+  /**
+   * Korekta paddingu w Firefox
+   */
+  
+  fieldset {
+    padding: 0.35em 0.75em 0.625em;
+  }
+  
+  /**
+   * Korekty stylów w Chrome i Firefox
+   */
+  
+  legend {
+    box-sizing: border-box; /* 1 */
+    color: inherit; /* 2 */
+    display: table; /* 3 */
+    max-width: 100%; /* 4 */
+    padding: 0; /* 5 */
+    white-space: normal; /* 6 */
+  }
+  
+  /**
+   * Dodaje poprawne wyświetlanie pionowe w Chrome, Firefox i Opera
+   */
+  
+  progress {
+    vertical-align: baseline;
+  }
+  
+  /**
+   * Usuwa domyślną pionową przewijkę w IE 10+
+   */
+  
+  textarea {
+    overflow: auto;
+  }
+  
+  /**
+   * Korekty box modelu w IE 10
+   */
+  
+  [type="checkbox"],
+  [type="radio"] {
+    box-sizing: border-box; /* 1 */
+    padding: 0; /* 2 */
+  }
+  
+  /**
+   * Korekta stylu kursora przycisków inkrementacji i dekrementacji w Chrome
+   */
+  
+  [type="number"]::-webkit-inner-spin-button,
+  [type="number"]::-webkit-outer-spin-button {
+    height: auto;
+  }
+  
+  /**
+   * 1. Korekta nieudanego stylu w Chrome i Safari
+   * 2. Korekta stylu w Safari
+   */
+  
+  [type="search"] {
+    -webkit-appearance: textfield; /* 1 */
+    outline-offset: -2px; /* 2 */
+  }
+  
+  /**
+   * Usuwa wewnętrzny padding w Chrome i Safari na macOS
+   */
+  
+  [type="search"]::-webkit-search-decoration {
+    -webkit-appearance: none;
+  }
+  
+  /**
+   * 1. Korekta niemożności stylizowania interaktywnych typów w iOS i Safari
+   * 2. Zmiana właściwości czcionki na 'inherit' w Safari
+   */
+  
+  ::-webkit-file-upload-button {
+    -webkit-appearance: button; /* 1 */
+    font: inherit; /* 2 */
+  }
