@@ -19,6 +19,9 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // 🔽 Zamykanie menu rozwijanego przy przewijaniu
     setupDropdownCloseOnScroll();
+
+    // 🔔 Inicjalizuj inne funkcje tutaj, jeśli potrzebujesz
+    console.log('✅ Strona załadowana poprawnie');
 });
 
 // 🔄 MENU MOBILNE
@@ -30,7 +33,10 @@ function setupMobileMenu() {
     
     // Obsługa kliknięcia przycisku menu
     if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', function() {
+        mobileMenuToggle.addEventListener('click', function(e) {
+            // Zatrzymujemy domyślne zachowanie
+            e.preventDefault();
+            
             // Przełączamy klasę active dla menu
             mainMenu.classList.toggle('active');
             
@@ -49,24 +55,45 @@ function setupMobileMenu() {
     // Obsługa kliknięcia w dropdown w menu mobilnym
     dropdowns.forEach(dropdown => {
         const link = dropdown.querySelector('a');
-        if (link && window.innerWidth < 992) { // Tylko na małych ekranach
+        
+        // Obsługa kliknięcia w nagłówek menu rozwijanego na urządzeniach mobilnych
+        if (link) {
             link.addEventListener('click', function(e) {
-                // Zatrzymujemy domyślne działanie linku
-                e.preventDefault();
-                
-                // Przełączamy klasę active dla dropdown
-                dropdown.classList.toggle('active');
+                // Sprawdzamy, czy jesteśmy na małym ekranie (mobilnym)
+                if (window.innerWidth < 992) {
+                    // Zatrzymujemy domyślne działanie linku
+                    e.preventDefault();
+                    
+                    // Przełączamy klasę active dla dropdown
+                    dropdown.classList.toggle('active');
+                    
+                    // Opcjonalnie możemy też zmienić ikonę wskaźnika
+                    const indicator = dropdown.querySelector('.dropdown-indicator');
+                    if (indicator) {
+                        if (dropdown.classList.contains('active')) {
+                            indicator.innerHTML = '<i class="fas fa-chevron-up"></i>';
+                        } else {
+                            indicator.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                        }
+                    }
+                }
             });
         }
     });
     
     // Zamykanie menu po kliknięciu poza menu
     document.addEventListener('click', function(event) {
-        if (!event.target.closest('.main-header') && mainMenu.classList.contains('active')) {
+        if (!event.target.closest('.main-header') && mainMenu && mainMenu.classList.contains('active')) {
             mainMenu.classList.remove('active');
-            const icon = mobileMenuToggle.querySelector('i');
-            icon.classList.remove('fa-times');
-            icon.classList.add('fa-bars');
+            
+            // Znajdź i zmień ikonę menu na hamburger
+            if (mobileMenuToggle) {
+                const icon = mobileMenuToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
         }
     });
 }
@@ -80,8 +107,9 @@ function setupFaqAccordion() {
         const answer = item.querySelector('.faq-answer');
         const icon = item.querySelector('.faq-toggle i');
         
-        // Ustawiamy początkową wysokość na 0
+        // Ustawiamy początkową wysokość - POPRAWKA: nie ustawiamy sztywnej wysokości
         if (answer) {
+            // Ustawiamy tylko max-height przez klasę CSS
             answer.style.maxHeight = '0px';
         }
         
@@ -92,7 +120,11 @@ function setupFaqAccordion() {
                     if (otherItem !== item && otherItem.classList.contains('active')) {
                         otherItem.classList.remove('active');
                         const otherAnswer = otherItem.querySelector('.faq-answer');
-                        if (otherAnswer) otherAnswer.style.maxHeight = '0px';
+                        if (otherAnswer) {
+                            // POPRAWKA: Najpierw odczytujemy aktualną wysokość, potem ustawiamy 0
+                            otherAnswer.style.maxHeight = '0px';
+                        }
+                        
                         const otherIcon = otherItem.querySelector('.faq-toggle i');
                         if (otherIcon) {
                             otherIcon.classList.remove('fa-minus');
@@ -105,16 +137,35 @@ function setupFaqAccordion() {
                 item.classList.toggle('active');
                 
                 if (item.classList.contains('active')) {
-                    answer.style.maxHeight = answer.scrollHeight + 'px';
-                    icon.classList.remove('fa-plus');
-                    icon.classList.add('fa-minus');
+                    // POPRAWKA: Dynamicznie ustawiamy wysokość na podstawie rzeczywistej zawartości
+                    // Plus dodajemy margines bezpieczeństwa (+50px) dla pewności
+                    answer.style.maxHeight = (answer.scrollHeight + 50) + 'px';
+                    
+                    if (icon) {
+                        icon.classList.remove('fa-plus');
+                        icon.classList.add('fa-minus');
+                    }
                 } else {
                     answer.style.maxHeight = '0px';
-                    icon.classList.remove('fa-minus');
-                    icon.classList.add('fa-plus');
+                    if (icon) {
+                        icon.classList.remove('fa-minus');
+                        icon.classList.add('fa-plus');
+                    }
                 }
             });
         }
+    });
+    
+    // POPRAWKA: Obsługa zmiany rozmiaru okna - aktualizacja wysokości aktywnych elementów FAQ
+    window.addEventListener('resize', function() {
+        const activeItems = document.querySelectorAll('.faq-item.active');
+        activeItems.forEach(item => {
+            const answer = item.querySelector('.faq-answer');
+            if (answer) {
+                // Aktualizacja wysokości przy zmianie rozmiaru okna
+                answer.style.maxHeight = (answer.scrollHeight + 50) + 'px';
+            }
+        });
     });
 }
 
@@ -171,7 +222,7 @@ function setupCounters() {
     checkCounters();
 }
 
-// 📝 OBSŁUGA FORMULARZA KONTAKTOWEGO
+// 📝 OBSŁUGA FORMULARZA KONTAKTOWEGO - POPRAWIONA WERSJA
 function setupContactForm() {
     const contactForm = document.getElementById('home-contact-form');
     
@@ -188,6 +239,12 @@ function setupContactForm() {
                 if (!field.value.trim()) {
                     isValid = false;
                     field.classList.add('error');
+                    
+                    // POPRAWKA: Dodajemy potrząśnięcie polem, które jest niepoprawne
+                    field.classList.add('shake');
+                    setTimeout(() => {
+                        field.classList.remove('shake');
+                    }, 500);
                 } else {
                     field.classList.remove('error');
                 }
@@ -200,45 +257,132 @@ function setupContactForm() {
                 if (!emailPattern.test(emailField.value)) {
                     isValid = false;
                     emailField.classList.add('error');
+                    
+                    // POPRAWKA: Dodajemy potrząśnięcie polem email
+                    emailField.classList.add('shake');
+                    setTimeout(() => {
+                        emailField.classList.remove('shake');
+                    }, 500);
                 }
             }
             
             if (!isValid) {
                 // Pokazujemy komunikat o błędzie
-                alert('❌ Proszę wypełnić poprawnie wszystkie wymagane pola.');
+                // POPRAWKA: Tworzymy element komunikatu zamiast alert
+                showFormMessage(contactForm, '❌ Proszę wypełnić poprawnie wszystkie wymagane pola.', 'error');
                 return;
             }
             
             // Zbieramy dane z formularza
-            const formData = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                phone: document.getElementById('phone').value,
-                message: document.getElementById('message').value,
-                privacy: document.getElementById('privacy').checked
-            };
+            const formData = new FormData(contactForm);
             
-            // 🔔 Tutaj możesz dodać kod do wysyłania formularza przez AJAX
-            // Na razie tylko pokażemy alert z sukcesem
+            // POPRAWKA: Tutaj implementujemy prawdziwe wysyłanie formularza przez fetch API
             
-            // Symulujemy wysyłanie (w rzeczywistości musisz to zastąpić prawdziwą funkcją)
+            // Zmieniamy stan przycisku
             const submitButton = contactForm.querySelector('button[type="submit"]');
-            submitButton.disabled = true;
-            submitButton.innerHTML = 'Wysyłanie...';
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Wysyłanie... <i class="fas fa-spinner fa-spin"></i>';
+            }
             
+            // POPRAWKA: Tu byłoby prawdziwe wysyłanie - teraz symulujemy dla demonstracji
+            // W rzeczywistości użyj poniższego kodu, zamieniając 'send-email.php' na rzeczywisty endpoint API
+            
+            // Symulacja dla celów demonstracyjnych - usuń w rzeczywistej implementacji
             setTimeout(function() {
-                alert('✅ Dziękujemy za wiadomość! Skontaktujemy się wkrótce.');
+                // Tutaj udajemy, że formularz został wysłany pomyślnie
+                showFormMessage(contactForm, '✅ Dziękujemy za wiadomość! Skontaktujemy się wkrótce.', 'success');
                 contactForm.reset(); // Czyszczenie formularza
-                submitButton.disabled = false;
-                submitButton.innerHTML = 'Wyślij wiadomość';
-            }, 1000);
+                
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Wyślij wiadomość';
+                }
+            }, 1500);
+            
+            // Prawdziwa implementacja z fetch API - odkomentuj w rzeczywistym projekcie
+            /*
+            fetch('send-email.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Problem z połączeniem z serwerem.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Sukces
+                    showFormMessage(contactForm, '✅ Dziękujemy za wiadomość! Skontaktujemy się wkrótce.', 'success');
+                    contactForm.reset(); // Czyszczenie formularza
+                } else {
+                    // Błąd po stronie serwera
+                    showFormMessage(contactForm, `❌ ${data.message || 'Wystąpił błąd podczas wysyłania wiadomości.'}`, 'error');
+                }
+            })
+            .catch(error => {
+                // Błąd połączenia
+                showFormMessage(contactForm, '❌ Wystąpił problem z wysłaniem formularza. Spróbuj ponownie później.', 'error');
+                console.error('Błąd:', error);
+            })
+            .finally(() => {
+                // Zawsze wykonaj na końcu
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Wyślij wiadomość';
+                }
+            });
+            */
         });
+        
+        // POPRAWKA: Funkcja do wyświetlania komunikatów
+        function showFormMessage(form, message, type = 'success') {
+            // Sprawdź, czy komunikat już istnieje i usuń go
+            const existingMessage = form.querySelector('.form-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Utwórz nowy element komunikatu
+            const messageElement = document.createElement('div');
+            messageElement.className = `form-message ${type}`;
+            messageElement.innerHTML = message;
+            
+            // Wstaw komunikat na początku formularza
+            form.insertBefore(messageElement, form.firstChild);
+            
+            // Animacja pojawienia się
+            setTimeout(() => {
+                messageElement.classList.add('show');
+            }, 10);
+            
+            // Usuń komunikat po 5 sekundach w przypadku sukcesu
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageElement.classList.remove('show');
+                    setTimeout(() => {
+                        messageElement.remove();
+                    }, 300);
+                }, 5000);
+            }
+        }
         
         // Usuwamy klasę error gdy użytkownik zaczyna wpisywać
         const formInputs = contactForm.querySelectorAll('input, textarea');
         formInputs.forEach(input => {
             input.addEventListener('input', function() {
                 this.classList.remove('error');
+                
+                // Usuń komunikat błędu, jeśli użytkownik poprawia dane
+                const errorMessage = contactForm.querySelector('.form-message.error');
+                if (errorMessage) {
+                    errorMessage.classList.remove('show');
+                    setTimeout(() => {
+                        errorMessage.remove();
+                    }, 300);
+                }
             });
         });
     }
@@ -278,20 +422,14 @@ function setupScrollToTop() {
     });
 }
 
-// 🔽 ZAMYKANIE DROPDOWN MENU PRZY PRZEWIJANIU
+// 🔽 ZAMYKANIE DROPDOWN MENU PRZY PRZEWIJANIU - POPRAWIONA WERSJA
 function setupDropdownCloseOnScroll() {
-    // Funkcja zamykająca menu dropdown
+    // POPRAWKA: Funkcja zamykająca menu dropdown - używa klas zamiast bezpośredniej manipulacji stylami
     function closeDropdowns() {
-        // Znajdź wszystkie menu dropdown
-        const dropdownMenus = document.querySelectorAll('.dropdown-menu');
-        
-        // Ukryj wszystkie dropdown menu
-        dropdownMenus.forEach(menu => {
-            menu.style.display = 'none';
-        });
-        
-        // Usuń klasę active z elementów dropdown (jeśli używasz jej w wersji mobilnej)
+        // Znajdź wszystkie elementy dropdown
         const dropdowns = document.querySelectorAll('.dropdown');
+        
+        // Usuń klasę active z elementów dropdown
         dropdowns.forEach(dropdown => {
             dropdown.classList.remove('active');
         });
@@ -304,6 +442,29 @@ function setupDropdownCloseOnScroll() {
     document.addEventListener('click', function(e) {
         if (!e.target.closest('.dropdown')) {
             closeDropdowns();
+        }
+    });
+    
+    // POPRAWKA: Obsługa klawisza Escape do zamykania menu
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeDropdowns();
+            
+            // Zamykamy również menu mobilne
+            const mainMenu = document.querySelector('.main-menu');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (mainMenu && mainMenu.classList.contains('active')) {
+                mainMenu.classList.remove('active');
+                
+                if (mobileMenuToggle) {
+                    const icon = mobileMenuToggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+            }
         }
     });
 }

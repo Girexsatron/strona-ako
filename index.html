@@ -23,7 +23,7 @@
         <div class="container"> <!-- Container ogranicza szerokość treści i wyśrodkowuje ją -->
             <div class="logo">
                 <a href="index.html">
-                    <img src="images/logo.png" alt="Logo AKO"> <!-- Logo firmy z tekstem alternatywnym -->
+                    <img src="images/logo.png" alt="Logo AKO - Producent okien i drzwi"> <!-- Logo firmy z tekstem alternatywnym -->
                 </a>
             </div>
             
@@ -66,7 +66,7 @@
                     <a href="contact.html" class="btn btn-light">Zamów bezpłatną wycenę</a>
                 </div>
                 <div class="slide-bg" style="background-image: url('images/banners/banner1.jpg');"></div>
-                <!-- ⚠️ TU TRZEBA DODAĆ OBRAZ! Stwórz plik banner1.jpg w katalogu images/banners/ -->
+                <!-- ⚠️ WAŻNE: Utwórz katalog images/banners/ i dodaj tam plik banner1.jpg -->
             </div>
             <!-- Możesz dodać więcej slajdów podobnie jak powyżej -->
         </div>
@@ -151,8 +151,8 @@
                 <!-- Produkt 1: Okna -->
                 <div class="product-category">
                     <div class="product-image">
-                        <img src="images/products/windows-thumb.jpg" alt="Okna AKO">
-                        <!-- ⚠️ TU TRZEBA DODAĆ OBRAZ! Stwórz plik windows-thumb.jpg w katalogu images/products/ -->
+                        <img src="images/products/windows-thumb.jpg" alt="Okna PVC i aluminiowe AKO">
+                        <!-- ⚠️ WAŻNE: Utwórz katalog images/products/ i dodaj tam plik windows-thumb.jpg -->
                     </div>
                     <div class="product-info">
                         <h3>Okna</h3>
@@ -164,8 +164,8 @@
                 <!-- Produkt 2: Drzwi -->
                 <div class="product-category">
                     <div class="product-image">
-                        <img src="images/products/doors-thumb.jpg" alt="Drzwi AKO">
-                        <!-- ⚠️ TU TRZEBA DODAĆ OBRAZ! Stwórz plik doors-thumb.jpg w katalogu images/products/ -->
+                        <img src="images/products/doors-thumb.jpg" alt="Drzwi wejściowe i wewnętrzne AKO">
+                        <!-- ⚠️ WAŻNE: Dodaj plik doors-thumb.jpg do katalogu images/products/ -->
                     </div>
                     <div class="product-info">
                         <h3>Drzwi</h3>
@@ -177,8 +177,8 @@
                 <!-- Produkt 3: Systemy osłonowe -->
                 <div class="product-category">
                     <div class="product-image">
-                        <img src="images/products/systems-thumb.jpg" alt="Systemy osłonowe AKO">
-                        <!-- ⚠️ TU TRZEBA DODAĆ OBRAZ! Stwórz plik systems-thumb.jpg w katalogu images/products/ -->
+                        <img src="images/products/systems-thumb.jpg" alt="Systemy osłonowe - rolety i żaluzje AKO">
+                        <!-- ⚠️ WAŻNE: Dodaj plik systems-thumb.jpg do katalogu images/products/ -->
                     </div>
                     <div class="product-info">
                         <h3>Systemy osłonowe</h3>
@@ -207,8 +207,8 @@
                     <a href="contact.html" class="btn btn-accent">Skorzystaj z promocji</a>
                 </div>
                 <div class="promo-image">
-                    <img src="images/promo-spring.jpg" alt="Wiosenna promocja">
-                    <!-- ⚠️ TU TRZEBA DODAĆ OBRAZ! Stwórz plik promo-spring.jpg -->
+                    <img src="images/promo-spring.jpg" alt="Wiosenna promocja na okna i rolety AKO">
+                    <!-- ⚠️ WAŻNE: Dodaj plik promo-spring.jpg do katalogu images/ -->
                 </div>
             </div>
         </div>
@@ -434,10 +434,10 @@
                 <div class="footer-column">
                     <h4>Obserwuj nas</h4>
                     <div class="social-icons">
-                        <a href="#" target="_blank"><i class="fab fa-facebook-f"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-instagram"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-linkedin-in"></i></a>
-                        <a href="#" target="_blank"><i class="fab fa-youtube"></i></a>
+                        <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                 </div>
             </div>
@@ -454,13 +454,14 @@
         </div>
     </footer>
     
-    <!-- Podłączenie plików JavaScript -->
+    <!-- Element "Wróć do góry" -->
+    <a href="#" class="scroll-top" aria-label="Przewiń do góry">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+
+    <!-- POPRAWKA: Usunięto podwójne podłączenie skryptów JavaScript -->
     <script src="js/main.js"></script> <!-- Główny plik JavaScript -->
     <script src="js/slider.js"></script> <!-- Plik odpowiedzialny za slidery -->
-
-    <!-- Podłączenie plików JavaScript -->
-<script src="js/main.js"></script> <!-- Główny plik JavaScript -->
-<script src="js/slider.js"></script> <!-- Plik odpowiedzialny za slidery -->
-<script src="js/gallery.js"></script> <!-- Plik obsługujący galerię realizacji -->
+    <script src="js/gallery.js"></script> <!-- Plik obsługujący galerię realizacji -->
 </body>
 </html>

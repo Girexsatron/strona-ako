@@ -21,7 +21,9 @@ function initHeroSlider() {
     
     // Jeśli mamy tylko jeden slajd, nie potrzebujemy slidera
     if (slides.length <= 1) {
-        slides[0].classList.add('active');
+        if (slides.length === 1) {
+            slides[0].classList.add('active');
+        }
         return;
     }
     
@@ -29,11 +31,13 @@ function initHeroSlider() {
     const prevButton = document.createElement('button');
     prevButton.className = 'slider-nav prev';
     prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prevButton.setAttribute('aria-label', 'Poprzedni slajd');
     heroSlider.appendChild(prevButton);
     
     const nextButton = document.createElement('button');
     nextButton.className = 'slider-nav next';
     nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    nextButton.setAttribute('aria-label', 'Następny slajd');
     heroSlider.appendChild(nextButton);
     
     // Dodajemy wskaźniki slajdów (kropki)
@@ -44,6 +48,7 @@ function initHeroSlider() {
         const dot = document.createElement('span');
         dot.className = i === 0 ? 'indicator active' : 'indicator';
         dot.dataset.slide = i;
+        dot.setAttribute('aria-label', `Slajd ${i + 1}`);
         indicators.appendChild(dot);
     }
     
@@ -53,6 +58,24 @@ function initHeroSlider() {
     let currentSlide = 0;
     let isAnimating = false;
     let autoPlayTimer;
+    
+    // POPRAWKA: Pobieramy czas animacji z CSS
+    const getTransitionDuration = () => {
+        // Pobieramy styl z CSS lub używamy domyślnej wartości
+        const slideElement = slides[0];
+        if (slideElement) {
+            const style = window.getComputedStyle(slideElement);
+            const transitionDuration = style.getPropertyValue('transition-duration');
+            if (transitionDuration && transitionDuration !== 'none') {
+                // Konwertujemy czas z sekundy na milisekundy
+                return parseFloat(transitionDuration) * 1000;
+            }
+        }
+        return 700; // Domyślna wartość w milisekundach
+    };
+    
+    // Pobieramy czas animacji z CSS
+    const transitionDuration = getTransitionDuration();
     
     // Funkcja pokazująca dany slajd
     function showSlide(index) {
@@ -82,10 +105,10 @@ function initHeroSlider() {
             }
         });
         
-        // Po zakończeniu animacji
+        // POPRAWKA: Dynamicznie używamy czasu z CSS
         setTimeout(() => {
             isAnimating = false;
-        }, 700); // Czas powinien być zgodny z czasem animacji w CSS
+        }, transitionDuration); // Czas zgodny z animacją w CSS
     }
     
     // Funkcja przełączająca do następnego slajdu
@@ -130,6 +153,21 @@ function initHeroSlider() {
         });
     });
     
+    // POPRAWKA: Dodajemy obsługę klawiszy do nawigacji
+    heroSlider.setAttribute('tabindex', '0'); // Dodajemy możliwość fokusowania
+    
+    heroSlider.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            stopAutoPlay();
+            prevSlide();
+            startAutoPlay();
+        } else if (e.key === 'ArrowRight') {
+            stopAutoPlay();
+            nextSlide();
+            startAutoPlay();
+        }
+    });
+    
     // Obsługa dotykowa dla urządzeń mobilnych
     let touchStartX = 0;
     let touchEndX = 0;
@@ -166,6 +204,38 @@ function initHeroSlider() {
     // Zatrzymujemy automatyczne przełączanie przy najechaniu myszką
     heroSlider.addEventListener('mouseenter', stopAutoPlay);
     heroSlider.addEventListener('mouseleave', startAutoPlay);
+    
+    // POPRAWKA: Zatrzymuj automatyczne przełączanie, gdy strona nie jest widoczna
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopAutoPlay();
+        } else {
+            startAutoPlay();
+        }
+    });
+    
+    // POPRAWKA: Zatrzymujemy slider, gdy użytkownik przewija stronę
+    // (aby nie rozpraszać użytkownika, gdy slajder nie jest widoczny)
+    let isScrolling;
+    window.addEventListener('scroll', () => {
+        clearTimeout(isScrolling);
+        stopAutoPlay();
+        
+        isScrolling = setTimeout(() => {
+            // Sprawdzamy, czy slider jest w widoku
+            const rect = heroSlider.getBoundingClientRect();
+            const isInView = (
+                rect.top >= 0 &&
+                rect.left >= 0 &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
+            );
+            
+            if (isInView) {
+                startAutoPlay();
+            }
+        }, 100);
+    });
 }
 
 // 💬 SLIDER OPINII
@@ -190,11 +260,13 @@ function initTestimonialsSlider() {
     const prevButton = document.createElement('button');
     prevButton.className = 'slider-nav prev';
     prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+    prevButton.setAttribute('aria-label', 'Poprzednia opinia');
     testimonialsSlider.appendChild(prevButton);
     
     const nextButton = document.createElement('button');
     nextButton.className = 'slider-nav next';
     nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+    nextButton.setAttribute('aria-label', 'Następna opinia');
     testimonialsSlider.appendChild(nextButton);
     
     // Dodajemy wskaźniki (kropki)
@@ -205,6 +277,7 @@ function initTestimonialsSlider() {
         const dot = document.createElement('span');
         dot.className = i === 0 ? 'indicator active' : 'indicator';
         dot.dataset.slide = i;
+        dot.setAttribute('aria-label', `Opinia ${i + 1}`);
         indicators.appendChild(dot);
     }
     
@@ -214,6 +287,14 @@ function initTestimonialsSlider() {
     let currentTestimonial = 0;
     let isAnimating = false;
     let autoPlayTimer;
+    
+    // POPRAWKA: Pobieramy czas animacji z CSS
+    const getTransitionDuration = () => {
+        // Podobnie jak w głównym sliderze
+        return 500; // Domyślna wartość w milisekundach dla opinii
+    };
+    
+    const transitionDuration = getTransitionDuration();
     
     // Funkcja pokazująca daną opinię
     function showTestimonial(index) {
@@ -243,10 +324,10 @@ function initTestimonialsSlider() {
             }
         });
         
-        // Po zakończeniu animacji
+        // POPRAWKA: Używamy dynamicznego czasu z CSS
         setTimeout(() => {
             isAnimating = false;
-        }, 500);
+        }, transitionDuration);
     }
     
     // Funkcja przełączająca do następnej opinii
@@ -291,6 +372,21 @@ function initTestimonialsSlider() {
         });
     });
     
+    // POPRAWKA: Dodajemy obsługę klawiszy
+    testimonialsSlider.setAttribute('tabindex', '0');
+    
+    testimonialsSlider.addEventListener('keydown', (e) => {
+        if (e.key === 'ArrowLeft') {
+            stopAutoPlay();
+            prevTestimonial();
+            startAutoPlay();
+        } else if (e.key === 'ArrowRight') {
+            stopAutoPlay();
+            nextTestimonial();
+            startAutoPlay();
+        }
+    });
+    
     // Obsługa dotykowa dla urządzeń mobilnych
     let touchStartX = 0;
     let touchEndX = 0;
@@ -327,4 +423,22 @@ function initTestimonialsSlider() {
     // Zatrzymujemy automatyczne przełączanie przy najechaniu myszką
     testimonialsSlider.addEventListener('mouseenter', stopAutoPlay);
     testimonialsSlider.addEventListener('mouseleave', startAutoPlay);
+    
+    // POPRAWKA: Zatrzymuj automatyczne przełączanie, gdy strona nie jest widoczna
+    document.addEventListener('visibilitychange', () => {
+        if (document.hidden) {
+            stopAutoPlay();
+        } else {
+            // Sprawdzamy, czy slider jest w widoku
+            const rect = testimonialsSlider.getBoundingClientRect();
+            const isInView = (
+                rect.top >= -rect.height &&
+                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + rect.height
+            );
+            
+            if (isInView) {
+                startAutoPlay();
+            }
+        }
+    });
 }

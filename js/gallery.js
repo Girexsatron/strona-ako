@@ -8,11 +8,25 @@ document.addEventListener('DOMContentLoaded', function() {
 
 // 📸 INICJALIZACJA I OBSŁUGA GALERII
 function initGallery() {
-    // Znajdujemy elementy galerii
+    // POPRAWKA: Najpierw sprawdźmy, czy jesteśmy na podstronie z galerią
+    // Zamiast szukać konkretnego elementu .gallery-container, sprawdźmy czy jest klasa .gallery-page
+    const isGalleryPage = document.body.classList.contains('gallery-page');
+    
+    // Jeśli nie jesteśmy na stronie galerii, stwórzmy prostą funkcję przygotowawczą na potrzeby przyszłej galerii
+    if (!isGalleryPage) {
+        // Inicjujemy podstawowe komponenty potrzebne do ogólnych funkcji galerii
+        prepareGalleryComponents();
+        return;
+    }
+    
+    // Jeśli jesteśmy na stronie galerii, znajdujemy elementy galerii
     const galleryContainer = document.querySelector('.gallery-container');
     
-    // Jeśli galeria nie istnieje na tej stronie, kończymy
-    if (!galleryContainer) return;
+    // Jeśli nie znaleźliśmy kontenera, kończymy
+    if (!galleryContainer) {
+        console.warn('⚠️ Nie znaleziono kontenera galerii (.gallery-container) na stronie galerii');
+        return;
+    }
     
     const filterButtons = document.querySelectorAll('.filter-btn');
     const galleryItems = document.querySelectorAll('.gallery-item');
@@ -39,8 +53,51 @@ function initGallery() {
     console.log('✅ Galeria zainicjalizowana pomyślnie');
 }
 
+// POPRAWKA: Dodajemy funkcję do przygotowania podstawowych komponentów galerii
+function prepareGalleryComponents() {
+    // Sprawdzamy, czy istnieją na stronie elementy z klasą .gallery-preview
+    // które mogą być używane na głównej stronie jako zapowiedź galerii
+    const galleryPreviews = document.querySelectorAll('.gallery-preview');
+    
+    if (galleryPreviews.length === 0) {
+        // Brak elementów galerii na tej stronie, nie robimy nic
+        return;
+    }
+    
+    // Dla każdego podglądu galerii dodajemy obsługę kliknięcia
+    galleryPreviews.forEach(preview => {
+        // Dodajemy efekt przy najechaniu
+        preview.addEventListener('mouseenter', function() {
+            this.classList.add('hover');
+        });
+        
+        preview.addEventListener('mouseleave', function() {
+            this.classList.remove('hover');
+        });
+        
+        // Dodajemy obsługę kliknięcia - przekierowanie do galerii
+        preview.addEventListener('click', function(e) {
+            // Pobieramy link do galerii z atrybutu data-gallery-url
+            const galleryUrl = this.getAttribute('data-gallery-url');
+            
+            // Jeśli link istnieje, przekierowujemy
+            if (galleryUrl) {
+                window.location.href = galleryUrl;
+            } else {
+                // Jeśli nie ma linku, przekierujemy na domyślną stronę galerii
+                window.location.href = 'gallery.html';
+            }
+        });
+    });
+    
+    console.log('✅ Komponenty podglądu galerii zainicjalizowane');
+}
+
 // 🔍 FILTROWANIE ELEMENTÓW GALERII
 function setupFiltering(filterButtons, galleryItems) {
+    // Jeśli nie ma przycisków filtrowania, kończymy
+    if (!filterButtons || filterButtons.length === 0) return;
+    
     filterButtons.forEach(button => {
         button.addEventListener('click', function() {
             // Usuwamy klasę 'active' ze wszystkich przycisków
@@ -57,6 +114,26 @@ function setupFiltering(filterButtons, galleryItems) {
             
             // Filtrujemy elementy galerii
             filterGalleryItems(galleryItems, filterValue);
+            
+            // POPRAWKA: Dodajemy informację dla czytników ekranu
+            const galleryContainer = document.querySelector('.gallery-container');
+            if (galleryContainer) {
+                const filterName = filterValue === 'all' ? 'wszystkie realizacje' : `kategoria ${filterValue}`;
+                const filterMessage = document.createElement('div');
+                filterMessage.className = 'sr-only filter-message';
+                filterMessage.textContent = `Filtrowanie: ${filterName}`;
+                
+                // Usuwamy poprzednie komunikaty
+                const oldMessages = galleryContainer.querySelectorAll('.filter-message');
+                oldMessages.forEach(msg => msg.remove());
+                
+                galleryContainer.appendChild(filterMessage);
+                
+                // Usuwamy komunikat po chwili (tylko wizualnie)
+                setTimeout(() => {
+                    filterMessage.remove();
+                }, 3000);
+            }
         });
     });
     
@@ -75,35 +152,44 @@ function setupFiltering(filterButtons, galleryItems) {
             // Jeśli nie znaleziono, aktywuj pierwszy
             filterButtons[0].click();
         }
+    } else {
+        // Domyślnie aktywujemy pierwszy przycisk
+        filterButtons[0].click();
     }
 }
 
 // 🎭 FILTROWANIE POSZCZEGÓLNYCH ELEMENTÓW
 function filterGalleryItems(items, filterValue) {
+    // Jeśli nie ma elementów do filtrowania, kończymy
+    if (!items || items.length === 0) return;
+    
     items.forEach(item => {
         const itemCategory = item.getAttribute('data-category');
         
         // Pokazujemy wszystkie lub tylko te pasujące do filtra
         if (filterValue === 'all' || filterValue === itemCategory) {
-            // Pokazujemy z animacją
-            item.style.display = 'block';
+            // POPRAWKA: Zamiast bezpośrednio manipulować stylami, używamy klas CSS
+            item.classList.remove('hidden');
+            // Dodajemy klasę 'fade-in' dla płynnej animacji pojawiania się
             setTimeout(() => {
-                item.style.opacity = 1;
-                item.style.transform = 'scale(1)';
+                item.classList.add('visible');
             }, 50);
         } else {
-            // Ukrywamy z animacją
-            item.style.opacity = 0;
-            item.style.transform = 'scale(0.8)';
+            // Ukrywamy element (najpierw usuwamy klasę visible dla animacji)
+            item.classList.remove('visible');
+            // Po zakończeniu animacji dodajemy klasę 'hidden'
             setTimeout(() => {
-                item.style.display = 'none';
-            }, 300);
+                item.classList.add('hidden');
+            }, 300); // Ten czas powinien odpowiadać czasowi trwania animacji w CSS
         }
     });
 }
 
 // 🖼️ POWIĘKSZANIE ZDJĘĆ
 function setupZoom(galleryItems, galleryModal, modalImage, modalTitle, modalDescription) {
+    // Jeśli brakuje któregoś z elementów, kończymy
+    if (!galleryItems || !galleryModal || !modalImage) return;
+    
     const zoomButtons = document.querySelectorAll('.gallery-zoom');
     
     zoomButtons.forEach(button => {
@@ -113,54 +199,74 @@ function setupZoom(galleryItems, galleryModal, modalImage, modalTitle, modalDesc
             // Pobieramy dane z rodzica przycisku
             const galleryItem = this.closest('.gallery-item');
             const image = galleryItem.querySelector('img');
-            const title = galleryItem.querySelector('h3').textContent;
-            const description = galleryItem.querySelector('p').textContent;
+            const title = galleryItem.querySelector('h3')?.textContent || '';
+            const description = galleryItem.querySelector('p')?.textContent || '';
+            
+            // POPRAWKA: Pobieramy wysokiej jakości wersję obrazu, jeśli istnieje
+            const highResImage = image.getAttribute('data-high-res') || image.src;
             
             // Ustawiamy dane w modalu
-            modalImage.src = image.src;
-            modalImage.alt = image.alt;
-            modalTitle.textContent = title;
-            modalDescription.textContent = description;
+            modalImage.src = highResImage;
+            modalImage.alt = image.alt || title;
+            
+            // Dodajemy event listener na załadowanie obrazu
+            modalImage.onload = function() {
+                this.classList.add('loaded');
+            };
+            
+            // Ustawiamy tytuł i opis, jeśli istnieją odpowiednie elementy
+            if (modalTitle) modalTitle.textContent = title;
+            if (modalDescription) modalDescription.textContent = description;
             
             // Pokazujemy modal
             galleryModal.style.display = 'flex';
             document.body.style.overflow = 'hidden'; // Blokujemy przewijanie strony
             
-            // Dodajemy klasę dla animacji
-            setTimeout(() => {
-                modalImage.classList.add('loaded');
-            }, 50);
+            // POPRAWKA: Fokusujemy modal dla dostępności
+            galleryModal.setAttribute('tabindex', '-1');
+            galleryModal.focus();
         });
     });
 }
 
 // ❌ ZAMYKANIE MODALU
 function setupModalClosing(galleryModal, modalClose) {
+    // Jeśli nie ma modalu, kończymy
+    if (!galleryModal) return;
+    
     // Funkcja zamykająca modal
     function closeModal() {
-        galleryModal.style.display = 'none';
-        document.body.style.overflow = 'auto'; // Przywracamy przewijanie strony
+        // POPRAWKA: Dodajemy klasę 'closing' dla animacji zamykania
+        galleryModal.classList.add('closing');
         
-        // Resetujemy klasę animacji
-        const modalImage = document.getElementById('modal-image');
-        if (modalImage) {
-            modalImage.classList.remove('loaded');
-        }
+        // Po zakończeniu animacji ukrywamy modal całkowicie
+        setTimeout(() => {
+            galleryModal.style.display = 'none';
+            galleryModal.classList.remove('closing');
+            document.body.style.overflow = 'auto'; // Przywracamy przewijanie strony
+            
+            // Resetujemy klasę animacji
+            const modalImage = document.getElementById('modal-image');
+            if (modalImage) {
+                modalImage.classList.remove('loaded');
+            }
+        }, 300); // Czas odpowiadający animacji zamykania w CSS
     }
     
     // Zamykanie po kliknięciu przycisku zamknięcia
     if (modalClose) {
-        modalClose.addEventListener('click', closeModal);
+        modalClose.addEventListener('click', function(e) {
+            e.preventDefault();
+            closeModal();
+        });
     }
     
     // Zamykanie po kliknięciu poza obrazem
-    if (galleryModal) {
-        galleryModal.addEventListener('click', function(e) {
-            if (e.target === galleryModal) {
-                closeModal();
-            }
-        });
-    }
+    galleryModal.addEventListener('click', function(e) {
+        if (e.target === galleryModal) {
+            closeModal();
+        }
+    });
     
     // Obsługa klawisza ESC do zamykania modalu
     document.addEventListener('keydown', function(e) {
@@ -194,5 +300,58 @@ function refreshGallery() {
     console.log('🔄 Galeria została odświeżona');
 }
 
-// Eksportujemy funkcję odświeżania, gdyby była potrzebna gdzie indziej
+// POPRAWKA: Dodajemy funkcję do tworzenia podstawowego modalu galerii, jeśli go nie ma
+function createGalleryModal() {
+    // Sprawdzamy, czy modal już istnieje
+    let galleryModal = document.querySelector('.gallery-modal');
+    
+    if (!galleryModal) {
+        // Tworzymy elementy modalu
+        galleryModal = document.createElement('div');
+        galleryModal.className = 'gallery-modal';
+        galleryModal.setAttribute('tabindex', '-1');
+        galleryModal.setAttribute('aria-hidden', 'true');
+        galleryModal.setAttribute('role', 'dialog');
+        galleryModal.setAttribute('aria-label', 'Podgląd zdjęcia');
+        
+        const modalClose = document.createElement('span');
+        modalClose.className = 'modal-close';
+        modalClose.innerHTML = '&times;';
+        modalClose.setAttribute('aria-label', 'Zamknij');
+        
+        const modalContent = document.createElement('div');
+        modalContent.className = 'modal-content';
+        
+        const modalImage = document.createElement('img');
+        modalImage.id = 'modal-image';
+        modalImage.setAttribute('alt', '');
+        
+        const modalTitle = document.createElement('h3');
+        modalTitle.id = 'modal-title';
+        
+        const modalDescription = document.createElement('p');
+        modalDescription.id = 'modal-description';
+        
+        // Składamy elementy
+        modalContent.appendChild(modalImage);
+        modalContent.appendChild(modalTitle);
+        modalContent.appendChild(modalDescription);
+        
+        galleryModal.appendChild(modalClose);
+        galleryModal.appendChild(modalContent);
+        
+        // Dodajemy do body
+        document.body.appendChild(galleryModal);
+        
+        // Konfigurujemy zamykanie
+        setupModalClosing(galleryModal, modalClose);
+        
+        console.log('✅ Utworzono nowy modal galerii');
+    }
+    
+    return galleryModal;
+}
+
+// Eksportujemy funkcje aby były dostępne globalnie
 window.refreshGallery = refreshGallery;
+window.createGalleryModal = createGalleryModal;
