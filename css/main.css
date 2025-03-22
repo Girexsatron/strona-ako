@@ -2190,8 +2190,11 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus,
     color: var(--text-color);
     flex-grow: 1;
     display: -webkit-box;
+    display: box; /* Standardowa wersja */
     -webkit-line-clamp: 5;
+    line-clamp: 5; /* Standardowa wersja */
     -webkit-box-orient: vertical;
+    box-orient: vertical; /* Standardowa wersja */
     overflow: hidden;
     text-overflow: ellipsis;
 }
