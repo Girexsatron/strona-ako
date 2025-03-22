@@ -97,8 +97,169 @@ function fixDropdownMenus() {
     // 📬 Obsługa formularza newslettera
     setupNewsletter();
     
+    // 📌 Inicjalizacja sticky menu - NOWA FUNKCJA
+    setupStickyMenu();
+    
     console.log('✅ Strona załadowana poprawnie');
 });
+
+// 📌 INICJALIZACJA STICKY MENU
+function setupStickyMenu() {
+    // 🔍 Znajdujemy elementy menu
+    const mainHeader = document.querySelector('.main-header');
+    
+    // Sprawdzamy, czy header istnieje na stronie
+    if (!mainHeader) return;
+    
+    // 📜 Funkcja dodająca efekty do menu podczas przewijania
+    function handleScroll() {
+        // Dodajemy klasę scrolled do headera po przewinięciu
+        if (window.scrollY > 50) { // Klasa dodawana po przewinięciu o 50px
+            mainHeader.classList.add('scrolled');
+        } else {
+            mainHeader.classList.remove('scrolled');
+        }
+    }
+    
+    // 🔄 Sprawdzamy scroll przy ładowaniu strony
+    handleScroll();
+    
+    // 👂 Nasłuchujemy zdarzenia scroll
+    window.addEventListener('scroll', handleScroll);
+    
+    // 📱 Poprawka mobilnego menu - lepsze zamykanie przy kliknięciu w link
+    const mobileMenuLinks = document.querySelectorAll('.main-menu a');
+    const mainMenu = document.querySelector('.main-menu');
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    
+    // Obsługa przycisku menu mobilnego (hamburger)
+    if (mobileMenuToggle && mainMenu) {
+        mobileMenuToggle.addEventListener('click', function() {
+            // Przełączamy klasę active dla menu
+            mainMenu.classList.toggle('active');
+            
+            // Zmieniamy ikonę przycisku (z hamburger na X)
+            const icon = this.querySelector('i');
+            if (icon) {
+                if (icon.classList.contains('fa-bars')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-times');
+                } else {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        });
+    }
+    
+    // Jeśli znajdziemy linki w menu mobilnym
+    if (mobileMenuLinks.length > 0 && mainMenu && mobileMenuToggle) {
+        mobileMenuLinks.forEach(link => {
+            // Dodajemy obsługę kliknięcia dla każdego linku
+            link.addEventListener('click', function(e) {
+                // Sprawdzamy, czy to link w dropdown
+                const parentLi = this.closest('li');
+                
+                // Jeśli jesteśmy na małym ekranie (mobilnym)
+                if (window.innerWidth < 992) {
+                    // Jeśli link jest w dropdown, to obsługujemy rozwijanie
+                    if (parentLi && parentLi.classList.contains('dropdown')) {
+                        // Zatrzymujemy domyślne działanie linku
+                        e.preventDefault();
+                        
+                        // Zamykamy wszystkie inne rozwinięte menu
+                        const activeDropdowns = document.querySelectorAll('.dropdown.active');
+                        activeDropdowns.forEach(dropdown => {
+                            if (dropdown !== parentLi) {
+                                dropdown.classList.remove('active');
+                            }
+                        });
+                        
+                        // Przełączamy klasę active dla dropdown
+                        parentLi.classList.toggle('active');
+                    } else {
+                        // Dla zwykłych linków (nie dropdown) zamykamy menu po kliknięciu
+                        if (mainMenu.classList.contains('active')) {
+                            mainMenu.classList.remove('active');
+                            
+                            // Zmieniamy ikonę przycisku menu
+                            const icon = mobileMenuToggle.querySelector('i');
+                            if (icon) {
+                                icon.classList.remove('fa-times');
+                                icon.classList.add('fa-bars');
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    }
+    
+    // 🖱️ Poprawka dostępności - obsługa menu za pomocą klawiatury
+    const dropdowns = document.querySelectorAll('.dropdown');
+    
+    dropdowns.forEach(dropdown => {
+        const link = dropdown.querySelector('a');
+        const submenu = dropdown.querySelector('.dropdown-menu');
+        
+        if (link && submenu) {
+            // Dodajemy atrybuty ARIA dla dostępności
+            link.setAttribute('aria-haspopup', 'true');
+            link.setAttribute('aria-expanded', 'false');
+            
+            // Obsługa klawisza Enter na linku dropdown
+            link.addEventListener('keydown', function(e) {
+                if (e.key === 'Enter' || e.key === ' ') {
+                    // Zatrzymujemy domyślne działanie
+                    e.preventDefault();
+                    
+                    // Przełączamy klasę active dla dropdown
+                    dropdown.classList.toggle('active');
+                    
+                    // Aktualizujemy atrybut aria-expanded
+                    const isExpanded = dropdown.classList.contains('active');
+                    link.setAttribute('aria-expanded', isExpanded);
+                }
+            });
+        }
+    });
+    
+    // 🔍 Dodajemy efekt hover dla desktopowych menu za pomocą JS
+    // (to pomoże z problemami w starszych przeglądarkach)
+    if (window.innerWidth >= 992) {
+        dropdowns.forEach(dropdown => {
+            // Efekt po najechaniu myszką
+            dropdown.addEventListener('mouseenter', function() {
+                const submenu = this.querySelector('.dropdown-menu');
+                if (submenu) {
+                    submenu.style.display = 'block';
+                    setTimeout(() => {
+                        submenu.style.opacity = '1';
+                        submenu.style.visibility = 'visible';
+                    }, 10);
+                }
+            });
+            
+            // Efekt po zjechaniu myszką
+            dropdown.addEventListener('mouseleave', function() {
+                const submenu = this.querySelector('.dropdown-menu');
+                if (submenu) {
+                    submenu.style.opacity = '0';
+                    submenu.style.visibility = 'hidden';
+                    
+                    // Opóźniamy ukrycie, aby animacja mogła się zakończyć
+                    setTimeout(() => {
+                        if (!this.matches(':hover')) {
+                            submenu.style.display = 'none';
+                        }
+                    }, 300);
+                }
+            });
+        });
+    }
+    
+    console.log('✅ Sticky menu zainicjalizowane pomyślnie');
+}
 
 // 🔄 MENU MOBILNE
 function setupMobileMenu() {
@@ -607,3 +768,34 @@ function setupNewsletter() {
         }
     }
 }
+
+// 🔄 ANIMACJE PRZY PRZEWIJANIU
+document.addEventListener('DOMContentLoaded', function() {
+    // Wybieramy wszystkie elementy z klasą reveal-element
+    const revealElements = document.querySelectorAll('.reveal-element');
+    
+    // Funkcja sprawdzająca, czy element jest widoczny (dla komputerów)
+    function checkReveal() {
+        // Pętla przez wszystkie elementy do animacji
+        revealElements.forEach(element => {
+            // Pobieramy pozycję elementu
+            const elementTop = element.getBoundingClientRect().top;
+            
+            // Sprawdzamy, czy element jest w widoku (z małym offsetem)
+            const isVisible = (
+                elementTop < window.innerHeight - 100
+            );
+            
+            // Jeśli element jest widoczny, dodajemy klasę revealed
+            if (isVisible) {
+                element.classList.add('revealed');
+            }
+        });
+    }
+    
+    // Wywołujemy funkcję przy ładowaniu strony
+    checkReveal();
+    
+    // Dodajemy nasłuchiwanie na przewijanie
+    window.addEventListener('scroll', checkReveal);
+});

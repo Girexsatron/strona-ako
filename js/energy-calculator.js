@@ -68,11 +68,11 @@ function calculateEnergySavings() {
     
     // Emisja CO2 dla różnych rodzajów ogrzewania (kg CO2 / kWh)
     const co2Emissions = {
-        'gas': 0.20,        // Gaz ziemny
-        'electric': 0.78,   // Prąd elektryczny
-        'coal': 0.33,       // Węgiel
-        'pellet': 0.02,     // Pellet drzewny
-        'oil': 0.26         // Olej opałowy
+        'gas': 0.2056,      // Gaz ziemny
+        'electric': 0.662,  // Prąd elektryczny
+        'coal': 0.4125,     // Węgiel
+        'pellet': 0.03,     // Pellet drzewny
+        'oil': 0.3          // Olej opałowy
     };
     
     // Czas grzania w ciągu roku (dni)
@@ -156,3 +156,9 @@ function formatNumber(number, decimals = 0) {
 
 // Eksportujemy funkcje aby były dostępne globalnie
 window.calculateEnergySavings = calculateEnergySavings;
+
+document.getElementById('methodology-toggle').addEventListener('click', function(e) {
+    e.preventDefault();
+    const description = document.getElementById('methodology-description');
+    description.style.display = description.style.display === 'none' ? 'block' : 'none';
+});

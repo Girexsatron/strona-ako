@@ -20,6 +20,8 @@
         
         <!-- 🔤 Czcionki Google Fonts - z display=swap dla szybszego ładowania -->
         <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     
         <!-- 📱 Style mobilne ulepszone dla lepszej dotykowej interakcji -->
         <style>
@@ -164,7 +166,7 @@
     </head>
 <body>
     
-    <!-- 🏠 NAGŁÓWEK STRONY / MENU GŁÓWNE - ZOPTYMALIZOWANE DLA DOTYKOWYCH URZĄDZEŃ -->
+    <!-- 🏠 NAGŁÓWEK STRONY / MENU GŁÓWNE - NOWA WERSJA ZE STICKY MENU -->
     <header class="main-header">
         <div class="container">
             <!-- Logo firmy -->
@@ -523,63 +525,87 @@
     </section>
     
     <!-- 💰 KALKULATOR OSZCZĘDNOŚCI ENERGETYCZNYCH - ZOPTYMALIZOWANY NA MOBILNE -->
-    <section class="energy-savings">
-        <div class="container">
-            <h2 class="reveal-element">Kalkulator oszczędności 💰</h2>
-            <p class="section-subtitle reveal-element">Sprawdź, ile możesz zaoszczędzić dzięki naszym energooszczędnym oknom</p>
-            
-            <div class="calculator-container reveal-element">
-                <div class="calculator-form">
-                    <div class="form-group">
-                        <label for="window-area">Łączna powierzchnia okien (m²):</label>
-                        <input type="number" id="window-area" value="15" min="1" max="100" inputmode="numeric">
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="window-type">Rodzaj obecnych okien:</label>
-                        <select id="window-type">
-                            <option value="old-single">Stare okna jednoszybowe</option>
-                            <option value="old-double">Stare okna dwuszybowe</option>
-                            <option value="standard-double">Standardowe okna dwuszybowe</option>
-                            <option value="standard-triple">Standardowe okna trzyszybowe</option>
-                        </select>
-                    </div>
-                    
-                    <div class="form-group">
-                        <label for="heating-type">Rodzaj ogrzewania:</label>
-                        <select id="heating-type">
-                            <option value="gas">Gaz ziemny</option>
-                            <option value="electric">Prąd elektryczny</option>
-                            <option value="coal">Węgiel</option>
-                            <option value="pellet">Pellet drzewny</option>
-                            <option value="oil">Olej opałowy</option>
-                        </select>
-                    </div>
-                    
-                    <button type="button" id="calculate-savings" class="btn btn-primary">Oblicz oszczędności</button>
+<section class="energy-savings">
+    <div class="container">
+        <h2 class="reveal-element">Kalkulator oszczędności 💰</h2>
+        <p class="section-subtitle reveal-element">Sprawdź, ile możesz zaoszczędzić dzięki naszym energooszczędnym oknom</p>
+        
+        <div class="calculator-container reveal-element">
+            <div class="calculator-form">
+                <div class="form-group">
+                    <label for="window-area">Łączna powierzchnia okien (m²):</label>
+                    <input type="number" id="window-area" value="15" min="1" max="100" inputmode="numeric">
                 </div>
                 
-                <div class="calculator-results">
-                    <div class="result-item">
-                        <div class="result-label">Roczne oszczędności:</div>
-                        <div class="result-value" id="yearly-savings">0 zł</div>
+                <div class="form-group">
+                    <label for="window-type">Rodzaj obecnych okien:</label>
+                    <select id="window-type">
+                        <option value="old-single">Stare okna jednoszybowe</option>
+                        <option value="old-double">Stare okna dwuszybowe</option>
+                        <option value="standard-double">Standardowe okna dwuszybowe</option>
+                        <option value="standard-triple">Standardowe okna trzyszybowe</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label for="heating-type">Rodzaj ogrzewania:</label>
+                    <select id="heating-type">
+                        <option value="gas">Gaz ziemny</option>
+                        <option value="electric">Prąd elektryczny</option>
+                        <option value="coal">Węgiel</option>
+                        <option value="pellet">Pellet drzewny</option>
+                        <option value="oil">Olej opałowy</option>
+                    </select>
+                </div>
+                
+                <button type="button" id="calculate-savings" class="btn btn-primary">Oblicz oszczędności</button>
+                
+                <!-- Link do metodologii -->
+                <div class="methodology-link">
+                    <a href="#" id="methodology-toggle">Jak to działa? <i class="fas fa-info-circle"></i></a>
+                    <div id="methodology-description" style="display:none; margin-top:10px; font-size:0.9em; color:#555;">
+                        Obliczenia bazują na danych z 2025 roku: współczynnikach przenikania ciepła (U-wartości), średniej liczbie dni grzewczych w Polsce oraz aktualnych cenach energii i emisjach CO₂ dla różnych źródeł ogrzewania. 
+                        <a href="#sources">Sprawdź źródła</a>.
                     </div>
-                    
-                    <div class="result-item">
-                        <div class="result-label">Oszczędności w ciągu 10 lat:</div>
-                        <div class="result-value" id="ten-year-savings">0 zł</div>
-                    </div>
-                    
-                    <div class="result-item">
-                        <div class="result-label">Redukcja emisji CO₂:</div>
-                        <div class="result-value" id="co2-reduction">0 kg/rok</div>
-                    </div>
-                    
-                    <a href="contact.html" class="btn btn-accent btn-block mt-20">Otrzymaj indywidualną wycenę</a>
                 </div>
             </div>
+            
+            <div class="calculator-results">
+                <div class="result-item">
+                    <i class="fas fa-wallet"></i>
+                    <div class="result-label">Roczne oszczędności:</div>
+                    <div class="result-value" id="yearly-savings">0 zł</div>
+                </div>
+                
+                <div class="result-item">
+                    <i class="fas fa-chart-line"></i>
+                    <div class="result-label">Oszczędności w ciągu 10 lat:</div>
+                    <div class="result-value" id="ten-year-savings">0 zł</div>
+                </div>
+                
+                <div class="result-item">
+                    <i class="fas fa-leaf"></i>
+                    <div class="result-label">Redukcja emisji CO₂:</div>
+                    <div class="result-value" id="co2-reduction">0 kg/rok</div>
+                </div>
+                
+                <a href="contact.html" class="btn btn-accent btn-block mt-20">Otrzymaj indywidualną wycenę</a>
+                <a href="#" class="btn btn-secondary btn-block mt-10" id="download-report">Pobierz raport PDF</a>
+            </div>
         </div>
-    </section>
+        
+        <!-- Sekcja z referencjami -->
+        <div class="sources-section" id="sources">
+            <h3>Źródła danych</h3>
+            <ul>
+                <li><a href="https://www.iea.org/data-and-statistics" target="_blank">Dni grzewcze w Polsce (IEA)</a></li>
+                <li><a href="https://www.globalpetrolprices.com" target="_blank">Ceny gazu ziemnego</a></li>
+                <li><a href="https://www.statista.com" target="_blank">Ceny prądu i emisje CO₂</a></li>
+                <li><a href="https://stat.gov.pl" target="_blank">Ceny węgla (GUS)</a></li>
+            </ul>
+        </div>
+    </div>
+</section>
     
     <!-- 🔄 SEKCJA PROCESU -->
     <section class="process">
