@@ -1,21 +1,98 @@
 <!DOCTYPE html>
 <html lang="pl">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>AKO - Producent okien i drzwi | Tradycja od 1995 roku</title>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>AKO - Producent okien i drzwi | Tradycja od 1995 roku</title>
+        
+        <!-- Linkujemy pliki CSS w odpowiedniej kolejności -->
+        <link rel="stylesheet" href="css/normalize.css">
+        <link rel="stylesheet" href="css/main.css">
+        <link rel="stylesheet" href="css/responsive.css">
+        
+        <!-- Link do ikon FontAwesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+        
+        <!-- Link do czcionek Google Fonts -->
+        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
     
-    <!-- Linkujemy pliki CSS w odpowiedniej kolejności -->
-    <link rel="stylesheet" href="css/normalize.css">
-    <link rel="stylesheet" href="css/main.css">
-    <link rel="stylesheet" href="css/responsive.css">
+        <!-- Dodatkowy styl naprawiający menu dropdown -->
+       <!-- Dodatkowy styl naprawiający menu dropdown z animacją -->
+<style>
+    /* Ukrycie menu dropdown przy pierwszym załadowaniu */
+    .dropdown-menu {
+      display: none !important;
+      flex-direction: column !important;
+      overflow: hidden !important;
+    }
     
-    <!-- Link do ikon FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    /* Nowoczesna animacja wysuwania menu */
+    .dropdown:hover .dropdown-menu {
+      display: block !important;
+      animation: slideDown 0.3s ease forwards;
+    }
     
-    <!-- Link do czcionek Google Fonts -->
-    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-</head>
+    /* Animacja dla elementów menu */
+    .dropdown-menu li {
+      opacity: 0;
+      transform: translateY(-10px);
+      animation: fadeInItem 0.5s ease forwards;
+    }
+    
+    /* Każdy element menu pojawia się z opóźnieniem */
+    .dropdown-menu li:nth-child(1) { animation-delay: 0.05s; }
+    .dropdown-menu li:nth-child(2) { animation-delay: 0.1s; }
+    .dropdown-menu li:nth-child(3) { animation-delay: 0.15s; }
+    .dropdown-menu li:nth-child(4) { animation-delay: 0.2s; }
+    .dropdown-menu li:nth-child(5) { animation-delay: 0.25s; }
+    
+    /* Efekt podświetlenia przy najechaniu na element menu */
+    .dropdown-menu a {
+      transition: all 0.2s ease;
+      position: relative;
+      z-index: 1;
+    }
+    
+    .dropdown-menu a:before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 0;
+      height: 100%;
+      background-color: rgba(0, 86, 179, 0.04);
+      z-index: -1;
+      transition: width 0.3s ease;
+    }
+    
+    .dropdown-menu a:hover:before {
+      width: 100%;
+    }
+    
+    /* Definicje animacji */
+    @keyframes slideDown {
+      from {
+        transform: scaleY(0);
+        transform-origin: top;
+      }
+      to {
+        transform: scaleY(1);
+        transform-origin: top;
+      }
+    }
+    
+    @keyframes fadeInItem {
+      from {
+        opacity: 0;
+        transform: translateY(-10px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
+    </head>
 <body>
     
     <!-- NAGŁÓWEK STRONY - NOWA WERSJA W STYLU MATPLAST -->

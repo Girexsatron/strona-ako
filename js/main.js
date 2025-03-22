@@ -2,6 +2,80 @@
 // 🛠️ Ten plik zawiera główne funkcje potrzebne do działania strony
 
 document.addEventListener('DOMContentLoaded', function() {
+    // 🛠️ Naprawa menu dropdown przy pierwszym załadowaniu + animacje
+function fixDropdownMenus() {
+    const style = document.createElement('style');
+    style.textContent = `
+        .dropdown-menu {
+            display: none;
+            flex-direction: column !important;
+            position: absolute;
+            top: 100%;
+            left: 50%;
+            transform: translateX(-50%);
+            min-width: 200px;
+            background-color: white;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            border-radius: 0;
+            padding: 0.5rem 0;
+            z-index: 1000;
+            transform-origin: top center;
+            overflow: hidden;
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            display: block !important;
+            animation: slideDown 0.3s ease forwards;
+        }
+        
+        .dropdown-menu li {
+            opacity: 0;
+            transform: translateY(-10px);
+            animation: fadeInItem 0.5s ease forwards;
+        }
+        
+        .dropdown-menu li:nth-child(1) { animation-delay: 0.05s; }
+        .dropdown-menu li:nth-child(2) { animation-delay: 0.1s; }
+        .dropdown-menu li:nth-child(3) { animation-delay: 0.15s; }
+        .dropdown-menu li:nth-child(4) { animation-delay: 0.2s; }
+        .dropdown-menu li:nth-child(5) { animation-delay: 0.25s; }
+        
+        @keyframes slideDown {
+            from {
+                transform: translateX(-50%) scaleY(0);
+                transform-origin: top center;
+            }
+            to {
+                transform: translateX(-50%) scaleY(1);
+                transform-origin: top center;
+            }
+        }
+        
+        @keyframes fadeInItem {
+            from {
+                opacity: 0;
+                transform: translateY(-10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+    `;
+    document.head.appendChild(style);
+    
+    // 🔍 Dodatkowe zabezpieczenie - ukryj wszystkie menu rozwijane
+    const dropdownMenus = document.querySelectorAll('.dropdown-menu');
+    dropdownMenus.forEach(menu => {
+        menu.style.display = 'none';
+    });
+    
+    console.log('✨ Menu dropdown naprawione i upiększone animacją');
+}
+
+    // Wywołaj funkcję naprawiającą na początku
+    fixDropdownMenus();
+    
     // 🔄 Funkcja menu mobilnego
     setupMobileMenu();
     
