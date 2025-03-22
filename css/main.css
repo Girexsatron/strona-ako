@@ -1739,3 +1739,494 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus,
     white-space: nowrap;
     border: 0;
 }
+
+/* ✨ NOWA SEKCJA: ANIMACJE WEJŚCIOWE (REVEAL ON SCROLL) ✨ */
+/* 🔄 Te style dodają efekty animacji pojawiania się elementów podczas przewijania strony */
+
+/* Element jest początkowo niewidoczny i przesunięty */
+.reveal-element {
+    opacity: 0;
+    transform: translateY(50px);
+    transition: all 0.8s ease;
+}
+
+/* Po dodaniu klasy .revealed element staje się widoczny */
+.reveal-element.revealed {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* 🕒 Opóźnienie dla elementów w rzędzie - tworzy efekt kaskadowy */
+.reveal-delay-1 { transition-delay: 0.1s; }
+.reveal-delay-2 { transition-delay: 0.2s; }
+.reveal-delay-3 { transition-delay: 0.3s; }
+.reveal-delay-4 { transition-delay: 0.4s; }
+
+/* 🔄 Różne typy animacji - elementy mogą wjeżdżać z różnych stron */
+.reveal-left {
+    transform: translateX(-50px);
+}
+.reveal-left.revealed {
+    transform: translateX(0);
+}
+
+.reveal-right {
+    transform: translateX(50px);
+}
+.reveal-right.revealed {
+    transform: translateX(0);
+}
+
+.reveal-zoom {
+    transform: scale(0.8);
+}
+.reveal-zoom.revealed {
+    transform: scale(1);
+}
+
+/* 🔍 Dla produktów - dodajemy efekt 3D przy najechaniu */
+.product-category {
+    transition: transform 0.5s ease, box-shadow 0.5s ease;
+    perspective: 1000px;
+}
+
+.product-category:hover {
+    transform: translateY(-10px) rotateY(5deg);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.15);
+}
+
+/* 🖼️ Dla galerii - ulepszony efekt powiększania zdjęcia */
+.gallery-image img {
+    transition: transform 0.7s ease, filter 0.7s ease;
+}
+
+.gallery-item:hover .gallery-image img {
+    transform: scale(1.08);
+    filter: brightness(1.1);
+}
+
+.gallery-overlay {
+    background: rgba(0, 0, 0, 0.7);
+    transition: opacity 0.7s ease;
+}
+
+/* ✨ NOWA SEKCJA: ANIMACJA 3D DLA PRODUKTÓW ✨ */
+/* 🔄 Te style dodają interaktywne animacje 3D dla elementów produktów */
+
+/* Kontener dla produktu 3D */
+.product-3d-container {
+    perspective: 1000px;
+    width: 100%;
+    height: 400px;
+    margin: 50px auto;
+    position: relative;
+}
+
+/* Element obracający się */
+.product-3d-card {
+    width: 100%;
+    height: 100%;
+    position: relative;
+    transform-style: preserve-3d;
+    transition: transform 1s ease;
+}
+
+/* Gdy myszka najedzie, obracamy kartę */
+.product-3d-container:hover .product-3d-card {
+    transform: rotateY(180deg);
+}
+
+/* Przednia strona produktu */
+.product-3d-front,
+.product-3d-back {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    backface-visibility: hidden;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+}
+
+.product-3d-front {
+    background-color: white;
+}
+
+/* Tylna strona - odwrócona */
+.product-3d-back {
+    background-color: var(--light-color);
+    transform: rotateY(180deg);
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+    text-align: center;
+}
+
+/* Obrazek produktu */
+.product-3d-image {
+    width: 100%;
+    height: 65%;
+    overflow: hidden;
+}
+
+.product-3d-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Informacje o produkcie */
+.product-3d-info {
+    padding: 20px;
+    text-align: center;
+}
+
+.product-3d-info h3 {
+    margin-top: 0;
+    color: var(--primary-color);
+}
+
+/* Efekt pulsowania dla przycisku "obróć" */
+.rotate-hint {
+    position: absolute;
+    bottom: 15px;
+    right: 15px;
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    animation: pulse 2s infinite;
+    z-index: 10;
+}
+
+@keyframes pulse {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 86, 179, 0.7);
+    }
+    70% {
+        transform: scale(1.1);
+        box-shadow: 0 0 0 10px rgba(0, 86, 179, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(0, 86, 179, 0);
+    }
+}
+
+/* ✨ NOWA SEKCJA: INTEGRACJA OPINII Z GOOGLE MAPS ✨ */
+/* 🌟 Te style tworzą elegancką sekcję z opiniami z Google */
+
+.google-reviews-section {
+    padding: 80px 0;
+    background-color: var(--light-color);
+}
+
+.google-reviews-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 40px;
+}
+
+.google-rating-badge {
+    display: flex;
+    align-items: center;
+    background-color: white;
+    padding: 15px 20px;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.google-rating-badge:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow);
+}
+
+.google-icon {
+    margin-right: 15px;
+}
+
+.google-logo {
+    height: 40px;
+    width: auto;
+}
+
+.rating-stars {
+    display: flex;
+    align-items: center;
+    margin-right: 10px;
+}
+
+.star-icon {
+    color: #FFC107; /* Google's yellow color for stars */
+    font-size: 1.2rem;
+    margin-right: 2px;
+}
+
+.google-rating-number {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: var(--dark-color);
+    margin-right: 5px;
+}
+
+.google-reviews-count {
+    font-size: 0.9rem;
+    color: #666;
+}
+
+.add-review-button {
+    display: inline-flex;
+    align-items: center;
+    background-color: var(--primary-color);
+    color: white;
+    padding: 12px 20px;
+    border-radius: var(--border-radius);
+    text-decoration: none;
+    font-weight: 500;
+    transition: background-color 0.3s ease;
+}
+
+.add-review-button:hover {
+    background-color: var(--secondary-color);
+}
+
+.add-review-button i {
+    margin-right: 8px;
+}
+
+/* Slider opinii */
+.google-reviews-slider {
+    position: relative;
+    padding: 0 60px;
+}
+
+.reviews-container {
+    display: flex;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
+    gap: 25px;
+    padding: 20px 0;
+}
+
+.review-card {
+    flex: 0 0 350px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 25px;
+    box-shadow: var(--box-shadow-sm);
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    display: flex;
+    flex-direction: column;
+}
+
+.review-card:hover {
+    transform: translateY(-5px);
+    box-shadow: var(--box-shadow);
+}
+
+.review-header {
+    display: flex;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.reviewer-avatar {
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin-right: 15px;
+}
+
+.reviewer-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.reviewer-info {
+    flex-grow: 1;
+}
+
+.reviewer-name {
+    font-weight: 600;
+    color: var(--dark-color);
+    margin-bottom: 3px;
+}
+
+.review-date {
+    font-size: 0.8rem;
+    color: #666;
+}
+
+.review-stars {
+    display: flex;
+    margin-bottom: 5px;
+}
+
+.review-content {
+    font-size: 0.95rem;
+    line-height: 1.6;
+    color: var(--text-color);
+    flex-grow: 1;
+    display: -webkit-box;
+    -webkit-line-clamp: 5;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.review-footer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-top: 20px;
+    padding-top: 15px;
+    border-top: 1px solid var(--light-gray);
+}
+
+.verified-badge {
+    display: flex;
+    align-items: center;
+    font-size: 0.8rem;
+    color: #34A853; /* Google green */
+}
+
+.verified-badge i {
+    margin-right: 5px;
+}
+
+.view-on-google {
+    font-size: 0.8rem;
+    color: var(--primary-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+}
+
+.view-on-google i {
+    margin-left: 5px;
+    font-size: 0.7rem;
+}
+
+.view-on-google:hover {
+    text-decoration: underline;
+}
+
+/* Przyciski nawigacyjne dla opinii */
+.slider-nav {
+    position: absolute;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background-color: white;
+    border: 1px solid var(--border-color);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 2;
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.slider-nav:hover {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+.slider-prev {
+    left: 0;
+}
+
+.slider-next {
+    right: 0;
+}
+
+/* Filtry opinii */
+.reviews-filters {
+    display: flex;
+    justify-content: center;
+    margin-bottom: 30px;
+    gap: 15px;
+}
+
+.filter-option {
+    background-color: white;
+    border: 1px solid var(--border-color);
+    padding: 8px 15px;
+    border-radius: 30px;
+    font-size: 0.9rem;
+    cursor: pointer;
+    transition: all 0.3s ease;
+}
+
+.filter-option:hover {
+    background-color: var(--light-color);
+}
+
+.filter-option.active {
+    background-color: var(--primary-color);
+    color: white;
+    border-color: var(--primary-color);
+}
+
+/* 📱 RESPONSYWNOŚĆ DLA WSZYSTKICH NOWYCH ELEMENTÓW */
+
+@media (max-width: 991px) {
+    .google-reviews-header {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 20px;
+    }
+    
+    .review-card {
+        flex: 0 0 300px;
+    }
+    
+    .product-3d-container {
+        height: 350px;
+    }
+}
+
+@media (max-width: 767px) {
+    .google-reviews-slider {
+        padding: 0 40px;
+    }
+    
+    .reviews-filters {
+        flex-wrap: wrap;
+    }
+    
+    .product-3d-container {
+        height: 300px;
+    }
+}
+
+@media (max-width: 575px) {
+    .google-rating-badge {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+    
+    .google-icon {
+        margin-right: 0;
+        margin-bottom: 10px;
+    }
+    
+    .review-card {
+        flex: 0 0 280px;
+        padding: 20px;
+    }
+}
