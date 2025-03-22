@@ -18,150 +18,136 @@
 </head>
 <body>
     
-    <!-- NAGŁÓWEK STRONY - zawiera logo, menu i przycisk kontaktowy -->
-    <header class="main-header">
-        <div class="container">
-            <div class="logo">
-                <a href="index.html">
-                    <img src="images/logo.png" alt="Logo AKO - Producent okien i drzwi">
-                </a>
-            </div>
-            
-            <!-- Menu nawigacyjne -->
-            <nav class="main-menu">
-                <ul>
-                    <li><a href="index.html" class="active">Strona Główna</a></li>
-                    <li class="dropdown">
-                        <a href="#">Produkty</a>
-                        <ul class="dropdown-menu">
-                            <li><a href="products/windows.html">Okna</a></li>
-                            <li><a href="products/doors.html">Drzwi</a></li>
-                            <li><a href="products/systems.html">Systemy osłonowe</a></li>
-                        </ul>
-                    </li>
-                    <li><a href="about.html">O nas</a></li>
-                    <li><a href="contact.html">Kontakt</a></li>
-                </ul>
-            </nav>
-            
-            <!-- Przycisk "Bezpłatna wycena" -->
-            <div class="cta-button">
-                <a href="contact.html" class="btn btn-primary">Bezpłatna wycena</a>
-            </div>
-            
-            <!-- Przycisk menu mobilnego -->
-            <div class="mobile-menu-toggle">
-                <i class="fas fa-bars"></i>
+    <!-- NAGŁÓWEK STRONY - NOWA WERSJA W STYLU MATPLAST -->
+<header class="main-header">
+    <div class="container">
+        <!-- Logo -->
+        <div class="logo">
+            <a href="index.html">
+                <img src="images/logo.png" alt="Logo AKO - Producent okien i drzwi">
+            </a>
+        </div>
+        
+        <!-- Menu nawigacyjne -->
+        <nav class="main-menu">
+            <ul>
+                <li><a href="index.html" class="active">Strona Główna</a></li>
+                <li class="dropdown">
+                    <a href="#">Okna</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="products/windows-pvc.html">Okna PVC</a></li>
+                        <li><a href="products/windows-alu.html">Okna Aluminiowe</a></li>
+                        <li><a href="products/windows-wood.html">Okna Drewniane</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Drzwi</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="products/doors-exterior.html">Drzwi Zewnętrzne</a></li>
+                        <li><a href="products/doors-interior.html">Drzwi Wewnętrzne</a></li>
+                        <li><a href="products/doors-patio.html">Drzwi Tarasowe</a></li>
+                    </ul>
+                </li>
+                <li class="dropdown">
+                    <a href="#">Systemy osłonowe</a>
+                    <ul class="dropdown-menu">
+                        <li><a href="products/systems-rollers.html">Rolety</a></li>
+                        <li><a href="products/systems-shutters.html">Żaluzje</a></li>
+                        <li><a href="products/systems-awnings.html">Markizy</a></li>
+                    </ul>
+                </li>
+                <li><a href="gallery.html">Realizacje</a></li>
+                <li><a href="about.html">O nas</a></li>
+                <li><a href="contact.html">Kontakt</a></li>
+            </ul>
+        </nav>
+        
+        <!-- Przycisk "Bezpłatna wycena" -->
+        <div class="cta-button">
+            <a href="contact.html">Bezpłatna wycena</a>
+        </div>
+        
+        <!-- Ikony social media -->
+        <div class="social-header">
+            <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+            <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+            <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+            <a href="#" target="_blank" aria-label="Pinterest"><i class="fab fa-pinterest-p"></i></a>
+            <a href="#" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+        </div>
+        
+        <!-- Przycisk menu mobilnego -->
+        <div class="mobile-menu-toggle">
+            <i class="fas fa-bars"></i>
+        </div>
+    </div>
+</header>
+    
+   <!-- SEKCJA GŁÓWNA - nowoczesny slider inspirowany Matplast -->
+<section class="hero">
+    <div class="hero-slider">
+        <!-- Slajd 1 -->
+        <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/banners/banner1.jpg');"></div>
+            <div class="slide-content">
+                <div class="slide-content-inner">
+                    <h1>Najwyższej jakości stolarka okienna i drzwiowa</h1>
+                    <p>Produkujemy i montujemy okna oraz drzwi z najlepszych materiałów</p>
+                    <a href="contact.html" class="btn">Zamów wycenę</a>
+                </div>
             </div>
         </div>
-    </header>
-    
-    <!-- SEKCJA GŁÓWNA - banner z profesjonalnymi animacjami -->
-<section class="hero" style="position: relative; height: 600px; overflow: hidden;">
-    <!-- Obraz tła z animacją zoom -->
-    <div class="banner-background" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-                background-color: #0056b3; 
-                background-image: url('../images/banners/banner1.jpg'); 
-                background-size: cover; background-position: center; z-index: -1;
-                animation: subtle-zoom 20s infinite alternate ease-in-out;">
-</div>
-    
-    <!-- Ciemna nakładka dla lepszej czytelności tekstu -->
-    <div style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; 
-                background-color: rgba(0, 0, 0, 0.5);
-                animation: fade-in 1.5s ease-out;">
-    </div>
-    
-    <!-- Treść bannera z animacjami -->
-    <div class="container" style="position: relative; z-index: 2; height: 100%; 
-                                 display: flex; align-items: center; justify-content: center;">
-        <div style="max-width: 600px; text-align: center; color: white;">
-            <h1 style="font-size: 2.8rem; margin-bottom: 1.5rem; color: white; 
-                      text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                      animation: slide-up 0.8s ease-out, fade-in 1s ease-out;">
-                Najwyższej jakości stolarka okienna i drzwiowa
-            </h1>
-            <p style="font-size: 1.2rem; margin-bottom: 2rem; 
-                    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-                    animation: slide-up 0.8s ease-out 0.3s both, fade-in 1s ease-out 0.3s both;">
-                Produkujemy i montujemy okna oraz drzwi z najlepszych materiałów już od 30 lat
-            </p>
-            <a href="contact.html" class="btn btn-light animated-button" style="animation: slide-up 0.8s ease-out 0.6s both, fade-in 1s ease-out 0.6s both;">
-                Zamów bezpłatną wycenę
-            </a>
+        
+        <!-- Slajd 2 -->
+        <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/banners/banner2.jpg');"></div>
+            <div class="slide-content">
+                <div class="slide-content-inner">
+                    <h1>Energooszczędne rozwiązania</h1>
+                    <p>Obniż koszty ogrzewania i zmniejsz swój ślad węglowy</p>
+                    <a href="products/windows.html" class="btn">Nasze okna</a>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Slajd 3 -->
+        <div class="slide">
+            <div class="slide-bg" style="background-image: url('images/banners/banner3.jpg');"></div>
+            <div class="slide-content">
+                <div class="slide-content-inner">
+                    <h1>Profesjonalny montaż i serwis</h1>
+                    <p>Kompleksowa obsługa od projektu po wieloletni serwis</p>
+                    <a href="contact.html" class="btn">Kontakt</a>
+                </div>
+            </div>
         </div>
     </div>
 </section>
     
-    <!-- SEKCJA "DLACZEGO MY" - nasze zalety -->
-    <section class="features">
-        <div class="container">
-            <h2>Dlaczego warto wybrać nasze produkty? 🏆</h2>
-            <div class="features-grid">
-                
-                <!-- Zaleta 1 -->
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-certificate"></i>
-                    </div>
-                    <h3>Najwyższa jakość</h3>
-                    <p>Korzystamy z rozwiązań najlepszych producentów i najnowocześniejszych technologii produkcji.</p>
-                </div>
-                
-                <!-- Zaleta 2 -->
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h3>Gwarancja</h3>
-                    <p>Oferujemy nawet do 7 lat gwarancji na nasze produkty oraz profesjonalny serwis pogwarancyjny.</p>
-                </div>
-                
-                <!-- Zaleta 3 -->
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-history"></i>
-                    </div>
-                    <h3>Doświadczenie</h3>
-                    <p>Ponad 30 lat na rynku i tysiące zadowolonych klientów w całej Polsce i Europie. Tradycja od 1995 roku.</p>
-                </div>
-                
-                <!-- Zaleta 4 -->
-                <div class="feature">
-                    <div class="feature-icon">
-                        <i class="fas fa-leaf"></i>
-                    </div>
-                    <h3>Ekologia</h3>
-                    <p>Nasze produkty są energooszczędne i przyjazne dla środowiska, pomagają obniżyć koszty ogrzewania.</p>
-                </div>
+<!-- LICZNIK OSIĄGNIĘĆ - ULEPSZONA WERSJA -->
+<section class="counter-section">
+    <div class="container">
+        <h2>Liczby, które mówią same za siebie 📊</h2>
+        <div class="counters">
+            <div class="counter-item">
+                <div class="counter-value" data-count="30">0</div>
+                <div class="counter-label">Lat<br>doświadczenia</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-value" data-count="15000">0</div>
+                <div class="counter-label">Zadowolonych<br>klientów</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-value" data-count="250000">0</div>
+                <div class="counter-label">Zamontowanych<br>okien i drzwi</div>
+            </div>
+            <div class="counter-item">
+                <div class="counter-value" data-count="95">0</div>
+                <div class="counter-label">% Klientów<br>poleca nas</div>
             </div>
         </div>
-    </section>
-    
-    <!-- LICZNIK OSIĄGNIĘĆ -->
-    <section class="counter-section">
-        <div class="container">
-            <h2>Liczby, które mówią same za siebie 📊</h2>
-            <div class="counters">
-                <div class="counter-item">
-                    <div class="counter-value" data-count="30">0</div>
-                    <div class="counter-label">Lat<br>doświadczenia</div>
-                </div>
-                <div class="counter-item">
-                    <div class="counter-value" data-count="15000">0</div>
-                    <div class="counter-label">Zadowolonych<br>klientów</div>
-                </div>
-                <div class="counter-item">
-                    <div class="counter-value" data-count="250000">0</div>
-                    <div class="counter-label">Zamontowanych<br>okien i drzwi</div>
-                </div>
-                <div class="counter-item">
-                    <div class="counter-value" data-count="95">0</div>
-                    <div class="counter-label">% Klientów<br>poleca nas</div>
-                </div>
-            </div>
-        </div>
-    </section>
+    </div>
+</section>
     
     <!-- SEKCJA PRODUKTOWA -->
     <section class="products-showcase">
@@ -204,6 +190,75 @@
                         <a href="products/systems.html" class="btn btn-secondary">Zobacz więcej</a>
                     </div>
                 </div>
+                
+                <!-- NOWOŚĆ: Produkt 4: Fasady -->
+                <div class="product-category">
+                    <div class="product-badge">NOWOŚĆ</div>
+                    <div class="product-image">
+                        <img src="images/products/facades-thumb.jpg" alt="Fasady szklane i aluminiowe AKO">
+                    </div>
+                    <div class="product-info">
+                        <h3>Fasady</h3>
+                        <p>Nowoczesne fasady szklane i aluminiowe dla budynków komercyjnych i mieszkalnych.</p>
+                        <a href="products/facades.html" class="btn btn-secondary">Zobacz więcej</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- NOWOŚĆ: GALERIA REALIZACJI - WERSJA SKRÓCONA -->
+    <section class="projects-preview">
+        <div class="container">
+            <h2>Nasze realizacje 🏢</h2>
+            <p class="section-subtitle">Sprawdź wybrane projekty, które zrealizowaliśmy dla naszych klientów</p>
+            
+            <div class="gallery-container preview-gallery">
+                <!-- Realizacja 1 - Okna -->
+                <div class="gallery-item" data-category="windows">
+                    <div class="gallery-image">
+                        <img src="images/gallery/windows/windows-1.jpg" alt="Realizacja okien w domu jednorodzinnym">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Dom jednorodzinny</h3>
+                            <p>Okna PVC z pakietem trzyszybowym</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Realizacja 2 - Drzwi -->
+                <div class="gallery-item" data-category="doors">
+                    <div class="gallery-image">
+                        <img src="images/gallery/doors/doors-1.jpg" alt="Realizacja drzwi wejściowych">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Apartamentowiec</h3>
+                            <p>Drzwi wejściowe z kontrolą dostępu</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- Realizacja 3 - Fasady -->
+                <div class="gallery-item" data-category="facades">
+                    <div class="gallery-image">
+                        <img src="images/gallery/facades/facade-1.jpg" alt="Realizacja fasady szklanej">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Budynek biurowy</h3>
+                            <p>Fasada aluminiowa ze szkłem refleksyjnym</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="gallery-button">
+                <a href="gallery.html" class="btn btn-primary">Zobacz wszystkie realizacje</a>
             </div>
         </div>
     </section>
@@ -226,6 +281,65 @@
                 </div>
                 <div class="promo-image">
                     <img src="images/promo-spring.jpg" alt="Wiosenna promocja na okna i rolety AKO">
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- NOWOŚĆ: KALKULATOR OSZCZĘDNOŚCI ENERGETYCZNYCH -->
+    <section class="energy-savings">
+        <div class="container">
+            <h2>Kalkulator oszczędności energetycznych 💰</h2>
+            <p class="section-subtitle">Sprawdź, ile możesz zaoszczędzić dzięki naszym energooszczędnym oknom</p>
+            
+            <div class="calculator-container">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="window-area">Łączna powierzchnia okien (m²):</label>
+                        <input type="number" id="window-area" value="15" min="1" max="100">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="window-type">Rodzaj obecnych okien:</label>
+                        <select id="window-type">
+                            <option value="old-single">Stare okna jednoszybowe</option>
+                            <option value="old-double">Stare okna dwuszybowe</option>
+                            <option value="standard-double">Standardowe okna dwuszybowe</option>
+                            <option value="standard-triple">Standardowe okna trzyszybowe</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="heating-type">Rodzaj ogrzewania:</label>
+                        <select id="heating-type">
+                            <option value="gas">Gaz ziemny</option>
+                            <option value="electric">Prąd elektryczny</option>
+                            <option value="coal">Węgiel</option>
+                            <option value="pellet">Pellet drzewny</option>
+                            <option value="oil">Olej opałowy</option>
+                        </select>
+                    </div>
+                    
+                    <button type="button" id="calculate-savings" class="btn btn-primary">Oblicz oszczędności</button>
+                </div>
+                
+                <div class="calculator-results">
+                    <div class="result-item">
+                        <div class="result-label">Roczne oszczędności:</div>
+                        <div class="result-value" id="yearly-savings">0 zł</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Oszczędności w ciągu 10 lat:</div>
+                        <div class="result-value" id="ten-year-savings">0 zł</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <div class="result-label">Redukcja emisji CO₂:</div>
+                        <div class="result-value" id="co2-reduction">0 kg/rok</div>
+                    </div>
+                    
+                    <a href="contact.html" class="btn btn-accent btn-block mt-20">Otrzymaj indywidualną wycenę</a>
                 </div>
             </div>
         </div>
@@ -307,6 +421,17 @@
                         <div class="author-location">Kraków</div>
                     </div>
                 </div>
+                
+                <!-- Opinia 3 -->
+                <div class="testimonial">
+                    <div class="testimonial-content">
+                        <p>"Pełen profesjonalizm od pierwszego kontaktu. Świetne doradztwo i indywidualne podejście do klienta. Nowe okna wyglądają wspaniale i znacząco obniżyły rachunki za ogrzewanie."</p>
+                    </div>
+                    <div class="testimonial-author">
+                        <div class="author-name">Piotr Wiśniewski</div>
+                        <div class="author-location">Poznań</div>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -355,6 +480,17 @@
                         <p>Tak, oferujemy profesjonalny montaż na terenie całej Polski. Posiadamy doświadczone ekipy monterskie, które zapewniają wysoką jakość usług niezależnie od lokalizacji.</p>
                     </div>
                 </div>
+                
+                <!-- NOWE PYTANIE FAQ -->
+                <div class="faq-item">
+                    <div class="faq-question">
+                        <h3>Czy mogę skorzystać z dofinansowania na wymianę okien?</h3>
+                        <span class="faq-toggle"><i class="fas fa-plus"></i></span>
+                    </div>
+                    <div class="faq-answer">
+                        <p>Tak, nasze produkty spełniają wymagania programów dofinansowania typu "Czyste Powietrze" czy ulgi termomodernizacyjnej. Nasi doradcy pomogą Ci w przygotowaniu niezbędnej dokumentacji, aby uzyskać dofinansowanie.</p>
+                    </div>
+                </div>
             </div>
         </div>
     </section>
@@ -379,6 +515,11 @@
                         <div class="contact-item">
                             <i class="fas fa-map-marker-alt"></i>
                             <span>ul. Przykładowa 123, 00-000 Warszawa</span>
+                        </div>
+                        <!-- NOWA OPCJA KONTAKTU -->
+                        <div class="contact-item">
+                            <i class="fab fa-whatsapp"></i>
+                            <span>WhatsApp: +48 987 654 321</span>
                         </div>
                     </div>
                 </div>
@@ -430,6 +571,7 @@
                         <li><a href="products/windows.html">Okna</a></li>
                         <li><a href="products/doors.html">Drzwi</a></li>
                         <li><a href="products/systems.html">Systemy osłonowe</a></li>
+                        <li><a href="gallery.html">Realizacje</a></li>
                         <li><a href="about.html">O nas</a></li>
                         <li><a href="contact.html">Kontakt</a></li>
                     </ul>
@@ -454,6 +596,16 @@
                         <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
                         <a href="#" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
+                    
+                    <!-- NOWOŚĆ: Newsletter -->
+                    <div class="newsletter">
+                        <h4>Newsletter</h4>
+                        <p>Zapisz się, aby otrzymywać informacje o promocjach</p>
+                        <form id="newsletter-form" class="newsletter-form">
+                            <input type="email" placeholder="Twój email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
                 </div>
             </div>
             
@@ -473,108 +625,21 @@
     <a href="#" class="scroll-top" aria-label="Przewiń do góry">
         <i class="fas fa-arrow-up"></i>
     </a>
+    
+    <!-- Modal galerii - generowany przez JavaScript -->
+    <div class="gallery-modal">
+        <span class="modal-close">&times;</span>
+        <div class="modal-content">
+            <img id="modal-image" src="" alt="">
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+        </div>
+    </div>
 
     <!-- Skrypty JavaScript -->
     <script src="js/main.js"></script>
     <script src="js/slider.js"></script>
     <script src="js/gallery.js"></script>
-    
-    <!-- Dodatkowe style CSS dla formularza i animacji -->
-    <style>
-    /* Style dla formularza */
-    .form-message {
-        padding: 15px;
-        margin-bottom: 20px;
-        border-radius: var(--border-radius);
-        font-weight: 500;
-        transition: opacity 0.3s ease, transform 0.3s ease;
-        opacity: 0;
-        transform: translateY(-10px);
-    }
-
-    .form-message.show {
-        opacity: 1;
-        transform: translateY(0);
-    }
-
-    .form-message.success {
-        background-color: rgba(46, 204, 113, 0.1);
-        border-left: 4px solid #2ecc71;
-        color: #27ae60;
-    }
-
-    .form-message.error {
-        background-color: rgba(231, 76, 60, 0.1);
-        border-left: 4px solid #e74c3c;
-        color: #c0392b;
-    }
-
-    .form-group input.error,
-    .form-group textarea.error {
-        border-color: #e74c3c;
-        background-color: rgba(231, 76, 60, 0.05);
-    }
-
-    @keyframes shake {
-        0%, 100% { transform: translateX(0); }
-        10%, 30%, 50%, 70%, 90% { transform: translateX(-5px); }
-        20%, 40%, 60%, 80% { transform: translateX(5px); }
-    }
-
-    .shake {
-        animation: shake 0.5s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
-    }
-    </style>
-
-    <!-- Dodatkowe style dla animacji bannera -->
-<style>
-    /* Animacje dla bannera */
-    @keyframes fade-in {
-        from { opacity: 0; }
-        to { opacity: 1; }
-    }
-    
-    @keyframes slide-up {
-        from { transform: translateY(30px); }
-        to { transform: translateY(0); }
-    }
-    
-    @keyframes subtle-zoom {
-        from { transform: scale(1); }
-        to { transform: scale(1.1); }
-    }
-    
-    /* Animowany przycisk */
-    .animated-button {
-        position: relative;
-        overflow: hidden;
-        transition: all 0.3s ease;
-    }
-    
-    .animated-button:hover {
-        transform: translateY(-3px) !important;
-        box-shadow: 0 7px 14px rgba(0, 0, 0, 0.2);
-    }
-    
-    .animated-button:before {
-        content: '';
-        position: absolute;
-        top: 0;
-        left: -100%;
-        width: 100%;
-        height: 100%;
-        background: linear-gradient(
-            90deg, 
-            rgba(255, 255, 255, 0) 0%, 
-            rgba(255, 255, 255, 0.2) 50%, 
-            rgba(255, 255, 255, 0) 100%
-        );
-        transition: left 0.7s ease;
-    }
-    
-    .animated-button:hover:before {
-        left: 100%;
-    }
-    </style>
+    <script src="js/energy-calculator.js"></script>
 </body>
 </html>

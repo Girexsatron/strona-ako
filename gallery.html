@@ -1,0 +1,358 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nasze realizacje - AKO - Producent okien i drzwi</title>
+    
+    <!-- Linkujemy pliki CSS w odpowiedniej kolejności -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- Link do ikon FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    
+    <!-- Link do czcionek Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+</head>
+<body class="gallery-page">
+    
+    <!-- NAGŁÓWEK STRONY - zawiera logo, menu i przycisk kontaktowy -->
+    <header class="main-header">
+        <div class="container">
+            <div class="logo">
+                <a href="index.html">
+                    <img src="images/logo.png" alt="Logo AKO - Producent okien i drzwi">
+                </a>
+            </div>
+            
+            <!-- Menu nawigacyjne -->
+            <nav class="main-menu">
+                <ul>
+                    <li><a href="index.html">Strona Główna</a></li>
+                    <li class="dropdown">
+                        <a href="#">Produkty</a>
+                        <ul class="dropdown-menu">
+                            <li><a href="products/windows.html">Okna</a></li>
+                            <li><a href="products/doors.html">Drzwi</a></li>
+                            <li><a href="products/systems.html">Systemy osłonowe</a></li>
+                            <li><a href="products/facades.html">Fasady</a></li>
+                        </ul>
+                    </li>
+                    <li><a href="gallery.html" class="active">Realizacje</a></li>
+                    <li><a href="about.html">O nas</a></li>
+                    <li><a href="contact.html">Kontakt</a></li>
+                </ul>
+            </nav>
+            
+            <!-- Przycisk "Bezpłatna wycena" -->
+            <div class="cta-button">
+                <a href="contact.html" class="btn btn-primary">Bezpłatna wycena</a>
+            </div>
+            
+            <!-- Przycisk menu mobilnego -->
+            <div class="mobile-menu-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+        </div>
+    </header>
+    
+    <!-- BANNER PODSTRONY -->
+    <section class="page-banner">
+        <div class="container">
+            <h1>Nasze realizacje</h1>
+            <div class="breadcrumbs">
+                <a href="index.html">Strona główna</a> / <span>Realizacje</span>
+            </div>
+        </div>
+    </section>
+    
+    <!-- GALERIA REALIZACJI -->
+    <section class="projects-gallery">
+        <div class="container">
+            <h2>Galeria realizacji</h2>
+            <p class="section-subtitle">Poznaj wybrane projekty, które zrealizowaliśmy dla naszych klientów</p>
+            
+            <!-- Filtry galerii -->
+            <div class="gallery-filters">
+                <button class="filter-btn active" data-filter="all">Wszystkie</button>
+                <button class="filter-btn" data-filter="windows">Okna</button>
+                <button class="filter-btn" data-filter="doors">Drzwi</button>
+                <button class="filter-btn" data-filter="systems">Systemy osłonowe</button>
+                <button class="filter-btn" data-filter="facades">Fasady</button>
+            </div>
+            
+            <!-- Container galerii -->
+            <div class="gallery-container">
+                <!-- OKNA - Realizacja 1 -->
+                <div class="gallery-item" data-category="windows">
+                    <div class="gallery-image">
+                        <img src="images/gallery/windows/windows-1.jpg" alt="Dom jednorodzinny - okna PVC">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Dom jednorodzinny</h3>
+                            <p>Okna PVC z pakietem trzyszybowym</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- OKNA - Realizacja 2 -->
+                <div class="gallery-item" data-category="windows">
+                    <div class="gallery-image">
+                        <img src="images/gallery/windows/windows-2.jpg" alt="Apartamentowiec - okna aluminiowe">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Apartamentowiec</h3>
+                            <p>Okna aluminiowe z szybami dźwiękochłonnymi</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- OKNA - Realizacja 3 -->
+                <div class="gallery-item" data-category="windows">
+                    <div class="gallery-image">
+                        <img src="images/gallery/windows/windows-3.jpg" alt="Willa - okna panoramiczne">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Willa w górach</h3>
+                            <p>Okna panoramiczne z poszerzonym pakietem izolacyjnym</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DRZWI - Realizacja 1 -->
+                <div class="gallery-item" data-category="doors">
+                    <div class="gallery-image">
+                        <img src="images/gallery/doors/doors-1.jpg" alt="Dom - drzwi wejściowe">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Dom jednorodzinny</h3>
+                            <p>Drzwi wejściowe z panelem ozdobnym</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DRZWI - Realizacja 2 -->
+                <div class="gallery-item" data-category="doors">
+                    <div class="gallery-image">
+                        <img src="images/gallery/doors/doors-2.jpg" alt="Osiedle - drzwi antywłamaniowe">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Osiedle mieszkaniowe</h3>
+                            <p>Drzwi antywłamaniowe klasy RC3</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- DRZWI - Realizacja 3 -->
+                <div class="gallery-item" data-category="doors">
+                    <div class="gallery-image">
+                        <img src="images/gallery/doors/doors-3.jpg" alt="Rezydencja - drzwi tarasowe">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Rezydencja</h3>
+                            <p>Drzwi tarasowe przesuwne typu HST</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SYSTEMY OSŁONOWE - Realizacja 1 -->
+                <div class="gallery-item" data-category="systems">
+                    <div class="gallery-image">
+                        <img src="images/gallery/systems/system-1.jpg" alt="Dom - rolety zewnętrzne">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Dom jednorodzinny</h3>
+                            <p>Rolety zewnętrzne z silnikami elektrycznymi</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SYSTEMY OSŁONOWE - Realizacja 2 -->
+                <div class="gallery-item" data-category="systems">
+                    <div class="gallery-image">
+                        <img src="images/gallery/systems/system-2.jpg" alt="Biurowiec - żaluzje fasadowe">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Biurowiec</h3>
+                            <p>Żaluzje fasadowe z systemem inteligentnego sterowania</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- SYSTEMY OSŁONOWE - Realizacja 3 -->
+                <div class="gallery-item" data-category="systems">
+                    <div class="gallery-image">
+                        <img src="images/gallery/systems/system-3.jpg" alt="Restauracja - markizy tarasowe">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Restauracja</h3>
+                            <p>Markizy tarasowe z czujnikami wiatru i deszczu</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FASADY - Realizacja 1 -->
+                <div class="gallery-item" data-category="facades">
+                    <div class="gallery-image">
+                        <img src="images/gallery/facades/facade-1.jpg" alt="Biurowiec - fasada aluminiowa">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Biurowiec klasy A</h3>
+                            <p>Fasada aluminiowa ze szkłem refleksyjnym</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FASADY - Realizacja 2 -->
+                <div class="gallery-item" data-category="facades">
+                    <div class="gallery-image">
+                        <img src="images/gallery/facades/facade-2.jpg" alt="Centrum handlowe - fasada strukturalna">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Centrum handlowe</h3>
+                            <p>Fasada strukturalna z elementami dekoracyjnymi</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+                
+                <!-- FASADY - Realizacja 3 -->
+                <div class="gallery-item" data-category="facades">
+                    <div class="gallery-image">
+                        <img src="images/gallery/facades/facade-3.jpg" alt="Hotel - fasada zintegrowana">
+                    </div>
+                    <div class="gallery-overlay">
+                        <div class="gallery-info">
+                            <h3>Hotel ★★★★★</h3>
+                            <p>Fasada zintegrowana z systemem wentylacji</p>
+                            <a href="#" class="gallery-zoom"><i class="fas fa-search-plus"></i></a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- KONTAKT CTA -->
+    <section class="cta-section">
+        <div class="container">
+            <h2>Zainteresowany naszymi produktami?</h2>
+            <p>Skontaktuj się z nami, aby omówić swój projekt lub uzyskać bezpłatną wycenę</p>
+            <div class="cta-buttons">
+                <a href="contact.html" class="btn btn-primary">Skontaktuj się z nami</a>
+                <a href="tel:+48123456789" class="btn btn-light">Zadzwoń teraz: +48 123 456 789</a>
+            </div>
+        </div>
+    </section>
+    
+    <!-- STOPKA STRONY -->
+    <footer class="main-footer">
+        <div class="container">
+            <div class="footer-grid">
+                <!-- Kolumna 1: O firmie -->
+                <div class="footer-column">
+                    <h4>O AKO</h4>
+                    <p>Jesteśmy polskim producentem wysokiej jakości stolarki okiennej i drzwiowej. Działamy na rynku od 30 lat, dostarczając produkty dla klientów indywidualnych i firm.</p>
+                </div>
+                
+                <!-- Kolumna 2: Szybkie linki -->
+                <div class="footer-column">
+                    <h4>Szybkie linki</h4>
+                    <ul class="footer-links">
+                        <li><a href="index.html">Strona główna</a></li>
+                        <li><a href="products/windows.html">Okna</a></li>
+                        <li><a href="products/doors.html">Drzwi</a></li>
+                        <li><a href="products/systems.html">Systemy osłonowe</a></li>
+                        <li><a href="gallery.html">Realizacje</a></li>
+                        <li><a href="about.html">O nas</a></li>
+                        <li><a href="contact.html">Kontakt</a></li>
+                    </ul>
+                </div>
+                
+                <!-- Kolumna 3: Kontakt -->
+                <div class="footer-column">
+                    <h4>Kontakt</h4>
+                    <div class="footer-contact">
+                        <p><i class="fas fa-map-marker-alt"></i> ul. Przykładowa 123, 00-000 Warszawa</p>
+                        <p><i class="fas fa-phone"></i> +48 123 456 789</p>
+                        <p><i class="fas fa-envelope"></i> kontakt@ako.pl</p>
+                    </div>
+                </div>
+                
+                <!-- Kolumna 4: Social media -->
+                <div class="footer-column">
+                    <h4>Obserwuj nas</h4>
+                    <div class="social-icons">
+                        <a href="#" target="_blank" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+                        <a href="#" target="_blank" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                        <a href="#" target="_blank" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                        <a href="#" target="_blank" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
+                    </div>
+                    
+                    <!-- Newsletter -->
+                    <div class="newsletter">
+                        <h4>Newsletter</h4>
+                        <p>Zapisz się, aby otrzymywać informacje o promocjach</p>
+                        <form id="newsletter-form" class="newsletter-form">
+                            <input type="email" placeholder="Twój email" required>
+                            <button type="submit"><i class="fas fa-paper-plane"></i></button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Dolna część stopki z prawami autorskimi -->
+            <div class="footer-bottom">
+                <p>&copy; 2025 AKO - Wszystkie prawa zastrzeżone</p>
+                <div class="footer-legal">
+                    <a href="#">Polityka prywatności</a>
+                    <a href="#">Polityka cookies</a>
+                    <a href="#">Warunki korzystania</a>
+                </div>
+            </div>
+        </div>
+    </footer>
+    
+    <!-- Element "Wróć do góry" -->
+    <a href="#" class="scroll-top" aria-label="Przewiń do góry">
+        <i class="fas fa-arrow-up"></i>
+    </a>
+    
+    <!-- Modal galerii - generowany przez JavaScript -->
+    <div class="gallery-modal">
+        <span class="modal-close">&times;</span>
+        <div class="modal-content">
+            <img id="modal-image" src="" alt="">
+            <h3 id="modal-title"></h3>
+            <p id="modal-description"></p>
+        </div>
+    </div>
+
+    <!-- Skrypty JavaScript -->
+    <script src="js/main.js"></script>
+    <script src="js/gallery.js"></script>
+</body>
+</html>

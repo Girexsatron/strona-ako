@@ -20,10 +20,9 @@ document.addEventListener('DOMContentLoaded', function() {
     // 🔽 Zamykanie menu rozwijanego przy przewijaniu
     setupDropdownCloseOnScroll();
     
-    // ✨ Efekt parallax dla tła bannera
-    setupParallaxEffect();
-
-    // 🔔 Inicjalizuj inne funkcje tutaj, jeśli potrzebujesz
+    // 📬 Obsługa formularza newslettera
+    setupNewsletter();
+    
     console.log('✅ Strona załadowana poprawnie');
 });
 
@@ -110,7 +109,7 @@ function setupFaqAccordion() {
         const answer = item.querySelector('.faq-answer');
         const icon = item.querySelector('.faq-toggle i');
         
-        // Ustawiamy początkową wysokość - POPRAWKA: nie ustawiamy sztywnej wysokości
+        // Ustawiamy początkową wysokość 
         if (answer) {
             // Ustawiamy tylko max-height przez klasę CSS
             answer.style.maxHeight = '0px';
@@ -124,7 +123,6 @@ function setupFaqAccordion() {
                         otherItem.classList.remove('active');
                         const otherAnswer = otherItem.querySelector('.faq-answer');
                         if (otherAnswer) {
-                            // POPRAWKA: Najpierw odczytujemy aktualną wysokość, potem ustawiamy 0
                             otherAnswer.style.maxHeight = '0px';
                         }
                         
@@ -140,7 +138,7 @@ function setupFaqAccordion() {
                 item.classList.toggle('active');
                 
                 if (item.classList.contains('active')) {
-                    // POPRAWKA: Dynamicznie ustawiamy wysokość na podstawie rzeczywistej zawartości
+                    // Dynamicznie ustawiamy wysokość na podstawie rzeczywistej zawartości
                     // Plus dodajemy margines bezpieczeństwa (+50px) dla pewności
                     answer.style.maxHeight = (answer.scrollHeight + 50) + 'px';
                     
@@ -159,7 +157,7 @@ function setupFaqAccordion() {
         }
     });
     
-    // POPRAWKA: Obsługa zmiany rozmiaru okna - aktualizacja wysokości aktywnych elementów FAQ
+    // Obsługa zmiany rozmiaru okna - aktualizacja wysokości aktywnych elementów FAQ
     window.addEventListener('resize', function() {
         const activeItems = document.querySelectorAll('.faq-item.active');
         activeItems.forEach(item => {
@@ -225,7 +223,7 @@ function setupCounters() {
     checkCounters();
 }
 
-// 📝 OBSŁUGA FORMULARZA KONTAKTOWEGO - POPRAWIONA WERSJA
+// 📝 OBSŁUGA FORMULARZA KONTAKTOWEGO
 function setupContactForm() {
     const contactForm = document.getElementById('home-contact-form');
     
@@ -243,7 +241,7 @@ function setupContactForm() {
                     isValid = false;
                     field.classList.add('error');
                     
-                    // POPRAWKA: Dodajemy potrząśnięcie polem, które jest niepoprawne
+                    // Dodajemy potrząśnięcie polem, które jest niepoprawne
                     field.classList.add('shake');
                     setTimeout(() => {
                         field.classList.remove('shake');
@@ -261,7 +259,7 @@ function setupContactForm() {
                     isValid = false;
                     emailField.classList.add('error');
                     
-                    // POPRAWKA: Dodajemy potrząśnięcie polem email
+                    // Dodajemy potrząśnięcie polem email
                     emailField.classList.add('shake');
                     setTimeout(() => {
                         emailField.classList.remove('shake');
@@ -271,7 +269,6 @@ function setupContactForm() {
             
             if (!isValid) {
                 // Pokazujemy komunikat o błędzie
-                // POPRAWKA: Tworzymy element komunikatu zamiast alert
                 showFormMessage(contactForm, '❌ Proszę wypełnić poprawnie wszystkie wymagane pola.', 'error');
                 return;
             }
@@ -279,17 +276,12 @@ function setupContactForm() {
             // Zbieramy dane z formularza
             const formData = new FormData(contactForm);
             
-            // POPRAWKA: Tutaj implementujemy prawdziwe wysyłanie formularza przez fetch API
-            
             // Zmieniamy stan przycisku
             const submitButton = contactForm.querySelector('button[type="submit"]');
             if (submitButton) {
                 submitButton.disabled = true;
                 submitButton.innerHTML = 'Wysyłanie... <i class="fas fa-spinner fa-spin"></i>';
             }
-            
-            // POPRAWKA: Tu byłoby prawdziwe wysyłanie - teraz symulujemy dla demonstracji
-            // W rzeczywistości użyj poniższego kodu, zamieniając 'send-email.php' na rzeczywisty endpoint API
             
             // Symulacja dla celów demonstracyjnych - usuń w rzeczywistej implementacji
             setTimeout(function() {
@@ -340,7 +332,7 @@ function setupContactForm() {
             */
         });
         
-        // POPRAWKA: Funkcja do wyświetlania komunikatów
+        // Funkcja do wyświetlania komunikatów
         function showFormMessage(form, message, type = 'success') {
             // Sprawdź, czy komunikat już istnieje i usuń go
             const existingMessage = form.querySelector('.form-message');
@@ -427,7 +419,7 @@ function setupScrollToTop() {
 
 // 🔽 ZAMYKANIE DROPDOWN MENU PRZY PRZEWIJANIU
 function setupDropdownCloseOnScroll() {
-    // POPRAWKA: Funkcja zamykająca menu dropdown - używa klas zamiast bezpośredniej manipulacji stylami
+    // Funkcja zamykająca menu dropdown - używa klas zamiast bezpośredniej manipulacji stylami
     function closeDropdowns() {
         // Znajdź wszystkie elementy dropdown
         const dropdowns = document.querySelectorAll('.dropdown');
@@ -448,7 +440,7 @@ function setupDropdownCloseOnScroll() {
         }
     });
     
-    // POPRAWKA: Obsługa klawisza Escape do zamykania menu
+    // Obsługa klawisza Escape do zamykania menu
     document.addEventListener('keydown', function(e) {
         if (e.key === 'Escape') {
             closeDropdowns();
@@ -472,18 +464,72 @@ function setupDropdownCloseOnScroll() {
     });
 }
 
-// ✨ EFEKT PARALLAX DLA BANNERA GŁÓWNEGO
-function setupParallaxEffect() {
-    const bannerBackground = document.querySelector('.banner-background');
+// 📬 OBSŁUGA NEWSLETTERA
+function setupNewsletter() {
+    const newsletterForm = document.querySelector('.newsletter-form');
     
-    if (bannerBackground) {
-        window.addEventListener('scroll', function() {
-            // Obliczamy o ile przesunąć tło (im większa liczba, tym wolniejszy efekt)
-            const offset = window.pageYOffset;
-            const parallaxSpeed = 0.5;
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
             
-            // Przesuwamy tło wolniej niż przewija się strona, tworząc efekt parallax
-            bannerBackground.style.transform = `translateY(${offset * parallaxSpeed}px) scale(1.1)`;
+            const emailInput = this.querySelector('input[type="email"]');
+            const submitButton = this.querySelector('button');
+            
+            if (!emailInput.value.trim()) {
+                // Email jest pusty
+                emailInput.classList.add('error');
+                return;
+            }
+            
+            // Sprawdzamy poprawność emaila
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(emailInput.value.trim())) {
+                // Email jest niepoprawny
+                emailInput.classList.add('error');
+                return;
+            }
+            
+            // Zmiana stanu przycisku
+            if (submitButton) {
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                submitButton.disabled = true;
+            }
+            
+            // Symulujemy wysyłanie - w rzeczywistym projekcie użyj fetch API
+            setTimeout(() => {
+                // Pokazujemy komunikat
+                const messageElement = document.createElement('div');
+                messageElement.className = 'newsletter-message';
+                messageElement.style.color = 'white';
+                messageElement.style.marginTop = '10px';
+                messageElement.style.fontSize = '0.9rem';
+                messageElement.innerHTML = '✅ Dziękujemy za zapisanie się do newslettera!';
+                
+                // Dodajemy komunikat po formularzu
+                newsletterForm.parentNode.appendChild(messageElement);
+                
+                // Resetujemy formularz
+                newsletterForm.reset();
+                
+                // Przywracamy przycisk
+                if (submitButton) {
+                    submitButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                    submitButton.disabled = false;
+                }
+                
+                // Usuwamy komunikat po 5 sekundach
+                setTimeout(() => {
+                    messageElement.remove();
+                }, 5000);
+            }, 1500);
         });
+        
+        // Usuwamy klasę error gdy użytkownik zaczyna wpisywać
+        const emailInput = newsletterForm.querySelector('input[type="email"]');
+        if (emailInput) {
+            emailInput.addEventListener('input', function() {
+                this.classList.remove('error');
+            });
+        }
     }
 }

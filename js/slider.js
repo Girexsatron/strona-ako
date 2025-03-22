@@ -1,7 +1,10 @@
-// =========== FUNKCJE SLIDERÓW ===========
+// =========== FUNKCJE SLIDERÓW - POPRAWIONA WERSJA ===========
 // 🎠 Ten plik zawiera funkcje do obsługi wszystkich sliderów/karuzel na stronie
 
 document.addEventListener('DOMContentLoaded', function() {
+    // Preładowanie obrazów tła
+    preloadSliderImages();
+    
     // Inicjalizujemy główny slider na stronie głównej
     initHeroSlider();
     
@@ -9,7 +12,32 @@ document.addEventListener('DOMContentLoaded', function() {
     initTestimonialsSlider();
 });
 
-// 🖼️ GŁÓWNY SLIDER
+// 🌄 PREŁADOWANIE OBRAZÓW SLIDERA
+function preloadSliderImages() {
+    const slides = document.querySelectorAll('.slide');
+    
+    if (slides.length > 0) {
+        slides.forEach(slide => {
+            const bgElement = slide.querySelector('.slide-bg');
+            if (bgElement) {
+                const bgStyle = window.getComputedStyle(bgElement);
+                const bgImage = bgStyle.backgroundImage;
+                
+                // Wyodrębniamy URL obrazu
+                const imageUrl = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
+                
+                if (imageUrl && imageUrl[1]) {
+                    // Preładujemy obraz
+                    const img = new Image();
+                    img.src = imageUrl[1];
+                    console.log('Preładowanie obrazu:', imageUrl[1]);
+                }
+            }
+        });
+    }
+}
+
+// 🖼️ GŁÓWNY SLIDER - POPRAWIONA WERSJA
 function initHeroSlider() {
     const heroSlider = document.querySelector('.hero-slider');
     
@@ -23,61 +51,73 @@ function initHeroSlider() {
     if (slides.length <= 1) {
         if (slides.length === 1) {
             slides[0].classList.add('active');
-            slides[0].style.opacity = '1'; // Zapewnia widoczność slajdu
-            slides[0].style.position = 'relative'; // Poprawia pozycjonowanie
         }
         return;
     }
     
-    // Dodajemy przyciski nawigacyjne
-    const prevButton = document.createElement('button');
-    prevButton.className = 'slider-nav prev';
-    prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-    prevButton.setAttribute('aria-label', 'Poprzedni slajd');
-    heroSlider.appendChild(prevButton);
+    // Dodajemy przyciski nawigacyjne (jeśli jeszcze nie istnieją)
+    let prevButton = heroSlider.querySelector('.slider-nav.prev');
+    let nextButton = heroSlider.querySelector('.slider-nav.next');
     
-    const nextButton = document.createElement('button');
-    nextButton.className = 'slider-nav next';
-    nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
-    nextButton.setAttribute('aria-label', 'Następny slajd');
-    heroSlider.appendChild(nextButton);
-    
-    // Dodajemy wskaźniki slajdów (kropki)
-    const indicators = document.createElement('div');
-    indicators.className = 'slider-indicators';
-    
-    for (let i = 0; i < slides.length; i++) {
-        const dot = document.createElement('span');
-        dot.className = i === 0 ? 'indicator active' : 'indicator';
-        dot.dataset.slide = i;
-        dot.setAttribute('aria-label', `Slajd ${i + 1}`);
-        indicators.appendChild(dot);
+    if (!prevButton) {
+        prevButton = document.createElement('button');
+        prevButton.className = 'slider-nav prev';
+        prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
+        prevButton.setAttribute('aria-label', 'Poprzedni slajd');
+        heroSlider.appendChild(prevButton);
     }
     
-    heroSlider.appendChild(indicators);
+    if (!nextButton) {
+        nextButton = document.createElement('button');
+        nextButton.className = 'slider-nav next';
+        nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
+        nextButton.setAttribute('aria-label', 'Następny slajd');
+        heroSlider.appendChild(nextButton);
+    }
+    
+    // Dodajemy wskaźniki slajdów (jeśli jeszcze nie istnieją)
+    let indicators = heroSlider.querySelector('.slider-indicators');
+    
+    if (!indicators) {
+        indicators = document.createElement('div');
+        indicators.className = 'slider-indicators';
+        
+        for (let i = 0; i < slides.length; i++) {
+            const dot = document.createElement('span');
+            dot.className = i === 0 ? 'indicator active' : 'indicator';
+            dot.dataset.slide = i;
+            dot.setAttribute('aria-label', `Slajd ${i + 1}`);
+            indicators.appendChild(dot);
+        }
+        
+        heroSlider.appendChild(indicators);
+    }
+    
+    // Pobieramy wszystkie kropki
+    const dots = indicators.querySelectorAll('.indicator');
     
     // Zmienne do kontroli slidera
     let currentSlide = 0;
     let isAnimating = false;
     let autoPlayTimer;
+    let autoPlayDelay = 7000; // Dłuższy czas wyświetlania slajdu (7 sekund)
     
-    // POPRAWKA: Pobieramy czas animacji z CSS
-    const getTransitionDuration = () => {
-        // Pobieramy styl z CSS lub używamy domyślnej wartości
-        const slideElement = slides[0];
-        if (slideElement) {
-            const style = window.getComputedStyle(slideElement);
-            const transitionDuration = style.getPropertyValue('transition-duration');
-            if (transitionDuration && transitionDuration !== 'none') {
-                // Konwertujemy czas z sekundy na milisekundy
-                return parseFloat(transitionDuration) * 1000;
+    // Sprawdzamy, czy jakiś slajd jest już aktywny
+    const activeSlide = heroSlider.querySelector('.slide.active');
+    if (activeSlide) {
+        // Znajdujemy indeks aktywnego slajdu
+        slides.forEach((slide, index) => {
+            if (slide === activeSlide) {
+                currentSlide = index;
             }
-        }
-        return 700; // Domyślna wartość w milisekundach
-    };
+        });
+    } else {
+        // Aktywujemy pierwszy slajd, jeśli żaden nie jest aktywny
+        slides[0].classList.add('active');
+    }
     
-    // Pobieramy czas animacji z CSS
-    const transitionDuration = getTransitionDuration();
+    // Aktualizujemy wskaźniki, aby odpowiadały aktualnemu slajdowi
+    updateIndicators();
     
     // Funkcja pokazująca dany slajd
     function showSlide(index) {
@@ -98,7 +138,16 @@ function initHeroSlider() {
         slides[currentSlide].classList.add('active');
         
         // Aktualizujemy wskaźniki
-        const dots = indicators.querySelectorAll('.indicator');
+        updateIndicators();
+        
+        // Po zakończeniu animacji przejścia zezwalamy na kolejne przejście
+        setTimeout(() => {
+            isAnimating = false;
+        }, 1500); // Czas zgodny z transition w CSS (1.5s)
+    }
+    
+    // Funkcja aktualizująca wskaźniki
+    function updateIndicators() {
         dots.forEach((dot, i) => {
             if (i === currentSlide) {
                 dot.classList.add('active');
@@ -106,11 +155,6 @@ function initHeroSlider() {
                 dot.classList.remove('active');
             }
         });
-        
-        // POPRAWKA: Dynamicznie używamy czasu z CSS
-        setTimeout(() => {
-            isAnimating = false;
-        }, transitionDuration); // Czas zgodny z animacją w CSS
     }
     
     // Funkcja przełączająca do następnego slajdu
@@ -125,7 +169,9 @@ function initHeroSlider() {
     
     // Ustawiamy automatyczne przełączanie slajdów
     function startAutoPlay() {
-        autoPlayTimer = setInterval(nextSlide, 5000); // Co 5 sekund
+        // Czyszczenie istniejącego timera dla pewności
+        clearInterval(autoPlayTimer);
+        autoPlayTimer = setInterval(nextSlide, autoPlayDelay);
     }
     
     function stopAutoPlay() {
@@ -133,29 +179,31 @@ function initHeroSlider() {
     }
     
     // Obsługa przycisków nawigacyjnych
-    nextButton.addEventListener('click', () => {
-        stopAutoPlay();
-        nextSlide();
-        startAutoPlay();
-    });
-    
     prevButton.addEventListener('click', () => {
         stopAutoPlay();
         prevSlide();
         startAutoPlay();
     });
     
+    nextButton.addEventListener('click', () => {
+        stopAutoPlay();
+        nextSlide();
+        startAutoPlay();
+    });
+    
     // Obsługa kliknięcia wskaźników
-    indicators.querySelectorAll('.indicator').forEach(dot => {
+    dots.forEach(dot => {
         dot.addEventListener('click', () => {
             const slideIndex = parseInt(dot.dataset.slide);
-            stopAutoPlay();
-            showSlide(slideIndex);
-            startAutoPlay();
+            if (currentSlide !== slideIndex) { // Zapobiegamy zbędnym przejściom
+                stopAutoPlay();
+                showSlide(slideIndex);
+                startAutoPlay();
+            }
         });
     });
     
-    // POPRAWKA: Dodajemy obsługę klawiszy do nawigacji
+    // Dodajemy obsługę klawiszy do nawigacji
     heroSlider.setAttribute('tabindex', '0'); // Dodajemy możliwość fokusowania
     
     heroSlider.addEventListener('keydown', (e) => {
@@ -199,15 +247,11 @@ function initHeroSlider() {
         }
     }
     
-    // Aktywujemy pierwszy slajd i zaczynamy automatyczne przełączanie
-    slides[0].classList.add('active');
-    startAutoPlay();
-    
     // Zatrzymujemy automatyczne przełączanie przy najechaniu myszką
     heroSlider.addEventListener('mouseenter', stopAutoPlay);
     heroSlider.addEventListener('mouseleave', startAutoPlay);
     
-    // POPRAWKA: Zatrzymuj automatyczne przełączanie, gdy strona nie jest widoczna
+    // Zatrzymuj automatyczne przełączanie, gdy strona nie jest widoczna
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             stopAutoPlay();
@@ -216,28 +260,26 @@ function initHeroSlider() {
         }
     });
     
-    // POPRAWKA: Zatrzymujemy slider, gdy użytkownik przewija stronę
-    // (aby nie rozpraszać użytkownika, gdy slajder nie jest widoczny)
-    let isScrolling;
+    // Sprawdzamy, czy slajder jest w widoku przy przewijaniu
     window.addEventListener('scroll', () => {
-        clearTimeout(isScrolling);
-        stopAutoPlay();
+        const rect = heroSlider.getBoundingClientRect();
+        const isInView = (
+            rect.top >= -rect.height &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + rect.height
+        );
         
-        isScrolling = setTimeout(() => {
-            // Sprawdzamy, czy slider jest w widoku
-            const rect = heroSlider.getBoundingClientRect();
-            const isInView = (
-                rect.top >= 0 &&
-                rect.left >= 0 &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
-                rect.right <= (window.innerWidth || document.documentElement.clientWidth)
-            );
-            
-            if (isInView) {
-                startAutoPlay();
-            }
-        }, 100);
+        if (isInView) {
+            startAutoPlay();
+        } else {
+            stopAutoPlay();
+        }
     });
+    
+    // Startujemy automatyczne przełączanie
+    startAutoPlay();
+    
+    // Domyślnie już aktywowaliśmy pierwszy slajd, więc nie musimy tego robić ponownie
+    console.log('✅ Slider główny zainicjalizowany poprawnie');
 }
 
 // 💬 SLIDER OPINII
@@ -290,13 +332,8 @@ function initTestimonialsSlider() {
     let isAnimating = false;
     let autoPlayTimer;
     
-    // POPRAWKA: Pobieramy czas animacji z CSS
-    const getTransitionDuration = () => {
-        // Podobnie jak w głównym sliderze
-        return 500; // Domyślna wartość w milisekundach dla opinii
-    };
-    
-    const transitionDuration = getTransitionDuration();
+    // Domyślna wartość w milisekundach dla opinii
+    const transitionDuration = 500;
     
     // Funkcja pokazująca daną opinię
     function showTestimonial(index) {
@@ -326,7 +363,7 @@ function initTestimonialsSlider() {
             }
         });
         
-        // POPRAWKA: Używamy dynamicznego czasu z CSS
+        // Używamy dynamicznego czasu
         setTimeout(() => {
             isAnimating = false;
         }, transitionDuration);
@@ -374,7 +411,7 @@ function initTestimonialsSlider() {
         });
     });
     
-    // POPRAWKA: Dodajemy obsługę klawiszy
+    // Dodajemy obsługę klawiszy
     testimonialsSlider.setAttribute('tabindex', '0');
     
     testimonialsSlider.addEventListener('keydown', (e) => {
@@ -426,7 +463,7 @@ function initTestimonialsSlider() {
     testimonialsSlider.addEventListener('mouseenter', stopAutoPlay);
     testimonialsSlider.addEventListener('mouseleave', startAutoPlay);
     
-    // POPRAWKA: Zatrzymuj automatyczne przełączanie, gdy strona nie jest widoczna
+    // Zatrzymuj automatyczne przełączanie, gdy strona nie jest widoczna
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             stopAutoPlay();
@@ -443,33 +480,4 @@ function initTestimonialsSlider() {
             }
         }
     });
-    // ✨ EFEKT PARALLAX DLA BANNERA GŁÓWNEGO
-function setupParallaxEffect() {
-    const bannerBackground = document.querySelector('.banner-background');
-    
-    if (bannerBackground) {
-        window.addEventListener('scroll', function() {
-            // Obliczamy o ile przesunąć tło (im większa liczba, tym wolniejszy efekt)
-            const offset = window.pageYOffset;
-            const parallaxSpeed = 0.5;
-            
-            // Przesuwamy tło wolniej niż przewija się strona, tworząc efekt parallax
-            bannerBackground.style.transform = `translateY(${offset * parallaxSpeed}px) scale(1.1)`;
-        });
-    }
-}
-
-// Dodaj wywołanie funkcji parallax do istniejących wywołań przy ładowaniu strony
-document.addEventListener('DOMContentLoaded', function() {
-    // Uruchom nową funkcję parallax
-    setupParallaxEffect();
-    
-    // Istniejące funkcje, które już masz
-    setupMobileMenu();
-    setupFaqAccordion();
-    setupCounters();
-    setupContactForm();
-    setupScrollToTop();
-    setupDropdownCloseOnScroll();
-});
 }

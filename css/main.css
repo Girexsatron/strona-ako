@@ -159,6 +159,8 @@ ul, ol {
 .btn-primary:hover {
     background-color: #004494; /* Ciemniejszy odcień głównego koloru */
     border-color: #004494;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Drugi przycisk */
@@ -171,6 +173,8 @@ ul, ol {
 .btn-secondary:hover {
     background-color: #138496; /* Ciemniejszy odcień drugiego koloru */
     border-color: #138496;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
 /* Jasny przycisk */
@@ -183,31 +187,70 @@ ul, ol {
 .btn-light:hover {
     background-color: #e2e6ea;
     border-color: #e2e6ea;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
 }
 
-/* ======= HEADER / MENU ======= */
+/* Akcentowy przycisk */
+.btn-accent {
+    color: var(--dark-color);
+    background-color: var(--accent-color);
+    border-color: var(--accent-color);
+}
+
+.btn-accent:hover {
+    background-color: #e0a800;
+    border-color: #e0a800;
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Przycisk na całą szerokość */
+.btn-block {
+    display: block;
+    width: 100%;
+}
+
+/* Marginesy dla przycisków */
+.mt-20 {
+    margin-top: 20px;
+}
+
+/* ======= HEADER / MENU W STYLU MATPLAST ======= */
 
 .main-header {
     background-color: white;
-    box-shadow: var(--box-shadow-sm);
-    position: sticky; /* Przykleja menu do górnej krawędzi przeglądarki */
-    top: 0;
-    z-index: 1000; /* Zapewnia wyświetlanie menu nad innymi elementami */
+    box-shadow: none;  /* Usunięcie cienia */
+    position: relative; /* Zmiana z sticky na relative */
+    padding: 15px 0;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    z-index: 1000;
 }
 
 .main-header .container {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 15px;
+    padding: 0 15px;
+    max-width: 1400px; /* Szerszy kontener */
 }
 
 /* Logo */
+.logo {
+    flex-shrink: 0;
+}
+
 .logo img {
-    max-height: 60px;
+    max-height: 50px;
 }
 
 /* Menu główne */
+.main-menu {
+    flex-grow: 1;
+    display: flex;
+    justify-content: center; /* Wycentrowane menu */
+}
+
 .main-menu ul {
     display: flex;
     list-style: none;
@@ -215,60 +258,73 @@ ul, ol {
 }
 
 .main-menu li {
-    position: relative; /* Dla poprawnego pozycjonowania menu rozwijanego */
-    margin: 0 15px;
+    position: relative;
+    margin: 0;
 }
 
 .main-menu a {
-    color: var(--text-color);
+    color: var(--dark-color);
     font-weight: 500;
-    position: relative;
-    padding: 0.5rem 0;
+    font-size: 0.95rem;
+    padding: 0.5rem 0.8rem;
     display: block;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    position: relative;
 }
 
-/* Podkreślenie aktywnej pozycji menu */
+/* Usunięcie podkreślenia pod menu */
 .main-menu a::after {
-    content: '';
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    width: 0; /* Domyślnie linia ma zerową szerokość */
-    height: 2px;
-    background-color: var(--primary-color);
-    transition: var(--transition);
+    display: none;
 }
 
-.main-menu a:hover::after,
-.main-menu a.active::after {
-    width: 100%; /* Po najechaniu lub dla aktywnej podstrony linia zajmuje całą szerokość */
+/* Delikatny efekt hover */
+.main-menu a:hover {
+    color: var(--primary-color);
+}
+
+.main-menu a.active {
+    color: var(--primary-color);
+    font-weight: 600;
 }
 
 /* Menu rozwijane */
+.dropdown > a::after {
+    content: '▾';
+    display: inline-block;
+    margin-left: 5px;
+    font-size: 0.7rem;
+    opacity: 0.7;
+}
+
 .dropdown-menu {
     position: absolute;
     top: 100%;
-    left: 0;
-    min-width: 180px;
+    left: 50%;
+    transform: translateX(-50%); /* Centrowanie względem elementu nadrzędnego */
+    min-width: 200px;
     background-color: white;
-    box-shadow: var(--box-shadow);
-    border-radius: var(--border-radius);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    border-radius: 0; /* Prostokątne menu */
     padding: 0.5rem 0;
-    display: none; /* Domyślnie ukryte */
+    display: none;
     z-index: 1000;
 }
 
 .dropdown-menu li {
     margin: 0;
+    width: 100%;
 }
 
 .dropdown-menu a {
-    padding: 0.5rem 1rem;
+    padding: 0.7rem 1.2rem;
     color: var(--text-color);
+    text-align: center;
+    font-size: 0.9rem;
 }
 
 .dropdown-menu a:hover {
-    background-color: var(--light-gray);
+    background-color: rgba(0, 0, 0, 0.02);
 }
 
 /* Pokazywanie menu rozwijanego po najechaniu */
@@ -276,46 +332,150 @@ ul, ol {
     display: block;
 }
 
-/* Przycisk CTA w menu */
+/* Przycisk CTA - bezpłatna wycena */
 .cta-button {
     margin-left: 20px;
 }
 
+.cta-button a {
+    background-color: var(--primary-color);
+    color: white;
+    font-weight: 600;
+    padding: 0.7rem 1.2rem;
+    border-radius: 0;
+    text-transform: uppercase;
+    font-size: 0.9rem;
+    letter-spacing: 0.5px;
+    transition: background-color 0.3s ease;
+}
+
+.cta-button a:hover {
+    background-color: var(--dark-color);
+    color: white;
+    transform: none;
+    box-shadow: none;
+}
+
+/* Social media icons */
+.social-header {
+    display: flex;
+    align-items: center;
+    margin-left: 20px;
+}
+
+.social-header a {
+    color: var(--dark-color);
+    font-size: 1rem;
+    margin-left: 15px;
+    transition: color 0.3s ease;
+}
+
+.social-header a:hover {
+    color: var(--primary-color);
+}
+
 /* Przycisk menu mobilnego */
 .mobile-menu-toggle {
-    display: none; /* Ukryte na dużych ekranach */
+    display: none; 
     font-size: 1.5rem;
     cursor: pointer;
     color: var(--dark-color);
 }
 
-/* ======= HERO SLIDER / SLIDER GŁÓWNY ======= */
+/* Responsywność menu */
+@media (max-width: 1024px) {
+    .main-menu a {
+        padding: 0.5rem 0.6rem;
+        font-size: 0.85rem;
+    }
+    
+    .social-header {
+        display: none;
+    }
+}
+
+@media (max-width: 991px) {
+    .main-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background-color: white;
+        box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+        padding: 20px;
+    }
+    
+    .main-menu.active {
+        display: block;
+    }
+    
+    .main-menu ul {
+        flex-direction: column;
+    }
+    
+    .main-menu li {
+        margin: 10px 0;
+    }
+    
+    .dropdown-menu {
+        position: static;
+        width: 100%;
+        box-shadow: none;
+        transform: none;
+        margin-top: 10px;
+        padding: 0;
+    }
+    
+    .dropdown-menu a {
+        padding-left: 30px;
+    }
+    
+    .mobile-menu-toggle {
+        display: block;
+    }
+    
+    .cta-button {
+        margin-left: auto;
+    }
+}
+
+/* ======= HERO SLIDER - NOWOCZESNA WERSJA INSPIROWANA MATPLAST ======= */
 
 .hero {
     position: relative;
-    height: 600px; /* 📏 Wysokość slidera */
+    height: 650px; /* Większa wysokość dla lepszego efektu panoramicznego */
     overflow: hidden;
+    background-color: var(--dark-color);
 }
 
 .hero-slider {
     position: relative;
     height: 100%;
+    width: 100%;
 }
 
+/* Style dla pojedynczego slajdu */
 .slide {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    opacity: 0; /* Domyślnie ukryte */
-    transition: opacity 0.7s ease;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 1.5s ease, visibility 1.5s ease;
+    z-index: 1;
 }
 
+/* Aktywny slajd */
 .slide.active {
-    opacity: 1; /* Aktywny slajd jest widoczny */
+    opacity: 1; 
+    visibility: visible;
+    z-index: 2;
 }
 
+/* Tło slajdu */
 .slide-bg {
     position: absolute;
     top: 0;
@@ -324,63 +484,127 @@ ul, ol {
     height: 100%;
     background-size: cover;
     background-position: center;
-    z-index: -1;
-}
-
-.slide-content {
-    position: relative;
     z-index: 1;
-    max-width: 600px;
-    margin: 0 auto;
-    padding: 150px 20px;
-    text-align: center;
-    color: white;
 }
 
+/* Treść slajdu - zmienione pozycjonowanie */
+.slide-content {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: flex;
+    align-items: center;
+    z-index: 5;
+    padding: 0 50px; /* Zwiększone boczne marginesy */
+}
+
+.slide-content-inner {
+    max-width: 500px;
+    text-align: left; /* Wyrównanie do lewej */
+    color: white;
+    position: relative;
+    opacity: 0;
+    transform: translateY(30px);
+    transition: opacity 0.8s ease 0.5s, transform 0.8s ease 0.5s;
+}
+
+/* Kolorowy element dekoracyjny - inspirowany Matplast */
+.slide-content-inner::before {
+    content: '';
+    position: absolute;
+    top: -40px;
+    left: -60px;
+    width: 250px;
+    height: 250px;
+    background-color: var(--primary-color);
+    opacity: 0.85;
+    z-index: -1;
+    transform: skewX(-15deg);
+    border-radius: 10px 0 10px 0;
+}
+
+.slide.active .slide-content-inner {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* Treść */
 .slide-content h1 {
-    font-size: 2.8rem;
+    font-size: 3rem;
     margin-bottom: 1.5rem;
     color: white;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5); /* Cień dla lepszej czytelności */
+    position: relative;
+    z-index: 2;
+    padding-right: 20px; /* Dodatkowy padding dla lepszej czytelności */
 }
 
 .slide-content p {
-    font-size: 1.2rem;
+    font-size: 1.3rem;
     margin-bottom: 2rem;
-    text-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
+    position: relative;
+    z-index: 2;
+    padding-right: 20px; /* Dodatkowy padding dla lepszej czytelności */
 }
 
-/* Przyciski nawigacyjne slidera */
+/* Przycisk */
+.slide-content .btn {
+    font-size: 1rem;
+    padding: 0.8rem 2rem;
+    position: relative;
+    z-index: 2;
+    background-color: white;
+    color: var(--primary-color);
+    border: none;
+    text-transform: uppercase;
+    font-weight: 600;
+    letter-spacing: 1px;
+    transition: all 0.3s ease;
+    border-radius: 4px;
+}
+
+.slide-content .btn:hover {
+    background-color: var(--light-color);
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+}
+
+/* Przyciski nawigacyjne slidera - uproszczone */
 .slider-nav {
     position: absolute;
     top: 50%;
     transform: translateY(-50%);
     width: 50px;
     height: 50px;
-    background-color: rgba(255, 255, 255, 0.8);
-    border: none;
+    background-color: transparent;
+    border: 2px solid rgba(255, 255, 255, 0.7);
     border-radius: 50%;
     font-size: 1.2rem;
-    color: var(--dark-color);
+    color: white;
     cursor: pointer;
     z-index: 10;
-    box-shadow: var(--box-shadow-sm);
-    transition: var(--transition);
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 .slider-nav:hover {
-    background-color: white;
+    background-color: rgba(255, 255, 255, 0.2);
+    border-color: white;
+    transform: translateY(-50%) scale(1.1);
 }
 
 .slider-nav.prev {
-    left: 20px;
+    left: 30px;
 }
 
 .slider-nav.next {
-    right: 20px;
+    right: 30px;
 }
 
-/* Wskaźniki slajdów (kropki) */
+/* Wskaźniki slajdów (kropki) - uproszczone */
 .slider-indicators {
     position: absolute;
     bottom: 30px;
@@ -395,14 +619,46 @@ ul, ol {
     width: 12px;
     height: 12px;
     border-radius: 50%;
-    background-color: rgba(255, 255, 255, 0.5);
+    background-color: rgba(255, 255, 255, 0.4);
     cursor: pointer;
-    transition: var(--transition);
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+}
+
+.indicator:hover {
+    background-color: rgba(255, 255, 255, 0.6);
 }
 
 .indicator.active {
     background-color: white;
     transform: scale(1.2);
+}
+
+/* ======= BANNER PODSTRONY ======= */
+
+.page-banner {
+    background-color: var(--primary-color);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.page-banner h1 {
+    color: white;
+    margin-bottom: 0.5rem;
+}
+
+.breadcrumbs {
+    color: rgba(255, 255, 255, 0.8);
+    font-size: 0.9rem;
+}
+
+.breadcrumbs a {
+    color: rgba(255, 255, 255, 0.8);
+}
+
+.breadcrumbs a:hover {
+    color: white;
 }
 
 /* ======= FEATURES / ZALETY ======= */
@@ -434,20 +690,43 @@ ul, ol {
     margin-bottom: 20px;
 }
 
-/* ======= COUNTER SECTION / SEKCJA LICZNIKÓW ======= */
+/* ======= COUNTER SECTION / SEKCJA LICZNIKÓW - ULEPSZONA ======= */
 
 .counter-section {
-    background-color: var(--primary-color);
+    background-color: var(--dark-color); /* Zmiana na ciemniejszy kolor tła */
     color: white;
     padding: 80px 0;
+    position: relative;
+    overflow: hidden;
+}
+
+/* Dodajemy dekoracyjny element w tle */
+.counter-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(135deg, rgba(0, 86, 179, 0.8) 0%, rgba(23, 162, 184, 0.6) 100%);
+    z-index: 1;
+}
+
+.counter-section .container {
+    position: relative;
+    z-index: 2;
 }
 
 .counter-section h2 {
     color: white;
+    margin-bottom: 2.5rem; /* Większy odstęp pod nagłówkiem */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Dodajemy cień dla lepszej czytelności */
 }
 
 .counter-section h2::after {
-    background-color: white;
+    background-color: var(--accent-color); /* Zmiana koloru linii pod nagłówkiem */
+    height: 4px; /* Grubsza linia */
+    width: 100px; /* Szersza linia */
 }
 
 .counters {
@@ -459,25 +738,39 @@ ul, ol {
 
 .counter-item {
     text-align: center;
+    background-color: rgba(255, 255, 255, 0.1); /* Półprzezroczyste białe tło */
+    padding: 30px 20px;
+    border-radius: var(--border-radius);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1); /* Dodajemy wyraźny cień */
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.counter-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
 }
 
 .counter-value {
-    font-size: 3rem;
+    font-size: 3.5rem; /* Większy rozmiar liczb */
     font-weight: 700;
-    margin-bottom: 10px;
+    margin-bottom: 15px;
     font-family: var(--heading-font);
+    color: var(--accent-color); /* Używamy kontrastowego koloru akcentowego */
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.2); /* Dodajemy cień tekstu */
 }
 
 .counter-label {
     font-size: 1.1rem;
-    opacity: 0.9;
+    opacity: 1; /* Pełna nieprzezroczystość dla lepszej czytelności */
+    font-weight: 500; /* Nieco grubsza czcionka */
+    color: rgba(255, 255, 255, 0.9); /* Prawie biały kolor */
 }
 
 /* ======= PRODUCTS SHOWCASE / PREZENTACJA PRODUKTÓW ======= */
 
 .products-grid {
     display: grid;
-    grid-template-columns: repeat(3, 1fr);
+    grid-template-columns: repeat(4, 1fr);
     gap: 30px;
     margin-top: 50px;
 }
@@ -488,10 +781,12 @@ ul, ol {
     overflow: hidden;
     box-shadow: var(--box-shadow-sm);
     transition: var(--transition);
+    position: relative;
 }
 
 .product-category:hover {
     box-shadow: var(--box-shadow);
+    transform: translateY(-5px);
 }
 
 .product-image {
@@ -521,6 +816,20 @@ ul, ol {
 
 .product-info p {
     margin-bottom: 20px;
+}
+
+/* Badge "NOWOŚĆ" */
+.product-badge {
+    position: absolute;
+    top: 15px;
+    right: 15px;
+    background-color: var(--accent-color);
+    color: var(--dark-color);
+    font-weight: 700;
+    font-size: 0.8rem;
+    padding: 5px 10px;
+    border-radius: var(--border-radius-sm);
+    z-index: 5;
 }
 
 /* ======= PROMO SECTION / SEKCJA PROMOCYJNA ======= */
@@ -580,16 +889,85 @@ ul, ol {
     box-shadow: var(--box-shadow);
 }
 
-/* Przycisk akcentowy dla promocji */
-.btn-accent {
-    color: var(--dark-color);
-    background-color: var(--accent-color);
-    border-color: var(--accent-color);
+/* ======= SECTION SUBTITLE ======= */
+
+.section-subtitle {
+    text-align: center;
+    font-size: 1.1rem;
+    margin: -20px auto 40px;
+    max-width: 700px;
+    color: var(--secondary-color);
 }
 
-.btn-accent:hover {
-    background-color: #e0a800;
-    border-color: #e0a800;
+/* ======= ENERGY SAVINGS CALCULATOR / KALKULATOR OSZCZĘDNOŚCI ======= */
+
+.calculator-container {
+    display: flex;
+    margin-top: 40px;
+    gap: 40px;
+    background-color: white;
+    border-radius: var(--border-radius);
+    padding: 30px;
+    box-shadow: var(--box-shadow-sm);
+}
+
+.calculator-form, 
+.calculator-results {
+    flex: 1;
+}
+
+.calculator-form .form-group {
+    margin-bottom: 20px;
+}
+
+.calculator-form label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+.calculator-form input,
+.calculator-form select {
+    width: 100%;
+    padding: 12px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+}
+
+.calculator-form input:focus,
+.calculator-form select:focus {
+    border-color: var(--primary-color);
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(0, 86, 179, 0.2);
+}
+
+.calculator-results {
+    background-color: var(--light-color);
+    padding: 30px;
+    border-radius: var(--border-radius);
+}
+
+.result-item {
+    margin-bottom: 20px;
+    padding-bottom: 20px;
+    border-bottom: 1px solid var(--border-color);
+}
+
+.result-item:last-child {
+    border-bottom: none;
+}
+
+.result-label {
+    font-weight: 500;
+    margin-bottom: 5px;
+}
+
+.result-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--primary-color);
+    font-family: var(--heading-font);
 }
 
 /* ======= PROCESS STEPS / KROKI PROCESU ======= */
@@ -820,6 +1198,290 @@ ul, ol {
     line-height: 1.4;
 }
 
+/* ======= CTA SECTION / SEKCJA WEZWANIA DO DZIAŁANIA ======= */
+
+.cta-section {
+    background-color: var(--dark-color);
+    color: white;
+    padding: 60px 0;
+    text-align: center;
+}
+
+.cta-section h2 {
+    color: white;
+    margin-bottom: 1rem;
+}
+
+.cta-section p {
+    font-size: 1.2rem;
+    margin-bottom: 2rem;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+.cta-buttons {
+    display: flex;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* ======= PROJECTS GALLERY / GALERIA REALIZACJI ======= */
+
+.projects-preview {
+    padding: 80px 0;
+}
+
+.preview-gallery {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+.gallery-button {
+    text-align: center;
+    margin-top: 30px;
+}
+
+/* Filtry galerii */
+.gallery-filters {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    margin-bottom: 30px;
+    gap: 10px;
+}
+
+.filter-btn {
+    background: none;
+    border: 2px solid var(--primary-color);
+    color: var(--primary-color);
+    padding: 8px 20px;
+    border-radius: var(--border-radius);
+    cursor: pointer;
+    font-weight: 500;
+    transition: var(--transition);
+}
+
+.filter-btn:hover, 
+.filter-btn.active {
+    background-color: var(--primary-color);
+    color: white;
+}
+
+/* Container galerii */
+.gallery-container {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 30px;
+    margin-bottom: 40px;
+}
+
+/* Pojedynczy element galerii */
+.gallery-item {
+    overflow: hidden;
+    border-radius: var(--border-radius);
+    box-shadow: var(--box-shadow-sm);
+    transition: var(--transition);
+    position: relative;
+}
+
+.gallery-item:hover {
+    box-shadow: var(--box-shadow);
+    transform: translateY(-5px);
+}
+
+.gallery-image {
+    position: relative;
+    height: 300px;
+    overflow: hidden;
+}
+
+.gallery-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.gallery-item:hover .gallery-image img {
+    transform: scale(1.1);
+}
+
+/* Overlay z informacjami */
+.gallery-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.7);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    transition: var(--transition);
+}
+
+.gallery-item:hover .gallery-overlay {
+    opacity: 1;
+}
+
+.gallery-info {
+    text-align: center;
+    color: white;
+    padding: 20px;
+}
+
+.gallery-info h3 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.gallery-info p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+}
+
+.gallery-zoom {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    background-color: var(--primary-color);
+    color: white;
+    border-radius: 50%;
+    transition: var(--transition);
+}
+
+.gallery-zoom:hover {
+    background-color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+/* Modal z powiększonym zdjęciem */
+.gallery-modal {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.9);
+    z-index: 9999;
+    overflow: auto;
+    justify-content: center;
+    align-items: center;
+    padding: 20px;
+}
+
+.modal-content {
+    position: relative;
+    max-width: 900px;
+    width: 100%;
+    background-color: white;
+    border-radius: var(--border-radius);
+    overflow: hidden;
+    box-shadow: var(--box-shadow);
+    animation: modalFadeIn 0.3s ease;
+}
+
+@keyframes modalFadeIn {
+    from { opacity: 0; transform: scale(0.9); }
+    to { opacity: 1; transform: scale(1); }
+}
+
+.modal-content img {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: cover;
+}
+
+.modal-content h3 {
+    padding: 20px 20px 10px;
+    margin: 0;
+}
+
+.modal-content p {
+    padding: 0 20px 20px;
+    margin: 0;
+}
+
+.modal-close {
+    position: absolute;
+    top: 15px;
+    right: 25px;
+    font-size: 2rem;
+    color: white;
+    cursor: pointer;
+    z-index: 1;
+    transition: var(--transition);
+}
+
+.modal-close:hover {
+    color: var(--accent-color);
+    transform: scale(1.1);
+}
+
+/* Dodatkowe animacje dla modalu */
+.modal-content img {
+    width: 100%;
+    max-height: 70vh;
+    object-fit: cover;
+    opacity: 0;
+    transform: scale(0.95);
+    transition: all 0.3s ease;
+}
+
+.modal-content img.loaded {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ======= NEWSLETTER ======= */
+
+.newsletter {
+    margin-top: 30px;
+}
+
+.newsletter h4 {
+    color: white;
+    margin-bottom: 10px;
+}
+
+.newsletter p {
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.newsletter-form {
+    display: flex;
+}
+
+.newsletter-form input {
+    flex: 1;
+    padding: 10px;
+    border: none;
+    border-radius: var(--border-radius) 0 0 var(--border-radius);
+}
+
+.newsletter-form button {
+    background-color: var(--primary-color);
+    color: white;
+    border: none;
+    padding: 0 15px;
+    border-radius: 0 var(--border-radius) var(--border-radius) 0;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.newsletter-form button:hover {
+    background-color: #004494;
+}
+
 /* ======= FOOTER / STOPKA ======= */
 
 .main-footer {
@@ -959,233 +1621,7 @@ ul, ol {
     transform: translateY(-5px);
 }
 
-/* ======= PROJECTS GALLERY / GALERIA REALIZACJI ======= */
-
-.projects-gallery {
-    background-color: var(--light-color);
-    padding: 80px 0;
-}
-
-.section-subtitle {
-    text-align: center;
-    font-size: 1.1rem;
-    margin-bottom: 40px;
-    color: var(--secondary-color);
-}
-
-/* Filtry galerii */
-.gallery-filters {
-    display: flex;
-    justify-content: center;
-    flex-wrap: wrap;
-    margin-bottom: 30px;
-    gap: 10px;
-}
-
-.filter-btn {
-    background: none;
-    border: 2px solid var(--primary-color);
-    color: var(--primary-color);
-    padding: 8px 20px;
-    border-radius: var(--border-radius);
-    cursor: pointer;
-    font-weight: 500;
-    transition: var(--transition);
-}
-
-.filter-btn:hover, 
-.filter-btn.active {
-    background-color: var(--primary-color);
-    color: white;
-}
-
-/* Container galerii */
-.gallery-container {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 30px;
-    margin-bottom: 40px;
-}
-
-/* Pojedynczy element galerii */
-.gallery-item {
-    overflow: hidden;
-    border-radius: var(--border-radius);
-    box-shadow: var(--box-shadow-sm);
-    transition: var(--transition);
-    position: relative;
-}
-
-.gallery-item:hover {
-    box-shadow: var(--box-shadow);
-    transform: translateY(-5px);
-}
-
-.gallery-image {
-    position: relative;
-    height: 300px;
-    overflow: hidden;
-}
-
-.gallery-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-    transition: transform 0.5s ease;
-}
-
-.gallery-item:hover .gallery-image img {
-    transform: scale(1.1);
-}
-
-/* Overlay z informacjami */
-.gallery-overlay {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background: rgba(0, 0, 0, 0.7);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    opacity: 0;
-    transition: var(--transition);
-}
-
-.gallery-item:hover .gallery-overlay {
-    opacity: 1;
-}
-
-.gallery-info {
-    text-align: center;
-    color: white;
-    padding: 20px;
-}
-
-.gallery-info h3 {
-    color: white;
-    margin-bottom: 10px;
-}
-
-.gallery-info p {
-    font-size: 0.9rem;
-    margin-bottom: 15px;
-}
-
-.gallery-zoom {
-    display: inline-flex;
-    align-items: center;
-    justify-content: center;
-    width: 40px;
-    height: 40px;
-    background-color: var(--primary-color);
-    color: white;
-    border-radius: 50%;
-    transition: var(--transition);
-}
-
-.gallery-zoom:hover {
-    background-color: var(--accent-color);
-    transform: scale(1.1);
-}
-
-/* Przycisk "Zobacz więcej" */
-.gallery-button {
-    text-align: center;
-    margin-top: 20px;
-}
-
-/* Modal z powiększonym zdjęciem */
-.gallery-modal {
-    display: none;
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    background-color: rgba(0, 0, 0, 0.9);
-    z-index: 9999;
-    overflow: auto;
-    justify-content: center;
-    align-items: center;
-    padding: 20px;
-}
-
-.modal-content {
-    position: relative;
-    max-width: 900px;
-    width: 100%;
-    background-color: white;
-    border-radius: var(--border-radius);
-    overflow: hidden;
-    box-shadow: var(--box-shadow);
-    animation: modalFadeIn 0.3s ease;
-}
-
-@keyframes modalFadeIn {
-    from { opacity: 0; transform: scale(0.9); }
-    to { opacity: 1; transform: scale(1); }
-}
-
-.modal-content img {
-    width: 100%;
-    max-height: 70vh;
-    object-fit: cover;
-}
-
-.modal-content h3 {
-    padding: 20px 20px 10px;
-    margin: 0;
-}
-
-.modal-content p {
-    padding: 0 20px 20px;
-    margin: 0;
-}
-
-.modal-close {
-    position: absolute;
-    top: 15px;
-    right: 25px;
-    font-size: 2rem;
-    color: white;
-    cursor: pointer;
-    z-index: 1;
-    transition: var(--transition);
-}
-
-.modal-close:hover {
-    color: var(--accent-color);
-    transform: scale(1.1);
-}
-
-/* Dodatkowe animacje dla modalu */
-.modal-content img {
-    width: 100%;
-    max-height: 70vh;
-    object-fit: cover;
-    opacity: 0;
-    transform: scale(0.95);
-    transition: all 0.3s ease;
-}
-
-.modal-content img.loaded {
-    opacity: 1;
-    transform: scale(1);
-}
-
-/* Styl dla małych ekranów */
-@media (max-width: 767px) {
-    .scroll-top {
-        bottom: 20px;
-        right: 20px;
-        width: 40px;
-        height: 40px;
-        font-size: 1rem;
-    }
-    /* ======= DODATKOWE STYLE FORMULARZA I KOMUNIKATÓW ======= */
-/* Dodaj te style na końcu pliku main.css */
+/* ======= DODATKOWE STYLE FORMULARZA I KOMUNIKATÓW ======= */
 
 /* Style dla pól z błędami */
 .form-group input.error,
@@ -1302,5 +1738,4 @@ a:focus, button:focus, input:focus, textarea:focus, select:focus,
     clip: rect(0, 0, 0, 0);
     white-space: nowrap;
     border: 0;
-}
 }

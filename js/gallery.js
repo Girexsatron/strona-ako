@@ -1,357 +1,535 @@
-// =========== FUNKCJE GALERII REALIZACJI ===========
-// 📸 Ten plik zawiera funkcje do obsługi galerii zdjęć naszych realizacji
+// =========== GŁÓWNE FUNKCJE JAVASCRIPT ===========
+// 🛠️ Ten plik zawiera główne funkcje potrzebne do działania strony
 
 document.addEventListener('DOMContentLoaded', function() {
-    // Inicjalizujemy galerię realizacji
-    initGallery();
+    // 🔄 Funkcja menu mobilnego
+    setupMobileMenu();
+    
+    // ❓ Obsługa akordeonu FAQ
+    setupFaqAccordion();
+    
+    // 📊 Animacja liczników
+    setupCounters();
+    
+    // 📝 Obsługa formularza kontaktowego
+    setupContactForm();
+    
+    // ⬆️ Przycisk powrotu do góry
+    setupScrollToTop();
+    
+    // 🔽 Zamykanie menu rozwijanego przy przewijaniu
+    setupDropdownCloseOnScroll();
+    
+    // 📬 Obsługa formularza newslettera
+    setupNewsletter();
+    
+    console.log('✅ Strona załadowana poprawnie');
 });
 
-// 📸 INICJALIZACJA I OBSŁUGA GALERII
-function initGallery() {
-    // POPRAWKA: Najpierw sprawdźmy, czy jesteśmy na podstronie z galerią
-    // Zamiast szukać konkretnego elementu .gallery-container, sprawdźmy czy jest klasa .gallery-page
-    const isGalleryPage = document.body.classList.contains('gallery-page');
+// 🔄 MENU MOBILNE
+function setupMobileMenu() {
+    // Znajdujemy przycisk menu mobilnego i menu główne
+    const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+    const mainMenu = document.querySelector('.main-menu');
+    const dropdowns = document.querySelectorAll('.dropdown');
     
-    // Jeśli nie jesteśmy na stronie galerii, stwórzmy prostą funkcję przygotowawczą na potrzeby przyszłej galerii
-    if (!isGalleryPage) {
-        // Inicjujemy podstawowe komponenty potrzebne do ogólnych funkcji galerii
-        prepareGalleryComponents();
-        return;
-    }
-    
-    // Jeśli jesteśmy na stronie galerii, znajdujemy elementy galerii
-    const galleryContainer = document.querySelector('.gallery-container');
-    
-    // Jeśli nie znaleźliśmy kontenera, kończymy
-    if (!galleryContainer) {
-        console.warn('⚠️ Nie znaleziono kontenera galerii (.gallery-container) na stronie galerii');
-        return;
-    }
-    
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const galleryModal = document.querySelector('.gallery-modal');
-    const modalImage = document.getElementById('modal-image');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalClose = document.querySelector('.modal-close');
-    
-    // 🔍 Obsługa filtrowania
-    setupFiltering(filterButtons, galleryItems);
-    
-    // 🖼️ Obsługa powiększania zdjęć
-    setupZoom(galleryItems, galleryModal, modalImage, modalTitle, modalDescription);
-    
-    // ❌ Zamykanie modalu
-    setupModalClosing(galleryModal, modalClose);
-    
-    // 🔄 Inicjalizacja - domyślnie pokazujemy wszystkie elementy
-    if (filterButtons.length > 0) {
-        filterButtons[0].click();
-    }
-    
-    console.log('✅ Galeria zainicjalizowana pomyślnie');
-}
-
-// POPRAWKA: Dodajemy funkcję do przygotowania podstawowych komponentów galerii
-function prepareGalleryComponents() {
-    // Sprawdzamy, czy istnieją na stronie elementy z klasą .gallery-preview
-    // które mogą być używane na głównej stronie jako zapowiedź galerii
-    const galleryPreviews = document.querySelectorAll('.gallery-preview');
-    
-    if (galleryPreviews.length === 0) {
-        // Brak elementów galerii na tej stronie, nie robimy nic
-        return;
-    }
-    
-    // Dla każdego podglądu galerii dodajemy obsługę kliknięcia
-    galleryPreviews.forEach(preview => {
-        // Dodajemy efekt przy najechaniu
-        preview.addEventListener('mouseenter', function() {
-            this.classList.add('hover');
-        });
-        
-        preview.addEventListener('mouseleave', function() {
-            this.classList.remove('hover');
-        });
-        
-        // Dodajemy obsługę kliknięcia - przekierowanie do galerii
-        preview.addEventListener('click', function(e) {
-            // Pobieramy link do galerii z atrybutu data-gallery-url
-            const galleryUrl = this.getAttribute('data-gallery-url');
+    // Obsługa kliknięcia przycisku menu
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', function(e) {
+            // Zatrzymujemy domyślne zachowanie
+            e.preventDefault();
             
-            // Jeśli link istnieje, przekierowujemy
-            if (galleryUrl) {
-                window.location.href = galleryUrl;
+            // Przełączamy klasę active dla menu
+            mainMenu.classList.toggle('active');
+            
+            // Zmieniamy ikonę przycisku (z hamburger na X)
+            const icon = this.querySelector('i');
+            if (icon.classList.contains('fa-bars')) {
+                icon.classList.remove('fa-bars');
+                icon.classList.add('fa-times');
             } else {
-                // Jeśli nie ma linku, przekierujemy na domyślną stronę galerii
-                window.location.href = 'gallery.html';
+                icon.classList.remove('fa-times');
+                icon.classList.add('fa-bars');
             }
         });
+    }
+    
+    // Obsługa kliknięcia w dropdown w menu mobilnym
+    dropdowns.forEach(dropdown => {
+        const link = dropdown.querySelector('a');
+        
+        // Obsługa kliknięcia w nagłówek menu rozwijanego na urządzeniach mobilnych
+        if (link) {
+            link.addEventListener('click', function(e) {
+                // Sprawdzamy, czy jesteśmy na małym ekranie (mobilnym)
+                if (window.innerWidth < 992) {
+                    // Zatrzymujemy domyślne działanie linku
+                    e.preventDefault();
+                    
+                    // Przełączamy klasę active dla dropdown
+                    dropdown.classList.toggle('active');
+                    
+                    // Opcjonalnie możemy też zmienić ikonę wskaźnika
+                    const indicator = dropdown.querySelector('.dropdown-indicator');
+                    if (indicator) {
+                        if (dropdown.classList.contains('active')) {
+                            indicator.innerHTML = '<i class="fas fa-chevron-up"></i>';
+                        } else {
+                            indicator.innerHTML = '<i class="fas fa-chevron-down"></i>';
+                        }
+                    }
+                }
+            });
+        }
     });
     
-    console.log('✅ Komponenty podglądu galerii zainicjalizowane');
+    // Zamykanie menu po kliknięciu poza menu
+    document.addEventListener('click', function(event) {
+        if (!event.target.closest('.main-header') && mainMenu && mainMenu.classList.contains('active')) {
+            mainMenu.classList.remove('active');
+            
+            // Znajdź i zmień ikonę menu na hamburger
+            if (mobileMenuToggle) {
+                const icon = mobileMenuToggle.querySelector('i');
+                if (icon) {
+                    icon.classList.remove('fa-times');
+                    icon.classList.add('fa-bars');
+                }
+            }
+        }
+    });
 }
 
-// 🔍 FILTROWANIE ELEMENTÓW GALERII
-function setupFiltering(filterButtons, galleryItems) {
-    // Jeśli nie ma przycisków filtrowania, kończymy
-    if (!filterButtons || filterButtons.length === 0) return;
+// ❓ AKORDEON FAQ
+function setupFaqAccordion() {
+    const faqItems = document.querySelectorAll('.faq-item');
     
-    filterButtons.forEach(button => {
-        button.addEventListener('click', function() {
-            // Usuwamy klasę 'active' ze wszystkich przycisków
-            filterButtons.forEach(btn => btn.classList.remove('active'));
-            
-            // Dodajemy klasę 'active' do klikniętego przycisku
-            this.classList.add('active');
-            
-            // Pobieramy kategorię do filtrowania
-            const filterValue = this.getAttribute('data-filter');
-            
-            // Zapisujemy aktywną kategorię w przeglądarce (do zapamiętania po odświeżeniu)
-            localStorage.setItem('activeGalleryFilter', filterValue);
-            
-            // Filtrujemy elementy galerii
-            filterGalleryItems(galleryItems, filterValue);
-            
-            // POPRAWKA: Dodajemy informację dla czytników ekranu
-            const galleryContainer = document.querySelector('.gallery-container');
-            if (galleryContainer) {
-                const filterName = filterValue === 'all' ? 'wszystkie realizacje' : `kategoria ${filterValue}`;
-                const filterMessage = document.createElement('div');
-                filterMessage.className = 'sr-only filter-message';
-                filterMessage.textContent = `Filtrowanie: ${filterName}`;
+    faqItems.forEach(item => {
+        const question = item.querySelector('.faq-question');
+        const answer = item.querySelector('.faq-answer');
+        const icon = item.querySelector('.faq-toggle i');
+        
+        // Ustawiamy początkową wysokość 
+        if (answer) {
+            // Ustawiamy tylko max-height przez klasę CSS
+            answer.style.maxHeight = '0px';
+        }
+        
+        if (question) {
+            question.addEventListener('click', function() {
+                // Zamykamy wszystkie inne odpowiedzi
+                faqItems.forEach(otherItem => {
+                    if (otherItem !== item && otherItem.classList.contains('active')) {
+                        otherItem.classList.remove('active');
+                        const otherAnswer = otherItem.querySelector('.faq-answer');
+                        if (otherAnswer) {
+                            otherAnswer.style.maxHeight = '0px';
+                        }
+                        
+                        const otherIcon = otherItem.querySelector('.faq-toggle i');
+                        if (otherIcon) {
+                            otherIcon.classList.remove('fa-minus');
+                            otherIcon.classList.add('fa-plus');
+                        }
+                    }
+                });
                 
-                // Usuwamy poprzednie komunikaty
-                const oldMessages = galleryContainer.querySelectorAll('.filter-message');
-                oldMessages.forEach(msg => msg.remove());
+                // Przełączamy stan aktualnego elementu
+                item.classList.toggle('active');
                 
-                galleryContainer.appendChild(filterMessage);
-                
-                // Usuwamy komunikat po chwili (tylko wizualnie)
-                setTimeout(() => {
-                    filterMessage.remove();
-                }, 3000);
+                if (item.classList.contains('active')) {
+                    // Dynamicznie ustawiamy wysokość na podstawie rzeczywistej zawartości
+                    // Plus dodajemy margines bezpieczeństwa (+50px) dla pewności
+                    answer.style.maxHeight = (answer.scrollHeight + 50) + 'px';
+                    
+                    if (icon) {
+                        icon.classList.remove('fa-plus');
+                        icon.classList.add('fa-minus');
+                    }
+                } else {
+                    answer.style.maxHeight = '0px';
+                    if (icon) {
+                        icon.classList.remove('fa-minus');
+                        icon.classList.add('fa-plus');
+                    }
+                }
+            });
+        }
+    });
+    
+    // Obsługa zmiany rozmiaru okna - aktualizacja wysokości aktywnych elementów FAQ
+    window.addEventListener('resize', function() {
+        const activeItems = document.querySelectorAll('.faq-item.active');
+        activeItems.forEach(item => {
+            const answer = item.querySelector('.faq-answer');
+            if (answer) {
+                // Aktualizacja wysokości przy zmianie rozmiaru okna
+                answer.style.maxHeight = (answer.scrollHeight + 50) + 'px';
             }
         });
     });
+}
+
+// 📊 ANIMACJA LICZNIKÓW
+function setupCounters() {
+    const counters = document.querySelectorAll('.counter-value');
     
-    // Sprawdzamy, czy mamy zapisaną kategorię w pamięci
-    const savedFilter = localStorage.getItem('activeGalleryFilter');
-    if (savedFilter) {
-        // Znajdź przycisk z zapisaną kategorią
-        const savedButton = Array.from(filterButtons).find(
-            button => button.getAttribute('data-filter') === savedFilter
+    // Funkcja sprawdzająca, czy element jest widoczny na ekranie
+    function isElementInViewport(el) {
+        const rect = el.getBoundingClientRect();
+        return (
+            rect.top >= 0 &&
+            rect.left >= 0 &&
+            rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) &&
+            rect.right <= (window.innerWidth || document.documentElement.clientWidth)
         );
-        
-        // Jeśli znaleziono przycisk, aktywuj go
-        if (savedButton) {
-            savedButton.click();
-        } else {
-            // Jeśli nie znaleziono, aktywuj pierwszy
-            filterButtons[0].click();
-        }
-    } else {
-        // Domyślnie aktywujemy pierwszy przycisk
-        filterButtons[0].click();
     }
-}
-
-// 🎭 FILTROWANIE POSZCZEGÓLNYCH ELEMENTÓW
-function filterGalleryItems(items, filterValue) {
-    // Jeśli nie ma elementów do filtrowania, kończymy
-    if (!items || items.length === 0) return;
     
-    items.forEach(item => {
-        const itemCategory = item.getAttribute('data-category');
+    // Funkcja animująca licznik
+    function animateCounter(counter) {
+        const target = parseInt(counter.getAttribute('data-count'));
         
-        // Pokazujemy wszystkie lub tylko te pasujące do filtra
-        if (filterValue === 'all' || filterValue === itemCategory) {
-            // POPRAWKA: Zamiast bezpośrednio manipulować stylami, używamy klas CSS
-            item.classList.remove('hidden');
-            // Dodajemy klasę 'fade-in' dla płynnej animacji pojawiania się
-            setTimeout(() => {
-                item.classList.add('visible');
-            }, 50);
-        } else {
-            // Ukrywamy element (najpierw usuwamy klasę visible dla animacji)
-            item.classList.remove('visible');
-            // Po zakończeniu animacji dodajemy klasę 'hidden'
-            setTimeout(() => {
-                item.classList.add('hidden');
-            }, 300); // Ten czas powinien odpowiadać czasowi trwania animacji w CSS
-        }
-    });
-}
-
-// 🖼️ POWIĘKSZANIE ZDJĘĆ
-function setupZoom(galleryItems, galleryModal, modalImage, modalTitle, modalDescription) {
-    // Jeśli brakuje któregoś z elementów, kończymy
-    if (!galleryItems || !galleryModal || !modalImage) return;
-    
-    const zoomButtons = document.querySelectorAll('.gallery-zoom');
-    
-    zoomButtons.forEach(button => {
-        button.addEventListener('click', function(e) {
-            e.preventDefault();
-            
-            // Pobieramy dane z rodzica przycisku
-            const galleryItem = this.closest('.gallery-item');
-            const image = galleryItem.querySelector('img');
-            const title = galleryItem.querySelector('h3')?.textContent || '';
-            const description = galleryItem.querySelector('p')?.textContent || '';
-            
-            // POPRAWKA: Pobieramy wysokiej jakości wersję obrazu, jeśli istnieje
-            const highResImage = image.getAttribute('data-high-res') || image.src;
-            
-            // Ustawiamy dane w modalu
-            modalImage.src = highResImage;
-            modalImage.alt = image.alt || title;
-            
-            // Dodajemy event listener na załadowanie obrazu
-            modalImage.onload = function() {
-                this.classList.add('loaded');
-            };
-            
-            // Ustawiamy tytuł i opis, jeśli istnieją odpowiednie elementy
-            if (modalTitle) modalTitle.textContent = title;
-            if (modalDescription) modalDescription.textContent = description;
-            
-            // Pokazujemy modal
-            galleryModal.style.display = 'flex';
-            document.body.style.overflow = 'hidden'; // Blokujemy przewijanie strony
-            
-            // POPRAWKA: Fokusujemy modal dla dostępności
-            galleryModal.setAttribute('tabindex', '-1');
-            galleryModal.focus();
-        });
-    });
-}
-
-// ❌ ZAMYKANIE MODALU
-function setupModalClosing(galleryModal, modalClose) {
-    // Jeśli nie ma modalu, kończymy
-    if (!galleryModal) return;
-    
-    // Funkcja zamykająca modal
-    function closeModal() {
-        // POPRAWKA: Dodajemy klasę 'closing' dla animacji zamykania
-        galleryModal.classList.add('closing');
+        // Nie zaczynamy ponownie, jeśli licznik jest już animowany
+        if (counter.textContent !== "0") return;
         
-        // Po zakończeniu animacji ukrywamy modal całkowicie
-        setTimeout(() => {
-            galleryModal.style.display = 'none';
-            galleryModal.classList.remove('closing');
-            document.body.style.overflow = 'auto'; // Przywracamy przewijanie strony
-            
-            // Resetujemy klasę animacji
-            const modalImage = document.getElementById('modal-image');
-            if (modalImage) {
-                modalImage.classList.remove('loaded');
+        const duration = 2000; // Czas trwania animacji w ms
+        const step = target / duration * 10; // Co ile ms aktualizujemy licznik
+        let current = 0;
+        
+        const timer = setInterval(function() {
+            current += step;
+            if (current >= target) {
+                clearInterval(timer);
+                counter.textContent = target.toLocaleString(); // Formatowanie liczb z separatorami
+            } else {
+                counter.textContent = Math.floor(current).toLocaleString();
             }
-        }, 300); // Czas odpowiadający animacji zamykania w CSS
+        }, 10);
     }
     
-    // Zamykanie po kliknięciu przycisku zamknięcia
-    if (modalClose) {
-        modalClose.addEventListener('click', function(e) {
-            e.preventDefault();
-            closeModal();
+    // Uruchamiamy animację, gdy liczniki są widoczne
+    function checkCounters() {
+        counters.forEach(counter => {
+            if (isElementInViewport(counter) && counter.textContent === "0") {
+                animateCounter(counter);
+            }
         });
     }
     
-    // Zamykanie po kliknięciu poza obrazem
-    galleryModal.addEventListener('click', function(e) {
-        if (e.target === galleryModal) {
-            closeModal();
-        }
-    });
+    // Sprawdzamy przy przewijaniu
+    window.addEventListener('scroll', checkCounters);
     
-    // Obsługa klawisza ESC do zamykania modalu
-    document.addEventListener('keydown', function(e) {
-        if (e.key === 'Escape' && galleryModal && galleryModal.style.display === 'flex') {
-            closeModal();
-        }
-    });
+    // Sprawdzamy również na starcie
+    checkCounters();
 }
 
-// 🔄 ODŚWIEŻANIE GALERII
-// Funkcja pomocnicza do wywołania po dodaniu nowych zdjęć dynamicznie
-function refreshGallery() {
-    // Ponownie znajdujemy wszystkie elementy
-    const galleryItems = document.querySelectorAll('.gallery-item');
-    const filterButtons = document.querySelectorAll('.filter-btn');
-    const galleryModal = document.querySelector('.gallery-modal');
-    const modalImage = document.getElementById('modal-image');
-    const modalTitle = document.getElementById('modal-title');
-    const modalDescription = document.getElementById('modal-description');
-    const modalClose = document.querySelector('.modal-close');
+// 📝 OBSŁUGA FORMULARZA KONTAKTOWEGO
+function setupContactForm() {
+    const contactForm = document.getElementById('home-contact-form');
     
-    // Aktualizujemy obsługę filtrowania
-    setupFiltering(filterButtons, galleryItems);
-    
-    // Aktualizujemy obsługę powiększania
-    setupZoom(galleryItems, galleryModal, modalImage, modalTitle, modalDescription);
-    
-    // Aktualizujemy obsługę zamykania modalu
-    setupModalClosing(galleryModal, modalClose);
-    
-    console.log('🔄 Galeria została odświeżona');
+    if (contactForm) {
+        contactForm.addEventListener('submit', function(e) {
+            e.preventDefault(); // Zapobiegamy domyślnemu wysłaniu formularza
+            
+            // Sprawdzamy poprawność formularza
+            let isValid = true;
+            const requiredFields = contactForm.querySelectorAll('[required]');
+            
+            // Sprawdzamy wszystkie wymagane pola
+            requiredFields.forEach(field => {
+                if (!field.value.trim()) {
+                    isValid = false;
+                    field.classList.add('error');
+                    
+                    // Dodajemy potrząśnięcie polem, które jest niepoprawne
+                    field.classList.add('shake');
+                    setTimeout(() => {
+                        field.classList.remove('shake');
+                    }, 500);
+                } else {
+                    field.classList.remove('error');
+                }
+            });
+            
+            // Sprawdzamy poprawność adresu email
+            const emailField = contactForm.querySelector('input[type="email"]');
+            if (emailField && emailField.value.trim()) {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!emailPattern.test(emailField.value)) {
+                    isValid = false;
+                    emailField.classList.add('error');
+                    
+                    // Dodajemy potrząśnięcie polem email
+                    emailField.classList.add('shake');
+                    setTimeout(() => {
+                        emailField.classList.remove('shake');
+                    }, 500);
+                }
+            }
+            
+            if (!isValid) {
+                // Pokazujemy komunikat o błędzie
+                showFormMessage(contactForm, '❌ Proszę wypełnić poprawnie wszystkie wymagane pola.', 'error');
+                return;
+            }
+            
+            // Zbieramy dane z formularza
+            const formData = new FormData(contactForm);
+            
+            // Zmieniamy stan przycisku
+            const submitButton = contactForm.querySelector('button[type="submit"]');
+            if (submitButton) {
+                submitButton.disabled = true;
+                submitButton.innerHTML = 'Wysyłanie... <i class="fas fa-spinner fa-spin"></i>';
+            }
+            
+            // Symulacja dla celów demonstracyjnych - usuń w rzeczywistej implementacji
+            setTimeout(function() {
+                // Tutaj udajemy, że formularz został wysłany pomyślnie
+                showFormMessage(contactForm, '✅ Dziękujemy za wiadomość! Skontaktujemy się wkrótce.', 'success');
+                contactForm.reset(); // Czyszczenie formularza
+                
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Wyślij wiadomość';
+                }
+            }, 1500);
+            
+            // Prawdziwa implementacja z fetch API - odkomentuj w rzeczywistym projekcie
+            /*
+            fetch('send-email.php', {
+                method: 'POST',
+                body: formData
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Problem z połączeniem z serwerem.');
+                }
+                return response.json();
+            })
+            .then(data => {
+                if (data.success) {
+                    // Sukces
+                    showFormMessage(contactForm, '✅ Dziękujemy za wiadomość! Skontaktujemy się wkrótce.', 'success');
+                    contactForm.reset(); // Czyszczenie formularza
+                } else {
+                    // Błąd po stronie serwera
+                    showFormMessage(contactForm, `❌ ${data.message || 'Wystąpił błąd podczas wysyłania wiadomości.'}`, 'error');
+                }
+            })
+            .catch(error => {
+                // Błąd połączenia
+                showFormMessage(contactForm, '❌ Wystąpił problem z wysłaniem formularza. Spróbuj ponownie później.', 'error');
+                console.error('Błąd:', error);
+            })
+            .finally(() => {
+                // Zawsze wykonaj na końcu
+                if (submitButton) {
+                    submitButton.disabled = false;
+                    submitButton.innerHTML = 'Wyślij wiadomość';
+                }
+            });
+            */
+        });
+        
+        // Funkcja do wyświetlania komunikatów
+        function showFormMessage(form, message, type = 'success') {
+            // Sprawdź, czy komunikat już istnieje i usuń go
+            const existingMessage = form.querySelector('.form-message');
+            if (existingMessage) {
+                existingMessage.remove();
+            }
+            
+            // Utwórz nowy element komunikatu
+            const messageElement = document.createElement('div');
+            messageElement.className = `form-message ${type}`;
+            messageElement.innerHTML = message;
+            
+            // Wstaw komunikat na początku formularza
+            form.insertBefore(messageElement, form.firstChild);
+            
+            // Animacja pojawienia się
+            setTimeout(() => {
+                messageElement.classList.add('show');
+            }, 10);
+            
+            // Usuń komunikat po 5 sekundach w przypadku sukcesu
+            if (type === 'success') {
+                setTimeout(() => {
+                    messageElement.classList.remove('show');
+                    setTimeout(() => {
+                        messageElement.remove();
+                    }, 300);
+                }, 5000);
+            }
+        }
+        
+        // Usuwamy klasę error gdy użytkownik zaczyna wpisywać
+        const formInputs = contactForm.querySelectorAll('input, textarea');
+        formInputs.forEach(input => {
+            input.addEventListener('input', function() {
+                this.classList.remove('error');
+                
+                // Usuń komunikat błędu, jeśli użytkownik poprawia dane
+                const errorMessage = contactForm.querySelector('.form-message.error');
+                if (errorMessage) {
+                    errorMessage.classList.remove('show');
+                    setTimeout(() => {
+                        errorMessage.remove();
+                    }, 300);
+                }
+            });
+        });
+    }
 }
 
-// POPRAWKA: Dodajemy funkcję do tworzenia podstawowego modalu galerii, jeśli go nie ma
-function createGalleryModal() {
-    // Sprawdzamy, czy modal już istnieje
-    let galleryModal = document.querySelector('.gallery-modal');
+// ⬆️ PRZYCISK "WRÓĆ DO GÓRY"
+function setupScrollToTop() {
+    // Najpierw sprawdzamy, czy przycisk już istnieje - jeśli nie, tworzymy go
+    let scrollTopBtn = document.querySelector('.scroll-top');
     
-    if (!galleryModal) {
-        // Tworzymy elementy modalu
-        galleryModal = document.createElement('div');
-        galleryModal.className = 'gallery-modal';
-        galleryModal.setAttribute('tabindex', '-1');
-        galleryModal.setAttribute('aria-hidden', 'true');
-        galleryModal.setAttribute('role', 'dialog');
-        galleryModal.setAttribute('aria-label', 'Podgląd zdjęcia');
-        
-        const modalClose = document.createElement('span');
-        modalClose.className = 'modal-close';
-        modalClose.innerHTML = '&times;';
-        modalClose.setAttribute('aria-label', 'Zamknij');
-        
-        const modalContent = document.createElement('div');
-        modalContent.className = 'modal-content';
-        
-        const modalImage = document.createElement('img');
-        modalImage.id = 'modal-image';
-        modalImage.setAttribute('alt', '');
-        
-        const modalTitle = document.createElement('h3');
-        modalTitle.id = 'modal-title';
-        
-        const modalDescription = document.createElement('p');
-        modalDescription.id = 'modal-description';
-        
-        // Składamy elementy
-        modalContent.appendChild(modalImage);
-        modalContent.appendChild(modalTitle);
-        modalContent.appendChild(modalDescription);
-        
-        galleryModal.appendChild(modalClose);
-        galleryModal.appendChild(modalContent);
-        
-        // Dodajemy do body
-        document.body.appendChild(galleryModal);
-        
-        // Konfigurujemy zamykanie
-        setupModalClosing(galleryModal, modalClose);
-        
-        console.log('✅ Utworzono nowy modal galerii');
+    if (!scrollTopBtn) {
+        // Tworzymy przycisk i dodajemy go do strony
+        scrollTopBtn = document.createElement('a');
+        scrollTopBtn.className = 'scroll-top';
+        scrollTopBtn.innerHTML = '<i class="fas fa-arrow-up"></i>';
+        scrollTopBtn.setAttribute('href', '#');
+        scrollTopBtn.setAttribute('aria-label', 'Przewiń do góry');
+        document.body.appendChild(scrollTopBtn);
     }
     
-    return galleryModal;
+    // Pokazujemy przycisk po przewinięciu
+    window.addEventListener('scroll', function() {
+        if (window.pageYOffset > 300) {
+            scrollTopBtn.classList.add('visible');
+        } else {
+            scrollTopBtn.classList.remove('visible');
+        }
+    });
+    
+    // Przewijamy do góry po kliknięciu
+    scrollTopBtn.addEventListener('click', function(e) {
+        e.preventDefault();
+        window.scrollTo({
+            top: 0,
+            behavior: 'smooth'
+        });
+    });
 }
 
-// Eksportujemy funkcje aby były dostępne globalnie
-window.refreshGallery = refreshGallery;
-window.createGalleryModal = createGalleryModal;
+// 🔽 ZAMYKANIE DROPDOWN MENU PRZY PRZEWIJANIU
+function setupDropdownCloseOnScroll() {
+    // Funkcja zamykająca menu dropdown - używa klas zamiast bezpośredniej manipulacji stylami
+    function closeDropdowns() {
+        // Znajdź wszystkie elementy dropdown
+        const dropdowns = document.querySelectorAll('.dropdown');
+        
+        // Usuń klasę active z elementów dropdown
+        dropdowns.forEach(dropdown => {
+            dropdown.classList.remove('active');
+        });
+    }
+    
+    // Zamykaj menu przy przewijaniu
+    window.addEventListener('scroll', closeDropdowns);
+    
+    // Zamykaj menu przy kliknięciu poza dropdown
+    document.addEventListener('click', function(e) {
+        if (!e.target.closest('.dropdown')) {
+            closeDropdowns();
+        }
+    });
+    
+    // Obsługa klawisza Escape do zamykania menu
+    document.addEventListener('keydown', function(e) {
+        if (e.key === 'Escape') {
+            closeDropdowns();
+            
+            // Zamykamy również menu mobilne
+            const mainMenu = document.querySelector('.main-menu');
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            
+            if (mainMenu && mainMenu.classList.contains('active')) {
+                mainMenu.classList.remove('active');
+                
+                if (mobileMenuToggle) {
+                    const icon = mobileMenuToggle.querySelector('i');
+                    if (icon) {
+                        icon.classList.remove('fa-times');
+                        icon.classList.add('fa-bars');
+                    }
+                }
+            }
+        }
+    });
+}
+
+// 📬 OBSŁUGA NEWSLETTERA
+function setupNewsletter() {
+    const newsletterForm = document.querySelector('.newsletter-form');
+    
+    if (newsletterForm) {
+        newsletterForm.addEventListener('submit', function(e) {
+            e.preventDefault();
+            
+            const emailInput = this.querySelector('input[type="email"]');
+            const submitButton = this.querySelector('button');
+            
+            if (!emailInput.value.trim()) {
+                // Email jest pusty
+                emailInput.classList.add('error');
+                return;
+            }
+            
+            // Sprawdzamy poprawność emaila
+            const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailPattern.test(emailInput.value.trim())) {
+                // Email jest niepoprawny
+                emailInput.classList.add('error');
+                return;
+            }
+            
+            // Zmiana stanu przycisku
+            if (submitButton) {
+                submitButton.innerHTML = '<i class="fas fa-spinner fa-spin"></i>';
+                submitButton.disabled = true;
+            }
+            
+            // Symulujemy wysyłanie - w rzeczywistym projekcie użyj fetch API
+            setTimeout(() => {
+                // Pokazujemy komunikat
+                const messageElement = document.createElement('div');
+                messageElement.className = 'newsletter-message';
+                messageElement.style.color = 'white';
+                messageElement.style.marginTop = '10px';
+                messageElement.style.fontSize = '0.9rem';
+                messageElement.innerHTML = '✅ Dziękujemy za zapisanie się do newslettera!';
+                
+                // Dodajemy komunikat po formularzu
+                newsletterForm.parentNode.appendChild(messageElement);
+                
+                // Resetujemy formularz
+                newsletterForm.reset();
+                
+                // Przywracamy przycisk
+                if (submitButton) {
+                    submitButton.innerHTML = '<i class="fas fa-paper-plane"></i>';
+                    submitButton.disabled = false;
+                }
+                
+                // Usuwamy komunikat po 5 sekundach
+                setTimeout(() => {
+                    messageElement.remove();
+                }, 5000);
+            }, 1500);
+        });
+        
+        // Usuwamy klasę error gdy użytkownik zaczyna wpisywać
+        const emailInput = newsletterForm.querySelector('input[type="email"]');
+        if (emailInput) {
+            emailInput.addEventListener('input', function() {
+                this.classList.remove('error');
+            });
+        }
+    }
+}
