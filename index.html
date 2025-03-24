@@ -1,172 +1,60 @@
 <!DOCTYPE html>
 <html lang="pl">
-    <head>
-        <!-- 📝 Podstawowe meta tagi - konfiguracja strony -->
-        <meta charset="UTF-8">
-        <!-- WAŻNE: Tagi meta dla urządzeń mobilnych -->
-        <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
-        <meta name="description" content="AKO - Producent wysokiej jakości okien i drzwi z 30-letnim doświadczeniem. Energooszczędne rozwiązania, profesjonalny montaż i serwis.">
-        <!-- Meta tag dla kolorów interfejsu mobilnego -->
-        <meta name="theme-color" content="#0056b3">
-        <title>AKO - Producent okien i drzwi | Tradycja od 1995 roku</title>
-        
-        <!-- 📂 Pliki CSS w odpowiedniej kolejności -->
-        <link rel="stylesheet" href="css/normalize.css">
-        <link rel="stylesheet" href="css/main.css">
-        <link rel="stylesheet" href="css/responsive.css">
-        
-        <!-- 🔣 Ikony FontAwesome - potrzebne do ikon w animacjach 3D i innych elementach -->
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-        
-        <!-- 🔤 Czcionki Google Fonts - z display=swap dla szybszego ładowania -->
-        <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
-
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
+<head>
+    <!-- 📱 META TAGI - ustawienia podstawowe -->
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0">
+    <meta name="description" content="AKO - Producent wysokiej jakości okien i drzwi z 30-letnim doświadczeniem. Energooszczędne rozwiązania, profesjonalny montaż i serwis.">
+    <meta name="theme-color" content="#0056b3">
+    <title>AKO - Producent okien i drzwi | Jakość od 1995 roku</title>
     
-        <!-- 📱 Style mobilne ulepszone dla lepszej dotykowej interakcji -->
-        <style>
-            /* Poprawki dla dotykowej obsługi wszystkich elementów interaktywnych */
-            a, button, .btn, .gallery-item, .faq-question, .product-category, 
-            .filter-btn, .indicator, .newsletter-form button {
-                min-height: 44px; /* Minimalny rozmiar dla elementów dotykowych wg Apple Human Interface Guidelines */
-                min-width: 44px;  /* Zapewnia wystarczającą przestrzeń dla kliknięcia palcem */
-            }
-            
-            /* Większy odstęp między elementami dotykowymi w menu */
-            .main-menu a {
-                padding: 12px 15px;
-            }
-            
-            /* Łatwiejsze przewijanie na urządzeniach mobilnych */
-            html, body {
-                -webkit-overflow-scrolling: touch;
-                scroll-behavior: smooth;
-            }
-            
-            /* Ulepszenia dla kart 3D na dotykowych urządzeniach */
-            .product-3d-container {
-                perspective: 1200px;
-                height: auto;
-                min-height: 350px;
-            }
-            
-            .rotate-hint {
-                width: 50px;
-                height: 50px;
-                font-size: 1.2rem;
-            }
-            
-            /* Poprawki dla sliderów i przewijanych kontenerów */
-            .reviews-container, .hero-slider {
-                -webkit-overflow-scrolling: touch;
-            }
-            
-            /* Unikaj drobnych animacji na urządzeniach mobilnych dla lepszej wydajności */
-            @media (max-width: 767px) {
-                .product-category:hover,
-                .feature:hover,
-                .step:hover,
-                .gallery-item:hover {
-                    transform: none;
-                }
-                
-                /* Zastosouj mobilne style dla animacji wejściowych */
-                .reveal-element {
-                    opacity: 1;
-                    transform: translateY(0);
-                    transition: opacity 0.5s ease;
-                }
-                
-                .reveal-left, .reveal-right {
-                    transform: translateX(0);
-                }
-                
-                /* Używamy prostszych animacji na mobilnych urządzeniach */
-                .reveal-element.revealed {
-                    opacity: 1;
-                }
-            }
-            
-            /* Naprawione menu dotykowe */
-            @media (max-width: 991px) {
-                .dropdown:hover .dropdown-menu {
-                    display: none !important; /* Zapobiegamy przypadkowemu pokazywaniu menu na dotyk */
-                }
-                
-                .dropdown.active .dropdown-menu {
-                    display: block !important;
-                }
-                
-                /* Mniejsza wysokość slidera na telefonach */
-                .hero {
-                    height: 500px;
-                }
-            }
-            
-            @media (max-width: 767px) {
-                .hero {
-                    height: 400px;
-                }
-            }
-            
-            @media (max-width: 480px) {
-                .hero {
-                    height: 350px;
-                }
-                
-                /* Mniejsze odstępy na małych ekranach */
-                section {
-                    padding: 40px 0;
-                }
-                
-                /* Poprawka układu kalkulatora */
-                .calculator-container {
-                    flex-direction: column;
-                }
-                
-                /* Mniejsze przyciski i lepszy układ przycisków CTA */
-                .cta-buttons {
-                    flex-direction: column;
-                    gap: 15px;
-                }
-                
-                .cta-buttons .btn {
-                    width: 100%;
-                }
-            }
-            
-            /* Unikanie tekstu poza ekranem */
-            @media (max-width: 360px) {
-                body {
-                    word-wrap: break-word;
-                    overflow-wrap: break-word;
-                }
-                
-                h1 {
-                    font-size: 1.5rem;
-                }
-                
-                h2 {
-                    font-size: 1.3rem;
-                }
-            }
-            
-            /* Definicje animacji menu - uproszczone i poprawione dla dotykowych urządzeń */
-            @keyframes slideDown {
-              from {
-                transform: scaleY(0);
-                transform-origin: top;
-              }
-              to {
-                transform: scaleY(1);
-                transform-origin: top;
-              }
-            }
-        </style>
-    </head>
+    <!-- 🔍 META TAGI DLA SEO I SOCIAL MEDIA -->
+    <meta name="keywords" content="okna, drzwi, producent okien, stolarka okienna, okna energooszczędne, drzwi zewnętrzne, systemy osłonowe, rolety">
+    <meta name="author" content="AKO">
+    <meta name="robots" content="index, follow">
+    
+    <!-- Open Graph - dla mediów społecznościowych -->
+    <meta property="og:type" content="website">
+    <meta property="og:title" content="AKO - Producent okien i drzwi">
+    <meta property="og:description" content="Najwyższej jakości stolarka okienna i drzwiowa. 30 lat doświadczenia i zadowolonych klientów.">
+    <meta property="og:image" content="images/og-image.jpg">
+    <meta property="og:url" content="https://www.ako.pl">
+    <meta property="og:site_name" content="AKO">
+    
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:title" content="AKO - Producent okien i drzwi">
+    <meta name="twitter:description" content="Najwyższej jakości stolarka okienna i drzwiowa. 30 lat doświadczenia.">
+    <meta name="twitter:image" content="images/og-image.jpg">
+    
+    <!-- 📂 PLIKI CSS - style w odpowiedniej kolejności -->
+    <link rel="stylesheet" href="css/normalize.css">
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/responsive.css">
+    
+    <!-- 🔣 IKONY I CZCIONKI -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&family=Roboto:wght@300;400;500&display=swap" rel="stylesheet">
+    
+    <!-- 🖥️ FAVICON - ikony strony -->
+    <link rel="icon" href="favicon.ico">
+    <link rel="apple-touch-icon" sizes="180x180" href="images/icons/apple-touch-icon.png">
+    <link rel="icon" type="image/png" sizes="32x32" href="images/icons/favicon-32x32.png">
+    <link rel="icon" type="image/png" sizes="16x16" href="images/icons/favicon-16x16.png">
+    <link rel="manifest" href="site.webmanifest">
+    
+    <!-- 📱 PREFEROWANE KOLORY INTERFEJSU MOBILNEGO -->
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#0056b3">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#003d7a">
+    
+    <!-- OPCJONALNY PRELOAD DUŻYCH OBRAZÓW -->
+    <link rel="preload" href="images/banners/banner1.jpg" as="image">
+</head>
 <body>
     
-    <!-- 🏠 NAGŁÓWEK STRONY / MENU GŁÓWNE - NOWA WERSJA ZE STICKY MENU -->
+    <!-- 🏠 NAGŁÓWEK STRONY / MENU GŁÓWNE - STICKY MENU -->
     <header class="main-header">
         <div class="container">
             <!-- Logo firmy -->
@@ -223,7 +111,7 @@
                 <a href="#" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
             </div>
             
-            <!-- Przycisk menu mobilnego - widoczny tylko na małych ekranach -->
+            <!-- 🍔 Przycisk menu mobilnego - widoczny tylko na małych ekranach -->
             <button class="mobile-menu-toggle" aria-label="Otwórz menu">
                 <i class="fas fa-bars"></i>
             </button>
@@ -269,15 +157,47 @@
                 </div>
             </div>
             
-            <!-- Przyciski nawigacyjne slidera - WIĘKSZE NA TELEFONACH -->
+            <!-- Przyciski nawigacyjne slidera -->
             <button class="slider-nav prev" aria-label="Poprzedni slajd"><i class="fas fa-chevron-left"></i></button>
             <button class="slider-nav next" aria-label="Następny slajd"><i class="fas fa-chevron-right"></i></button>
             
-            <!-- Wskaźniki slajdów (kropki) - WIĘKSZE NA DOTYK -->
+            <!-- Wskaźniki slajdów (kropki) -->
             <div class="slider-indicators">
                 <button class="indicator active" data-slide="0" aria-label="Slajd 1"></button>
                 <button class="indicator" data-slide="1" aria-label="Slajd 2"></button>
                 <button class="indicator" data-slide="2" aria-label="Slajd 3"></button>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 🎯 NOWA SEKCJA: SZYBKI DOSTĘP DO KLUCZOWYCH PRODUKTÓW -->
+    <section class="quick-access">
+        <div class="container">
+            <div class="quick-access-grid">
+                <a href="products/windows-pvc.html" class="quick-access-item">
+                    <div class="icon-container">
+                        <i class="fas fa-window-maximize"></i>
+                    </div>
+                    <span>Okna PVC</span>
+                </a>
+                <a href="products/doors-exterior.html" class="quick-access-item">
+                    <div class="icon-container">
+                        <i class="fas fa-door-open"></i>
+                    </div>
+                    <span>Drzwi zewnętrzne</span>
+                </a>
+                <a href="products/systems-rollers.html" class="quick-access-item">
+                    <div class="icon-container">
+                        <i class="fas fa-sliders-h"></i>
+                    </div>
+                    <span>Rolety</span>
+                </a>
+                <a href="contact.html" class="quick-access-item highlight">
+                    <div class="icon-container pulse">
+                        <i class="fas fa-calculator"></i>
+                    </div>
+                    <span>Bezpłatna wycena</span>
+                </a>
             </div>
         </div>
     </section>
@@ -307,13 +227,13 @@
         </div>
     </section>
     
-    <!-- 📦 SEKCJA PRODUKTOWA Z ANIMACJAMI 3D - ZOPTYMALIZOWANE NA DOTYK -->
+    <!-- 📦 SEKCJA PRODUKTOWA Z ANIMACJAMI 3D -->
     <section class="products-showcase">
         <div class="container">
             <h2 class="reveal-element">Nasze produkty 🏠</h2>
             <div class="products-grid">
                 
-                <!-- 🔄 Produkt 1: Okna - Karta 3D zoptymalizowana dla mobilnych urządzeń -->
+                <!-- 🔄 Produkt 1: Okna - Karta 3D -->
                 <div class="product-3d-container reveal-element reveal-delay-1">
                     <div class="product-3d-card">
                         <!-- Przednia strona produktu -->
@@ -325,7 +245,7 @@
                                 <h3>Okna PVC</h3>
                                 <p>Najwyższa izolacyjność cieplna i komfort użytkowania</p>
                             </div>
-                            <!-- Wskazówka, że produkt można obrócić - WIĘKSZA na dotyk -->
+                            <!-- Wskazówka, że produkt można obrócić -->
                             <div class="rotate-hint" title="Obróć, aby zobaczyć więcej" aria-label="Obróć kartę">
                                 <i class="fas fa-sync-alt"></i>
                             </div>
@@ -445,7 +365,40 @@
         </div>
     </section>
     
-    <!-- 📸 NOWOŚĆ: GALERIA REALIZACJI - Z ANIMACJAMI I OBSŁUGĄ DOTYKOWĄ -->
+    <!-- 🆕 NOWA FUNKCJA: WIRTUALNY KONFIGURATOR 3D -->
+    <section class="virtual-configurator">
+        <div class="container">
+            <div class="configurator-content">
+                <div class="configurator-text reveal-element reveal-left">
+                    <h2>Stwórz swoje idealne okna i drzwi 🎨</h2>
+                    <p class="highlight-text">Nasz nowy konfigurator 3D pozwala zobaczyć, jak będą wyglądać Twoje wymarzane okna i drzwi!</p>
+                    <ul class="configurator-features">
+                        <li><i class="fas fa-palette"></i> Wybierz dowolny kolor i fakturę</li>
+                        <li><i class="fas fa-ruler-combined"></i> Dopasuj wymiary do swoich potrzeb</li>
+                        <li><i class="fas fa-sliders-h"></i> Dodaj akcesoria i dodatki</li>
+                        <li><i class="fas fa-eye"></i> Zobacz efekt w widoku 3D</li>
+                        <li><i class="fas fa-file-pdf"></i> Pobierz projekt i wycenę w PDF</li>
+                    </ul>
+                    <div class="configurator-buttons">
+                        <a href="configurator.html" class="btn btn-accent">Wypróbuj konfigurator</a>
+                        <a href="#demo-video" class="btn btn-outline video-btn">
+                            <i class="fas fa-play-circle"></i> Zobacz jak to działa
+                        </a>
+                    </div>
+                </div>
+                <div class="configurator-preview reveal-element reveal-right">
+                    <div class="configurator-device">
+                        <img src="images/configurator-preview.jpg" alt="Konfigurator okien i drzwi AKO 3D" class="responsive-img">
+                        <div class="configurator-badge">
+                            <span>NOWOŚĆ</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    
+    <!-- 📸 GALERIA REALIZACJI Z ANIMACJAMI -->
     <section class="projects-preview">
         <div class="container">
             <h2 class="reveal-element">Nasze realizacje 🏢</h2>
@@ -455,7 +408,7 @@
                 <!-- Realizacja 1 - Okna (animacja od lewej) -->
                 <div class="gallery-item reveal-element reveal-left reveal-delay-1" data-category="windows">
                     <div class="gallery-image">
-                        <img src="images/gallery/windows/windows-1.jpg" alt="Realizacja okien w domu jednorodzinnym" width="400" height="300">
+                        <img src="images/gallery/windows/windows-1.jpg" alt="Realizacja okien w domu jednorodzinnym" loading="lazy" width="400" height="300">
                     </div>
                     <div class="gallery-overlay">
                         <div class="gallery-info">
@@ -469,7 +422,7 @@
                 <!-- Realizacja 2 - Drzwi (animacja powiększenia) -->
                 <div class="gallery-item reveal-element reveal-zoom reveal-delay-2" data-category="doors">
                     <div class="gallery-image">
-                        <img src="images/gallery/doors/doors-1.jpg" alt="Realizacja drzwi wejściowych" width="400" height="300">
+                        <img src="images/gallery/doors/doors-1.jpg" alt="Realizacja drzwi wejściowych" loading="lazy" width="400" height="300">
                     </div>
                     <div class="gallery-overlay">
                         <div class="gallery-info">
@@ -483,7 +436,7 @@
                 <!-- Realizacja 3 - Fasady (animacja od prawej) -->
                 <div class="gallery-item reveal-element reveal-right reveal-delay-3" data-category="facades">
                     <div class="gallery-image">
-                        <img src="images/gallery/facades/facade-1.jpg" alt="Realizacja fasady szklanej" width="400" height="300">
+                        <img src="images/gallery/facades/facade-1.jpg" alt="Realizacja fasady szklanej" loading="lazy" width="400" height="300">
                     </div>
                     <div class="gallery-overlay">
                         <div class="gallery-info">
@@ -518,94 +471,83 @@
                     <a href="contact.html" class="btn btn-accent">Skorzystaj z promocji</a>
                 </div>
                 <div class="promo-image reveal-element reveal-right">
-                    <img src="images/promo-spring.jpg" alt="Wiosenna promocja na okna i rolety AKO" width="500" height="300">
+                    <img src="images/promo-spring.jpg" alt="Wiosenna promocja na okna i rolety AKO" loading="lazy" width="500" height="300">
                 </div>
             </div>
         </div>
     </section>
     
-    <!-- 💰 KALKULATOR OSZCZĘDNOŚCI ENERGETYCZNYCH - ZOPTYMALIZOWANY NA MOBILNE -->
-<section class="energy-savings">
-    <div class="container">
-        <h2 class="reveal-element">Kalkulator oszczędności 💰</h2>
-        <p class="section-subtitle reveal-element">Sprawdź, ile możesz zaoszczędzić dzięki naszym energooszczędnym oknom</p>
-        
-        <div class="calculator-container reveal-element">
-            <div class="calculator-form">
-                <div class="form-group">
-                    <label for="window-area">Łączna powierzchnia okien (m²):</label>
-                    <input type="number" id="window-area" value="15" min="1" max="100" inputmode="numeric">
-                </div>
-                
-                <div class="form-group">
-                    <label for="window-type">Rodzaj obecnych okien:</label>
-                    <select id="window-type">
-                        <option value="old-single">Stare okna jednoszybowe</option>
-                        <option value="old-double">Stare okna dwuszybowe</option>
-                        <option value="standard-double">Standardowe okna dwuszybowe</option>
-                        <option value="standard-triple">Standardowe okna trzyszybowe</option>
-                    </select>
-                </div>
-                
-                <div class="form-group">
-                    <label for="heating-type">Rodzaj ogrzewania:</label>
-                    <select id="heating-type">
-                        <option value="gas">Gaz ziemny</option>
-                        <option value="electric">Prąd elektryczny</option>
-                        <option value="coal">Węgiel</option>
-                        <option value="pellet">Pellet drzewny</option>
-                        <option value="oil">Olej opałowy</option>
-                    </select>
-                </div>
-                
-                <button type="button" id="calculate-savings" class="btn btn-primary">Oblicz oszczędności</button>
-                
-                <!-- Link do metodologii -->
-                <div class="methodology-link">
-                    <a href="#" id="methodology-toggle">Jak to działa? <i class="fas fa-info-circle"></i></a>
-                    <div id="methodology-description" style="display:none; margin-top:10px; font-size:0.9em; color:#555;">
-                        Obliczenia bazują na danych z 2025 roku: współczynnikach przenikania ciepła (U-wartości), średniej liczbie dni grzewczych w Polsce oraz aktualnych cenach energii i emisjach CO₂ dla różnych źródeł ogrzewania. 
-                        <a href="#sources">Sprawdź źródła</a>.
+    <!-- 💰 KALKULATOR OSZCZĘDNOŚCI ENERGETYCZNYCH -->
+    <section class="energy-savings">
+        <div class="container">
+            <h2 class="reveal-element">Kalkulator oszczędności 💰</h2>
+            <p class="section-subtitle reveal-element">Sprawdź, ile możesz zaoszczędzić dzięki naszym energooszczędnym oknom</p>
+            
+            <div class="calculator-container reveal-element">
+                <div class="calculator-form">
+                    <div class="form-group">
+                        <label for="window-area">Łączna powierzchnia okien (m²):</label>
+                        <input type="number" id="window-area" value="15" min="1" max="100" inputmode="numeric">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="window-type">Rodzaj obecnych okien:</label>
+                        <select id="window-type">
+                            <option value="old-single">Stare okna jednoszybowe</option>
+                            <option value="old-double">Stare okna dwuszybowe</option>
+                            <option value="standard-double">Standardowe okna dwuszybowe</option>
+                            <option value="standard-triple">Standardowe okna trzyszybowe</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="heating-type">Rodzaj ogrzewania:</label>
+                        <select id="heating-type">
+                            <option value="gas">Gaz ziemny</option>
+                            <option value="electric">Prąd elektryczny</option>
+                            <option value="coal">Węgiel</option>
+                            <option value="pellet">Pellet drzewny</option>
+                            <option value="oil">Olej opałowy</option>
+                        </select>
+                    </div>
+                    
+                    <button type="button" id="calculate-savings" class="btn btn-primary">Oblicz oszczędności</button>
+                    
+                    <!-- Link do metodologii -->
+                    <div class="methodology-link">
+                        <a href="#" id="methodology-toggle">Jak to działa? <i class="fas fa-info-circle"></i></a>
+                        <div id="methodology-description" style="display:none; margin-top:10px; font-size:0.9em; color:#555;">
+                            Obliczenia bazują na danych z 2025 roku: współczynnikach przenikania ciepła (U-wartości), średniej liczbie dni grzewczych w Polsce oraz aktualnych cenach energii i emisjach CO₂ dla różnych źródeł ogrzewania. 
+                            <a href="#sources">Sprawdź źródła</a>.
+                        </div>
                     </div>
                 </div>
-            </div>
-            
-            <div class="calculator-results">
-                <div class="result-item">
-                    <i class="fas fa-wallet"></i>
-                    <div class="result-label">Roczne oszczędności:</div>
-                    <div class="result-value" id="yearly-savings">0 zł</div>
-                </div>
                 
-                <div class="result-item">
-                    <i class="fas fa-chart-line"></i>
-                    <div class="result-label">Oszczędności w ciągu 10 lat:</div>
-                    <div class="result-value" id="ten-year-savings">0 zł</div>
+                <div class="calculator-results">
+                    <div class="result-item">
+                        <i class="fas fa-wallet"></i>
+                        <div class="result-label">Roczne oszczędności:</div>
+                        <div class="result-value" id="yearly-savings">0 zł</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <i class="fas fa-chart-line"></i>
+                        <div class="result-label">Oszczędności w ciągu 10 lat:</div>
+                        <div class="result-value" id="ten-year-savings">0 zł</div>
+                    </div>
+                    
+                    <div class="result-item">
+                        <i class="fas fa-leaf"></i>
+                        <div class="result-label">Redukcja emisji CO₂:</div>
+                        <div class="result-value" id="co2-reduction">0 kg/rok</div>
+                    </div>
+                    
+                    <a href="contact.html" class="btn btn-accent btn-block mt-20">Otrzymaj indywidualną wycenę</a>
+                    <a href="#" class="btn btn-secondary btn-block mt-10" id="download-report">Pobierz raport PDF</a>
                 </div>
-                
-                <div class="result-item">
-                    <i class="fas fa-leaf"></i>
-                    <div class="result-label">Redukcja emisji CO₂:</div>
-                    <div class="result-value" id="co2-reduction">0 kg/rok</div>
-                </div>
-                
-                <a href="contact.html" class="btn btn-accent btn-block mt-20">Otrzymaj indywidualną wycenę</a>
-                <a href="#" class="btn btn-secondary btn-block mt-10" id="download-report">Pobierz raport PDF</a>
             </div>
         </div>
-        
-        <!-- Sekcja z referencjami -->
-        <div class="sources-section" id="sources">
-            <h3>Źródła danych</h3>
-            <ul>
-                <li><a href="https://www.iea.org/data-and-statistics" target="_blank">Dni grzewcze w Polsce (IEA)</a></li>
-                <li><a href="https://www.globalpetrolprices.com" target="_blank">Ceny gazu ziemnego</a></li>
-                <li><a href="https://www.statista.com" target="_blank">Ceny prądu i emisje CO₂</a></li>
-                <li><a href="https://stat.gov.pl" target="_blank">Ceny węgla (GUS)</a></li>
-            </ul>
-        </div>
-    </div>
-</section>
+    </section>
     
     <!-- 🔄 SEKCJA PROCESU -->
     <section class="process">
@@ -656,7 +598,7 @@
         </div>
     </section>
     
-    <!-- 💬 NOWA SEKCJA - OPINIE Z GOOGLE MAPS ZOPTYMALIZOWANE NA DOTYK -->
+    <!-- 💬 OPINIE KLIENTÓW -->
     <section class="google-reviews-section">
         <div class="container">
             <h2 class="reveal-element">Co mówią nasi klienci 😊</h2>
@@ -684,7 +626,7 @@
                 </a>
             </div>
             
-            <!-- Filtry opinii - WIĘKSZE PRZYCISKI NA DOTYK -->
+            <!-- Filtry opinii -->
             <div class="reviews-filters reveal-element">
                 <button class="filter-option active" data-filter="all">Wszystkie opinie</button>
                 <button class="filter-option" data-filter="5">5 gwiazdek</button>
@@ -695,10 +637,10 @@
             
             <div class="google-reviews-slider">
                 <div class="reviews-container" id="reviews-container">
-                    <!-- Dynamicznie dodawane opinie -->
+                    <!-- Dynamicznie dodawane opinie przez JavaScript -->
                 </div>
                 
-                <!-- WIĘKSZE przyciski nawigacyjne dla dotykowych urządzeń -->
+                <!-- Przyciski nawigacyjne dla opinii -->
                 <button class="slider-nav slider-prev" aria-label="Poprzednia opinia">
                     <i class="fas fa-chevron-left"></i>
                 </button>
@@ -713,7 +655,7 @@
         </div>
     </section>
     
-    <!-- 🙋 SEKCJA FAQ - ULEPSZONA DOSTĘPNOŚĆ DOTYKOWA -->
+    <!-- ❓ SEKCJA FAQ -->
     <section class="faq-section">
         <div class="container">
             <h2 class="reveal-element">Najczęściej zadawane pytania 🤔</h2>
@@ -758,7 +700,7 @@
                     </div>
                 </div>
                 
-                <div class="faq-item reveal-element reveal-delay-4">
+                <div class="faq-item reveal-element reveal-delay-5">
                     <button class="faq-question" aria-expanded="false" aria-controls="faq-answer-5">
                         <h3>Czy mogę skorzystać z dofinansowania na wymianę okien?</h3>
                         <span class="faq-toggle"><i class="fas fa-plus"></i></span>
@@ -771,7 +713,7 @@
         </div>
     </section>
     
-    <!-- 📞 SEKCJA KONTAKTOWA - ZOPTYMALIZOWANA NA MOBILNE -->
+    <!-- 📞 SEKCJA KONTAKTOWA -->
     <section class="contact-section">
         <div class="container">
             <div class="contact-grid">
@@ -780,7 +722,6 @@
                     <p>Masz pytania? Skorzystaj z formularza kontaktowego lub skontaktuj się bezpośrednio, aby otrzymać <strong>bezpłatną wycenę</strong>!</p>
                     
                     <div class="contact-details">
-                        <!-- Przyciski kontaktowe WIĘKSZE dla dotykowych urządzeń -->
                         <div class="contact-item">
                             <i class="fas fa-phone"></i>
                             <a href="tel:+48123456789" class="contact-link">+48 123 456 789</a>
@@ -829,7 +770,7 @@
         </div>
     </section>
     
-    <!-- 📢 SEKCJA CTA - WIĘKSZE PRZYCISKI NA MOBILNE -->
+    <!-- 📢 SEKCJA CTA -->
     <section class="cta-section">
         <div class="container">
             <h2>Zainteresowany naszymi produktami?</h2>
@@ -841,7 +782,7 @@
         </div>
     </section>
     
-    <!-- 📃 STOPKA STRONY - DOTYKOWA OPTYMALIZACJA -->
+    <!-- 📃 STOPKA STRONY -->
     <footer class="main-footer">
         <div class="container">
             <div class="footer-grid">
@@ -851,7 +792,7 @@
                     <p>Jesteśmy polskim producentem wysokiej jakości stolarki okiennej i drzwiowej. Działamy na rynku od 30 lat, dostarczając produkty dla klientów indywidualnych i firm.</p>
                 </div>
                 
-                <!-- Kolumna 2: Szybkie linki - WIĘKSZY ODSTĘP MIĘDZY LINKAMI -->
+                <!-- Kolumna 2: Szybkie linki -->
                 <div class="footer-column">
                     <h4>Szybkie linki</h4>
                     <ul class="footer-links">
@@ -865,7 +806,7 @@
                     </ul>
                 </div>
                 
-                <!-- Kolumna 3: Kontakt - INTERAKTYWNE LINKI -->
+                <!-- Kolumna 3: Kontakt -->
                 <div class="footer-column">
                     <h4>Kontakt</h4>
                     <div class="footer-contact">
@@ -875,7 +816,7 @@
                     </div>
                 </div>
                 
-                <!-- Kolumna 4: Social media - WIĘKSZE IKONY NA DOTYK -->
+                <!-- Kolumna 4: Social media -->
                 <div class="footer-column">
                     <h4>Obserwuj nas</h4>
                     <div class="social-icons">
@@ -885,7 +826,7 @@
                         <a href="#" target="_blank" rel="noopener" aria-label="YouTube"><i class="fab fa-youtube"></i></a>
                     </div>
                     
-                    <!-- Newsletter - WIĘKSZE POLA -->
+                    <!-- Newsletter -->
                     <div class="newsletter">
                         <h4>Newsletter</h4>
                         <p>Zapisz się, aby otrzymywać informacje o promocjach</p>
@@ -909,12 +850,12 @@
         </div>
     </footer>
     
-    <!-- ⬆️ PRZYCISK "WRÓĆ DO GÓRY" - WIĘKSZY NA URZĄDZENIA DOTYKOWE -->
+    <!-- ⬆️ PRZYCISK "WRÓĆ DO GÓRY" -->
     <a href="#" class="scroll-top" aria-label="Przewiń do góry">
         <i class="fas fa-arrow-up"></i>
     </a>
     
-    <!-- 🖼️ MODAL GALERII - OBSŁUGA DOTYKOWA -->
+    <!-- 🖼️ MODAL GALERII -->
     <div class="gallery-modal" role="dialog" aria-modal="true" aria-label="Powiększone zdjęcie">
         <button class="modal-close" aria-label="Zamknij">&times;</button>
         <div class="modal-content">
@@ -924,500 +865,50 @@
         </div>
     </div>
 
-    <!-- 🔧 SEKCJA SKRYPTÓW JAVASCRIPT -->
-    
-    <!-- Główny skrypt strony -->
+    <!-- 🎥 MODAL WIDEO -->
+    <div id="demo-video" class="video-modal">
+        <div class="video-modal-content">
+            <button class="video-modal-close" aria-label="Zamknij wideo">&times;</button>
+            <div class="video-container">
+                <iframe width="560" height="315" src="" title="Konfigurator 3D AKO - demonstracja" frameborder="0" allowfullscreen></iframe>
+            </div>
+        </div>
+    </div>
+
+    <!-- 🎯 USTAWIENIA TRYBU CIEMNEGO -->
+    <div class="theme-toggle">
+        <button id="theme-switch" aria-label="Zmień motyw kolorystyczny">
+            <i class="fas fa-moon"></i>
+        </button>
+    </div>
+
+    <!-- 🔧 SKRYPTY JAVASCRIPT -->
     <script src="js/main.js"></script>
-    
-    <!-- Skrypt dla slidera -->
     <script src="js/slider.js"></script>
-    
-    <!-- Skrypt dla galerii -->
     <script src="js/gallery.js"></script>
-    
-    <!-- Skrypt dla kalkulatora oszczędności energetycznych -->
     <script src="js/energy-calculator.js"></script>
     
-    <!-- 🔍 SKRYPT DLA ANIMACJI WEJŚCIOWYCH (REVEAL ON SCROLL) - ZOPTYMALIZOWANY -->
-    <script>
-      // Funkcja do wykrywania elementów w widoku
-      document.addEventListener('DOMContentLoaded', function() {
-        // Wybieramy wszystkie elementy z klasą reveal-element
-        const revealElements = document.querySelectorAll('.reveal-element');
-        
-        // Sprawdzamy, czy urządzenie jest dotykowe (mobilne)
-        const isTouchDevice = ('ontouchstart' in window) || 
-                             (navigator.maxTouchPoints > 0) || 
-                             (navigator.msMaxTouchPoints > 0);
-                             
-        // Natychmiast pokazujemy elementy na urządzeniach dotykowych dla lepszej wydajności
-        if (isTouchDevice) {
-          revealElements.forEach(element => {
-            // Krótsze opóźnienie dla urządzeń mobilnych
-            setTimeout(() => {
-              element.classList.add('revealed');
-            }, 300);
-          });
-          return; // Kończymy dla urządzeń dotykowych
-        }
-        
-        // Funkcja sprawdzająca, czy element jest widoczny (dla komputerów)
-        function checkReveal() {
-          // Pętla przez wszystkie elementy do animacji
-          revealElements.forEach(element => {
-            // Pobieramy pozycję elementu
-            const elementTop = element.getBoundingClientRect().top;
-            const elementBottom = element.getBoundingClientRect().bottom;
-            
-            // Sprawdzamy, czy element jest w widoku (z małym offsetem)
-            const isVisible = (
-              elementTop < window.innerHeight - 100 && 
-              elementBottom > 0
-            );
-            
-            // Jeśli element jest widoczny, dodajemy klasę revealed
-            if (isVisible) {
-              element.classList.add('revealed');
-            }
-          });
-        }
-        
-        // Wywołujemy funkcję przy ładowaniu strony
-        checkReveal();
-        
-        // Dodajemy nasłuchiwanie na przewijanie (tylko dla komputerów)
-        window.addEventListener('scroll', checkReveal);
-      });
-    </script>
-    
-    <!-- 🔄 SKRYPT DLA INTERAKCJI KART 3D - ZOPTYMALIZOWANY NA DOTYK -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Sprawdzamy, czy urządzenie jest dotykowe
-        const isTouchDevice = ('ontouchstart' in window) || 
-                             (navigator.maxTouchPoints > 0) || 
-                             (navigator.msMaxTouchPoints > 0);
-                             
-        // Pobieramy wszystkie przyciski do obracania
-        const rotateHints = document.querySelectorAll('.rotate-hint');
-        
-        // Pobieramy wszystkie kontenery kart 3D
-        const productContainers = document.querySelectorAll('.product-3d-container');
-        
-        if (isTouchDevice) {
-          // Dla urządzeń dotykowych - obsługa kliknięcia przycisku
-          rotateHints.forEach(hint => {
-            hint.addEventListener('click', function(e) {
-              e.preventDefault();
-              e.stopPropagation(); // Zapobiegamy propagacji zdarzenia
-              
-              // Znajdź rodzica z klasą product-3d-card
-              const card = this.closest('.product-3d-card');
-              
-              // Przełącz klasę flipped
-              card.classList.toggle('flipped');
-              
-              // Jeśli karta jest odwrócona, obróć ją
-              if (card.classList.contains('flipped')) {
-                card.style.transform = 'rotateY(180deg)';
-              } else {
-                card.style.transform = 'rotateY(0)';
-              }
-            });
-          });
-          
-          // Dla urządzeń dotykowych - obracanie karty przez "dwukliknięcie" w cały obszar
-          productContainers.forEach(container => {
-            let lastTap = 0;
-            
-            container.addEventListener('touchend', function(e) {
-              // Ignoruj, jeśli kliknięto w przycisk rotate-hint lub inny aktywny element
-              if (e.target.closest('.rotate-hint') || e.target.closest('a') || e.target.closest('button')) {
-                return;
-              }
-              
-              const currentTime = new Date().getTime();
-              const tapLength = currentTime - lastTap;
-              
-              if (tapLength < 500 && tapLength > 0) {
-                // Double tap detected
-                const card = this.querySelector('.product-3d-card');
-                card.classList.toggle('flipped');
-                
-                if (card.classList.contains('flipped')) {
-                  card.style.transform = 'rotateY(180deg)';
-                } else {
-                  card.style.transform = 'rotateY(0)';
-                }
-                
-                e.preventDefault();
-              }
-              
-              lastTap = currentTime;
-            });
-          });
-        } else {
-          // Dla komputerów - dodajemy hover efekt
-          productContainers.forEach(container => {
-            container.addEventListener('mouseenter', function() {
-              const card = this.querySelector('.product-3d-card');
-              card.style.transform = 'rotateY(10deg)';
-            });
-            
-            container.addEventListener('mouseleave', function() {
-              const card = this.querySelector('.product-3d-card');
-              if (!card.classList.contains('flipped')) {
-                card.style.transform = 'rotateY(0)';
-              }
-            });
-          });
-          
-          // Przycisk obrotu dla komputerów
-          rotateHints.forEach(hint => {
-            hint.addEventListener('click', function(e) {
-              e.preventDefault();
-              
-              // Znajdź rodzica z klasą product-3d-card
-              const card = this.closest('.product-3d-card');
-              
-              // Przełącz klasę flipped
-              card.classList.toggle('flipped');
-              
-              // Jeśli karta jest odwrócona, obróć ją
-              if (card.classList.contains('flipped')) {
-                card.style.transform = 'rotateY(180deg)';
-              } else {
-                card.style.transform = 'rotateY(0)';
-              }
-            });
-          });
-        }
-      });
-    </script>
-    
-    <!-- 💬 SKRYPT DLA OPINII Z GOOGLE MAPS - OBSŁUGA DOTYKOWA -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Dane opinii - w rzeczywistej implementacji pobierane z Google Places API
-        const reviewsData = [
-          {
-            name: "Anna Kowalska",
-            avatar: "images/reviews/avatar1.jpg",
-            rating: 5,
-            date: "2 tygodnie temu",
-            content: "Jesteśmy bardzo zadowoleni z okien dostarczonych przez firmę AKO. Profesjonalny montaż, wysoka jakość i świetna obsługa klienta. Polecam wszystkim, którzy szukają najlepszych okien na rynku!",
-            isVerified: true,
-            reviewUrl: "#"
-          },
-          {
-            name: "Jan Nowak",
-            avatar: "images/reviews/avatar2.jpg",
-            rating: 5,
-            date: "1 miesiąc temu",
-            content: "Zamówiłem drzwi wejściowe i jestem zachwycony rezultatem. Jakość wykonania i estetyka na najwyższym poziomie. Montaż przebiegł sprawnie i bez problemów. Szczerze polecam!",
-            isVerified: true,
-            reviewUrl: "#"
-          },
-          {
-            name: "Małgorzata Wiśniewska",
-            avatar: "images/reviews/avatar3.jpg",
-            rating: 4,
-            date: "2 miesiące temu",
-            content: "Okna spełniają moje oczekiwania, są energooszczędne i dobrze wygłuszają hałas z ulicy. Jedyne zastrzeżenie mam do czasu realizacji, który był dłuższy niż początkowo ustalono. Poza tym wszystko w porządku.",
-            isVerified: true,
-            reviewUrl: "#"
-          },
-          {
-            name: "Piotr Kowalczyk",
-            avatar: "images/reviews/avatar4.jpg",
-            rating: 5,
-            date: "3 miesiące temu",
-            content: "Firma AKO zainstalowała u mnie okna w całym domu oraz drzwi tarasowe. Jestem pod wrażeniem jakości produktów i profesjonalizmu ekipy montażowej. Widać, że znają się na rzeczy i dbają o każdy szczegół.",
-            isVerified: true,
-            reviewUrl: "#"
-          }
-        ];
-        
-        // Pobranie elementów DOM
-        const reviewsContainer = document.getElementById('reviews-container');
-        const prevButton = document.querySelector('.google-reviews-slider .slider-prev');
-        const nextButton = document.querySelector('.google-reviews-slider .slider-next');
-        const filterOptions = document.querySelectorAll('.filter-option');
-        
-        // Funkcja renderująca opinie
-        function renderReviews(filter = 'all') {
-          // Wyczyść kontener
-          reviewsContainer.innerHTML = '';
-          
-          // Filtruj opinie
-          let filteredReviews = [...reviewsData];
-          
-          if (filter === '5') {
-            filteredReviews = reviewsData.filter(review => review.rating === 5);
-          } else if (filter === '4') {
-            filteredReviews = reviewsData.filter(review => review.rating === 4);
-          } else if (filter === '3') {
-            filteredReviews = reviewsData.filter(review => review.rating <= 3);
-          }
-          
-          // Wygeneruj karty opinii
-          filteredReviews.forEach((review, index) => {
-            const reviewCard = document.createElement('div');
-            reviewCard.className = `review-card ${index === 0 ? 'featured' : ''}`;
-            reviewCard.setAttribute('role', 'article');
-            
-            // Generowanie gwiazdek
-            let starsHTML = '';
-            for (let i = 1; i <= 5; i++) {
-              if (i <= review.rating) {
-                starsHTML += '<i class="fas fa-star star-icon" aria-hidden="true"></i>';
-              } else if (i - 0.5 <= review.rating) {
-                starsHTML += '<i class="fas fa-star-half-alt star-icon" aria-hidden="true"></i>';
-              } else {
-                starsHTML += '<i class="far fa-star star-icon" aria-hidden="true"></i>';
-              }
-            }
-            
-            reviewCard.innerHTML = `
-              <div class="review-header">
-                <div class="reviewer-avatar">
-                  <img src="${review.avatar}" alt="" width="50" height="50" aria-hidden="true">
-                </div>
-                <div class="reviewer-info">
-                  <div class="reviewer-name">${review.name}</div>
-                  <div class="review-date">${review.date}</div>
-                </div>
-              </div>
-              <div class="review-stars" aria-label="Ocena: ${review.rating} na 5 gwiazdek">
-                ${starsHTML}
-              </div>
-              <div class="review-content">
-                "${review.content}"
-              </div>
-              <div class="review-footer">
-                <div class="verified-badge">
-                  <i class="fas fa-check-circle" aria-hidden="true"></i> Zweryfikowana opinia
-                </div>
-                <a href="${review.reviewUrl}" class="view-on-google" target="_blank" rel="noopener">
-                  Zobacz na Google <i class="fas fa-external-link-alt" aria-hidden="true"></i>
-                </a>
-              </div>
-            `;
-            
-            reviewsContainer.appendChild(reviewCard);
-          });
-        }
-        
-        // Inicjalizacja opinii
-        renderReviews();
-        
-        // Sprawdzamy, czy urządzenie jest dotykowe
-        const isTouchDevice = ('ontouchstart' in window) || 
-                             (navigator.maxTouchPoints > 0) || 
-                             (navigator.msMaxTouchPoints > 0);
-                             
-        // Obsługa przycisków nawigacyjnych
-        if (prevButton && nextButton) {
-          // Dla urządzeń dotykowych używamy większego przesuwania
-          const scrollAmount = isTouchDevice ? 290 : 380;
-          
-          prevButton.addEventListener('click', function() {
-            reviewsContainer.scrollBy({ left: -scrollAmount, behavior: 'smooth' });
-          });
-          
-          nextButton.addEventListener('click', function() {
-            reviewsContainer.scrollBy({ left: scrollAmount, behavior: 'smooth' });
-          });
-        }
-        
-        // Obsługa gestów dotykowych dla opinii
-        if (isTouchDevice && reviewsContainer) {
-          let touchStartX = 0;
-          let touchEndX = 0;
-          
-          reviewsContainer.addEventListener('touchstart', function(e) {
-            touchStartX = e.changedTouches[0].screenX;
-          }, { passive: true });
-          
-          reviewsContainer.addEventListener('touchend', function(e) {
-            touchEndX = e.changedTouches[0].screenX;
-            
-            // Minimalny dystans przesunięcia palcem
-            const minSwipeDistance = 50;
-            
-            if (touchEndX - touchStartX > minSwipeDistance) {
-              // Przesunięcie w prawo - poprzednia opinia
-              reviewsContainer.scrollBy({ left: -290, behavior: 'smooth' });
-            } else if (touchStartX - touchEndX > minSwipeDistance) {
-              // Przesunięcie w lewo - następna opinia
-              reviewsContainer.scrollBy({ left: 290, behavior: 'smooth' });
-            }
-          }, { passive: true });
-        }
-        
-        // Obsługa filtrów
-        if (filterOptions) {
-          filterOptions.forEach(option => {
-            option.addEventListener('click', function() {
-              // Usuń klasę active ze wszystkich przycisków
-              filterOptions.forEach(btn => btn.classList.remove('active'));
-              
-              // Dodaj klasę active do klikniętego przycisku
-              this.classList.add('active');
-              
-              // Renderuj opinie z nowym filtrem
-              renderReviews(this.dataset.filter);
-            });
-          });
-        }
-      });
-    </script>
-    
-    <!-- 📱 SKRYPT DLA MENU MOBILNEGO - ZOPTYMALIZOWANY NA DOTYK -->
-    <script>
-      document.addEventListener('DOMContentLoaded', function() {
-        // Lepsza obsługa menu mobilnego z uwzględnieniem dostępności
-        const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
-        const mainMenu = document.querySelector('.main-menu');
-        const dropdowns = document.querySelectorAll('.dropdown');
-        
-        // Sprawdzamy, czy urządzenie jest dotykowe
-        const isTouchDevice = ('ontouchstart' in window) || 
-                            (navigator.maxTouchPoints > 0) || 
-                            (navigator.msMaxTouchPoints > 0);
-        
-        // Obsługa menu mobilnego
-        if (mobileMenuToggle && mainMenu) {
-          mobileMenuToggle.addEventListener('click', function() {
-            const isExpanded = mainMenu.classList.contains('active');
-            
-            // Przełączamy menu
-            mainMenu.classList.toggle('active');
-            
-            // Ustawiamy ARIA atrybuty dla dostępności
-            this.setAttribute('aria-expanded', !isExpanded);
-            
-            // Zmieniamy ikonę
-            const icon = this.querySelector('i');
-            if (icon) {
-              if (icon.classList.contains('fa-bars')) {
-                icon.classList.remove('fa-bars');
-                icon.classList.add('fa-times');
-              } else {
-                icon.classList.remove('fa-times');
-                icon.classList.add('fa-bars');
-              }
-            }
-          });
-        }
-        
-        // Obsługa menu dropdown
-        dropdowns.forEach(dropdown => {
-          const link = dropdown.querySelector('a');
-          
-          if (link && isTouchDevice) {
-            // Na urządzeniach dotykowych używamy kliknięcia do rozwijania menu
-            link.addEventListener('click', function(e) {
-              e.preventDefault();
-              
-              // Sprawdzamy, czy dropdown jest już aktywny
-              const isActive = dropdown.classList.contains('active');
-              
-              // Zamykamy wszystkie otwarte menu
-              dropdowns.forEach(d => {
-                if (d !== dropdown) {
-                  d.classList.remove('active');
-                  const dLink = d.querySelector('a');
-                  if (dLink) {
-                    dLink.setAttribute('aria-expanded', 'false');
-                  }
-                }
-              });
-              
-              // Przełączamy stan tego dropdown
-              dropdown.classList.toggle('active');
-              
-              // Ustawiamy ARIA atrybuty
-              link.setAttribute('aria-expanded', !isActive);
-            });
-          }
-        });
-        
-        // Obsługa FAQ - zapewniamy poprawną dostępność
-        const faqQuestions = document.querySelectorAll('.faq-question');
-        
-        faqQuestions.forEach(question => {
-          question.addEventListener('click', function() {
-            const faqItem = this.closest('.faq-item');
-            const faqAnswer = faqItem.querySelector('.faq-answer');
-            const isExpanded = faqItem.classList.contains('active');
-            const icon = this.querySelector('.faq-toggle i');
-            
-            // Zamykamy inne odpowiedzi
-            document.querySelectorAll('.faq-item.active').forEach(item => {
-              if (item !== faqItem) {
-                item.classList.remove('active');
-                const q = item.querySelector('.faq-question');
-                const i = item.querySelector('.faq-toggle i');
-                
-                if (q) q.setAttribute('aria-expanded', 'false');
-                if (i) {
-                  i.classList.remove('fa-minus');
-                  i.classList.add('fa-plus');
-                }
-                
-                const a = item.querySelector('.faq-answer');
-                if (a) a.style.maxHeight = '0px';
-              }
-            });
-            
-            // Przełączamy stan
-            faqItem.classList.toggle('active');
-            this.setAttribute('aria-expanded', !isExpanded);
-            
-            // Zmieniamy ikonę
-            if (icon) {
-              if (isExpanded) {
-                icon.classList.remove('fa-minus');
-                icon.classList.add('fa-plus');
-              } else {
-                icon.classList.remove('fa-plus');
-                icon.classList.add('fa-minus');
-              }
-            }
-            
-            // Ustawiamy wysokość
-            if (faqAnswer) {
-              if (!isExpanded) {
-                faqAnswer.style.maxHeight = (faqAnswer.scrollHeight + 20) + 'px';
-              } else {
-                faqAnswer.style.maxHeight = '0px';
-              }
-            }
-          });
-        });
-      });
-    </script>
-    
-    <!-- 📊 SKRYPT ŁADOWANIA STRONY - ZOPTYMALIZOWANY DLA MOBILNYCH -->
-    <script>
-      // Wyłączamy niektóre efekty na urządzeniach o słabej wydajności
-      document.addEventListener('DOMContentLoaded', function() {
-        // Sprawdzamy wydajność urządzenia
-        const isLowEndDevice = navigator.hardwareConcurrency <= 4;
-        
-        if (isLowEndDevice) {
-          // Wyłączamy ciężkie animacje na słabszych urządzeniach
-          document.body.classList.add('low-performance');
-          
-          // Zmniejszamy liczbę jednoczesnych animacji
-          const animatedElements = document.querySelectorAll('.reveal-delay-2, .reveal-delay-3, .reveal-delay-4');
-          animatedElements.forEach(el => {
-            el.classList.remove('reveal-delay-2', 'reveal-delay-3', 'reveal-delay-4');
-            el.classList.add('reveal-delay-1');
-          });
-        }
-      });
+    <!-- 📈 Schema.org JSON-LD dla lepszego SEO -->
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "AKO - Producent okien i drzwi",
+      "url": "https://www.ako.pl",
+      "logo": "https://www.ako.pl/images/logo.png",
+      "contactPoint": {
+        "@type": "ContactPoint",
+        "telephone": "+48123456789",
+        "contactType": "customer service",
+        "availableLanguage": ["Polish", "English"]
+      },
+      "sameAs": [
+        "https://www.facebook.com/AKOokna",
+        "https://www.instagram.com/akowindows",
+        "https://www.linkedin.com/company/ako-windows",
+        "https://www.youtube.com/AKOokna"
+      ]
+    }
     </script>
 </body>
 </html>

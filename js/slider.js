@@ -1,175 +1,103 @@
-// =========== FUNKCJE SLIDERÓW - POPRAWIONA WERSJA ===========
-// 🎠 Ten plik zawiera funkcje do obsługi wszystkich sliderów/karuzel na stronie
+// =========== 🎠 FUNKCJE SLIDERÓW I KARUZEL ===========
+/* 
+ * Ten plik zawiera funkcje do obsługi wszystkich sliderów i karuzel na stronie.
+ * Używa prostych, ale efektywnych technik bez zewnętrznych bibliotek.
+ * 💡 Jeśli nie jesteś programistą, nie martw się! Wszystko zostało wytłumaczone krok po kroku.
+ */
 
+// Czekaj na załadowanie całej strony przed uruchomieniem kodu
 document.addEventListener('DOMContentLoaded', function() {
-    // Preładowanie obrazów tła
-    preloadSliderImages();
-    
-    // Inicjalizujemy główny slider na stronie głównej
+    // 🖼️ Inicjalizacja głównego slidera
     initHeroSlider();
     
-    // Inicjalizujemy slider z opiniami
-    initTestimonialsSlider();
+    // 📱 Preładowanie obrazów dla szybszego działania
+    preloadSliderImages();
+    
+    console.log('✅ Wszystkie slidery zainicjalizowane pomyślnie');
 });
 
-// 🌄 PREŁADOWANIE OBRAZÓW SLIDERA
-function preloadSliderImages() {
-    const slides = document.querySelectorAll('.slide');
-    
-    if (slides.length > 0) {
-        slides.forEach(slide => {
-            const bgElement = slide.querySelector('.slide-bg');
-            if (bgElement) {
-                const bgStyle = window.getComputedStyle(bgElement);
-                const bgImage = bgStyle.backgroundImage;
-                
-                // Wyodrębniamy URL obrazu
-                const imageUrl = bgImage.match(/url\(['"]?(.*?)['"]?\)/);
-                
-                if (imageUrl && imageUrl[1]) {
-                    // Preładujemy obraz
-                    const img = new Image();
-                    img.src = imageUrl[1];
-                    console.log('Preładowanie obrazu:', imageUrl[1]);
-                }
-            }
-        });
-    }
-}
-
-// 🖼️ GŁÓWNY SLIDER - POPRAWIONA WERSJA
+// ======= 🖼️ GŁÓWNY SLIDER STRONY =======
 function initHeroSlider() {
+    // Znajdź elementy slidera
     const heroSlider = document.querySelector('.hero-slider');
     
-    // Jeśli slider nie istnieje na tej stronie, kończymy
+    // Jeśli slider nie istnieje na tej stronie, zakończ
     if (!heroSlider) return;
     
     // Znajdź wszystkie slajdy
     const slides = heroSlider.querySelectorAll('.slide');
     
-    // Jeśli mamy tylko jeden slajd, nie potrzebujemy slidera
+    // Jeśli jest tylko jeden slajd lub brak slajdów, nie potrzebujemy slidera
     if (slides.length <= 1) {
+        // Upewnij się, że pierwszy slajd jest widoczny
         if (slides.length === 1) {
             slides[0].classList.add('active');
         }
         return;
     }
     
-    // Dodajemy przyciski nawigacyjne (jeśli jeszcze nie istnieją)
-    let prevButton = heroSlider.querySelector('.slider-nav.prev');
-    let nextButton = heroSlider.querySelector('.slider-nav.next');
+    // Znajdź przyciski nawigacyjne i wskaźniki
+    const prevButton = heroSlider.querySelector('.slider-nav.prev');
+    const nextButton = heroSlider.querySelector('.slider-nav.next');
+    const indicators = heroSlider.querySelectorAll('.indicator');
     
-    if (!prevButton) {
-        prevButton = document.createElement('button');
-        prevButton.className = 'slider-nav prev';
-        prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-        prevButton.setAttribute('aria-label', 'Poprzedni slajd');
-        heroSlider.appendChild(prevButton);
-    }
-    
-    if (!nextButton) {
-        nextButton = document.createElement('button');
-        nextButton.className = 'slider-nav next';
-        nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
-        nextButton.setAttribute('aria-label', 'Następny slajd');
-        heroSlider.appendChild(nextButton);
-    }
-    
-    // Dodajemy wskaźniki slajdów (jeśli jeszcze nie istnieją)
-    let indicators = heroSlider.querySelector('.slider-indicators');
-    
-    if (!indicators) {
-        indicators = document.createElement('div');
-        indicators.className = 'slider-indicators';
-        
-        for (let i = 0; i < slides.length; i++) {
-            const dot = document.createElement('span');
-            dot.className = i === 0 ? 'indicator active' : 'indicator';
-            dot.dataset.slide = i;
-            dot.setAttribute('aria-label', `Slajd ${i + 1}`);
-            indicators.appendChild(dot);
-        }
-        
-        heroSlider.appendChild(indicators);
-    }
-    
-    // Pobieramy wszystkie kropki
-    const dots = indicators.querySelectorAll('.indicator');
-    
-    // Zmienne do kontroli slidera
+    // Zmienne kontrolne slidera
     let currentSlide = 0;
     let isAnimating = false;
     let autoPlayTimer;
-    let autoPlayDelay = 7000; // Dłuższy czas wyświetlania slajdu (7 sekund)
+    const autoPlayDelay = 7000; // Czas wyświetlania slajdu (7 sekund)
     
-    // Sprawdzamy, czy jakiś slajd jest już aktywny
-    const activeSlide = heroSlider.querySelector('.slide.active');
-    if (activeSlide) {
-        // Znajdujemy indeks aktywnego slajdu
-        slides.forEach((slide, index) => {
-            if (slide === activeSlide) {
-                currentSlide = index;
-            }
-        });
-    } else {
-        // Aktywujemy pierwszy slajd, jeśli żaden nie jest aktywny
-        slides[0].classList.add('active');
-    }
-    
-    // Aktualizujemy wskaźniki, aby odpowiadały aktualnemu slajdowi
-    updateIndicators();
-    
-    // Funkcja pokazująca dany slajd
+    // 🔄 Funkcja pokazująca wybrany slajd
     function showSlide(index) {
+        // Zapobieganie kliknięciu podczas animacji
         if (isAnimating) return;
         isAnimating = true;
         
-        // Ukrywamy aktualny slajd
+        // Ukryj aktualny slajd (usuń klasę active)
         slides[currentSlide].classList.remove('active');
         
-        // Aktualizujemy indeks aktualnego slajdu
+        // Aktualizuj indeks aktualnego slajdu
         currentSlide = index;
         
-        // Zapewniamy, że indeks jest w prawidłowym zakresie
+        // Jeśli indeks jest poza zakresem, skoryguj go
         if (currentSlide >= slides.length) currentSlide = 0;
         if (currentSlide < 0) currentSlide = slides.length - 1;
         
-        // Pokazujemy nowy slajd
+        // Pokaż nowy slajd (dodaj klasę active)
         slides[currentSlide].classList.add('active');
         
-        // Aktualizujemy wskaźniki
+        // Aktualizuj aktywny wskaźnik (kropkę)
         updateIndicators();
         
-        // Po zakończeniu animacji przejścia zezwalamy na kolejne przejście
+        // Zresetuj animację po zakończeniu przejścia
         setTimeout(() => {
             isAnimating = false;
         }, 1500); // Czas zgodny z transition w CSS (1.5s)
     }
     
-    // Funkcja aktualizująca wskaźniki
+    // 🔄 Funkcja aktualizująca wskaźniki (kropki)
     function updateIndicators() {
-        dots.forEach((dot, i) => {
-            if (i === currentSlide) {
-                dot.classList.add('active');
+        indicators.forEach((indicator, index) => {
+            if (index === currentSlide) {
+                indicator.classList.add('active');
             } else {
-                dot.classList.remove('active');
+                indicator.classList.remove('active');
             }
         });
     }
     
-    // Funkcja przełączająca do następnego slajdu
+    // 🔄 Funkcje nawigacyjne
     function nextSlide() {
         showSlide(currentSlide + 1);
     }
     
-    // Funkcja przełączająca do poprzedniego slajdu
     function prevSlide() {
         showSlide(currentSlide - 1);
     }
     
-    // Ustawiamy automatyczne przełączanie slajdów
+    // 🔄 Funkcje kontroli automatycznego odtwarzania
     function startAutoPlay() {
-        // Czyszczenie istniejącego timera dla pewności
+        // Wyczyść istniejący timer, aby uniknąć wielu jednoczesnych timerów
         clearInterval(autoPlayTimer);
         autoPlayTimer = setInterval(nextSlide, autoPlayDelay);
     }
@@ -178,34 +106,47 @@ function initHeroSlider() {
         clearInterval(autoPlayTimer);
     }
     
-    // Obsługa przycisków nawigacyjnych
-    prevButton.addEventListener('click', () => {
-        stopAutoPlay();
-        prevSlide();
-        startAutoPlay();
-    });
+    // 🔄 Obsługa przycisków nawigacyjnych
+    if (prevButton) {
+        prevButton.addEventListener('click', () => {
+            stopAutoPlay(); // Zatrzymaj automatyczne przewijanie
+            prevSlide();    // Pokaż poprzedni slajd
+            startAutoPlay(); // Uruchom ponownie automatyczne przewijanie
+        });
+    }
     
-    nextButton.addEventListener('click', () => {
-        stopAutoPlay();
-        nextSlide();
-        startAutoPlay();
-    });
+    if (nextButton) {
+        nextButton.addEventListener('click', () => {
+            stopAutoPlay(); // Zatrzymaj automatyczne przewijanie
+            nextSlide();    // Pokaż następny slajd
+            startAutoPlay(); // Uruchom ponownie automatyczne przewijanie
+        });
+    }
     
-    // Obsługa kliknięcia wskaźników
-    dots.forEach(dot => {
-        dot.addEventListener('click', () => {
-            const slideIndex = parseInt(dot.dataset.slide);
-            if (currentSlide !== slideIndex) { // Zapobiegamy zbędnym przejściom
+    // 🔄 Obsługa wskaźników (kropek)
+    indicators.forEach((indicator, index) => {
+        indicator.addEventListener('click', () => {
+            // Pokaż odpowiedni slajd tylko jeśli nie jest już aktywny
+            if (currentSlide !== index) {
                 stopAutoPlay();
-                showSlide(slideIndex);
+                showSlide(index);
+                startAutoPlay();
+            }
+        });
+        
+        // Dla dostępności - obsługa klawiatury
+        indicator.addEventListener('keydown', (e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+                e.preventDefault();
+                stopAutoPlay();
+                showSlide(index);
                 startAutoPlay();
             }
         });
     });
     
-    // Dodajemy obsługę klawiszy do nawigacji
-    heroSlider.setAttribute('tabindex', '0'); // Dodajemy możliwość fokusowania
-    
+    // 🔄 Obsługa klawiszy strzałek dla slidera
+    heroSlider.setAttribute('tabindex', '0'); // Umożliwiamy focus
     heroSlider.addEventListener('keydown', (e) => {
         if (e.key === 'ArrowLeft') {
             stopAutoPlay();
@@ -218,40 +159,44 @@ function initHeroSlider() {
         }
     });
     
-    // Obsługa dotykowa dla urządzeń mobilnych
+    // 📱 Obsługa gestów dotykowych (swipe)
     let touchStartX = 0;
     let touchEndX = 0;
     
+    // Rozpoczęcie dotyku
     heroSlider.addEventListener('touchstart', (e) => {
         touchStartX = e.changedTouches[0].screenX;
     }, { passive: true });
     
+    // Zakończenie dotyku
     heroSlider.addEventListener('touchend', (e) => {
         touchEndX = e.changedTouches[0].screenX;
         handleSwipe();
     }, { passive: true });
     
+    // Funkcja obsługująca gest przesunięcia
     function handleSwipe() {
-        const swipeThreshold = 50; // Minimalna odległość przesunięcia
+        const swipeThreshold = 50; // Minimalny dystans przesunięcia
         
+        // Przesunięcie w prawo - poprzedni slajd
         if (touchEndX - touchStartX > swipeThreshold) {
-            // Przesunięcie w prawo - poprzedni slajd
             stopAutoPlay();
             prevSlide();
             startAutoPlay();
-        } else if (touchStartX - touchEndX > swipeThreshold) {
-            // Przesunięcie w lewo - następny slajd
+        }
+        // Przesunięcie w lewo - następny slajd
+        else if (touchStartX - touchEndX > swipeThreshold) {
             stopAutoPlay();
             nextSlide();
             startAutoPlay();
         }
     }
     
-    // Zatrzymujemy automatyczne przełączanie przy najechaniu myszką
+    // 🔄 Zatrzymanie automatycznego odtwarzania przy najechaniu myszą
     heroSlider.addEventListener('mouseenter', stopAutoPlay);
     heroSlider.addEventListener('mouseleave', startAutoPlay);
     
-    // Zatrzymuj automatyczne przełączanie, gdy strona nie jest widoczna
+    // 🔄 Zatrzymanie automatycznego odtwarzania, gdy strona jest niewidoczna
     document.addEventListener('visibilitychange', () => {
         if (document.hidden) {
             stopAutoPlay();
@@ -260,8 +205,8 @@ function initHeroSlider() {
         }
     });
     
-    // Sprawdzamy, czy slajder jest w widoku przy przewijaniu
-    window.addEventListener('scroll', () => {
+    // 🔄 Sprawdzanie, czy slider jest w widoku
+    function checkSliderVisibility() {
         const rect = heroSlider.getBoundingClientRect();
         const isInView = (
             rect.top >= -rect.height &&
@@ -273,211 +218,176 @@ function initHeroSlider() {
         } else {
             stopAutoPlay();
         }
-    });
+    }
     
-    // Startujemy automatyczne przełączanie
+    // Sprawdź widoczność przy przewijaniu
+    window.addEventListener('scroll', checkSliderVisibility);
+    
+    // 🔄 Inicjalizacja - upewnij się, że pierwszy slajd jest aktywny i uruchom automatyczne odtwarzanie
+    if (!slides[currentSlide].classList.contains('active')) {
+        slides[currentSlide].classList.add('active');
+    }
+    updateIndicators();
     startAutoPlay();
     
-    // Domyślnie już aktywowaliśmy pierwszy slajd, więc nie musimy tego robić ponownie
-    console.log('✅ Slider główny zainicjalizowany poprawnie');
+    console.log('✅ Główny slider zainicjalizowany');
 }
 
-// 💬 SLIDER OPINII
-function initTestimonialsSlider() {
-    const testimonialsSlider = document.querySelector('.testimonials-slider');
+// ======= 🖼️ PREŁADOWANIE OBRAZÓW SLIDERA =======
+function preloadSliderImages() {
+    // Znajdź wszystkie slajdy
+    const slides = document.querySelectorAll('.slide');
     
-    // Jeśli slider nie istnieje na tej stronie, kończymy
-    if (!testimonialsSlider) return;
+    if (slides.length === 0) return; // Jeśli nie ma slajdów, zakończ
     
-    // Znajdź wszystkie opinie
-    const testimonials = testimonialsSlider.querySelectorAll('.testimonial');
-    
-    // Jeśli mamy mniej niż 2 opinie, nie potrzebujemy slidera
-    if (testimonials.length <= 1) {
-        if (testimonials.length === 1) {
-            testimonials[0].classList.add('active');
-        }
-        return;
-    }
-    
-    // Dodajemy przyciski nawigacyjne
-    const prevButton = document.createElement('button');
-    prevButton.className = 'slider-nav prev';
-    prevButton.innerHTML = '<i class="fas fa-chevron-left"></i>';
-    prevButton.setAttribute('aria-label', 'Poprzednia opinia');
-    testimonialsSlider.appendChild(prevButton);
-    
-    const nextButton = document.createElement('button');
-    nextButton.className = 'slider-nav next';
-    nextButton.innerHTML = '<i class="fas fa-chevron-right"></i>';
-    nextButton.setAttribute('aria-label', 'Następna opinia');
-    testimonialsSlider.appendChild(nextButton);
-    
-    // Dodajemy wskaźniki (kropki)
-    const indicators = document.createElement('div');
-    indicators.className = 'slider-indicators';
-    
-    for (let i = 0; i < testimonials.length; i++) {
-        const dot = document.createElement('span');
-        dot.className = i === 0 ? 'indicator active' : 'indicator';
-        dot.dataset.slide = i;
-        dot.setAttribute('aria-label', `Opinia ${i + 1}`);
-        indicators.appendChild(dot);
-    }
-    
-    testimonialsSlider.appendChild(indicators);
-    
-    // Zmienne do kontroli slidera
-    let currentTestimonial = 0;
-    let isAnimating = false;
-    let autoPlayTimer;
-    
-    // Domyślna wartość w milisekundach dla opinii
-    const transitionDuration = 500;
-    
-    // Funkcja pokazująca daną opinię
-    function showTestimonial(index) {
-        if (isAnimating) return;
-        isAnimating = true;
-        
-        // Ukrywamy aktualną opinię
-        testimonials[currentTestimonial].classList.remove('active');
-        
-        // Aktualizujemy indeks aktualnej opinii
-        currentTestimonial = index;
-        
-        // Zapewniamy, że indeks jest w prawidłowym zakresie
-        if (currentTestimonial >= testimonials.length) currentTestimonial = 0;
-        if (currentTestimonial < 0) currentTestimonial = testimonials.length - 1;
-        
-        // Pokazujemy nową opinię
-        testimonials[currentTestimonial].classList.add('active');
-        
-        // Aktualizujemy wskaźniki
-        const dots = indicators.querySelectorAll('.indicator');
-        dots.forEach((dot, i) => {
-            if (i === currentTestimonial) {
-                dot.classList.add('active');
-            } else {
-                dot.classList.remove('active');
-            }
-        });
-        
-        // Używamy dynamicznego czasu
-        setTimeout(() => {
-            isAnimating = false;
-        }, transitionDuration);
-    }
-    
-    // Funkcja przełączająca do następnej opinii
-    function nextTestimonial() {
-        showTestimonial(currentTestimonial + 1);
-    }
-    
-    // Funkcja przełączająca do poprzedniej opinii
-    function prevTestimonial() {
-        showTestimonial(currentTestimonial - 1);
-    }
-    
-    // Ustawiamy automatyczne przełączanie opinii
-    function startAutoPlay() {
-        autoPlayTimer = setInterval(nextTestimonial, 6000); // Co 6 sekund
-    }
-    
-    function stopAutoPlay() {
-        clearInterval(autoPlayTimer);
-    }
-    
-    // Obsługa przycisków nawigacyjnych
-    nextButton.addEventListener('click', () => {
-        stopAutoPlay();
-        nextTestimonial();
-        startAutoPlay();
-    });
-    
-    prevButton.addEventListener('click', () => {
-        stopAutoPlay();
-        prevTestimonial();
-        startAutoPlay();
-    });
-    
-    // Obsługa kliknięcia wskaźników
-    indicators.querySelectorAll('.indicator').forEach(dot => {
-        dot.addEventListener('click', () => {
-            const testimonialIndex = parseInt(dot.dataset.slide);
-            stopAutoPlay();
-            showTestimonial(testimonialIndex);
-            startAutoPlay();
-        });
-    });
-    
-    // Dodajemy obsługę klawiszy
-    testimonialsSlider.setAttribute('tabindex', '0');
-    
-    testimonialsSlider.addEventListener('keydown', (e) => {
-        if (e.key === 'ArrowLeft') {
-            stopAutoPlay();
-            prevTestimonial();
-            startAutoPlay();
-        } else if (e.key === 'ArrowRight') {
-            stopAutoPlay();
-            nextTestimonial();
-            startAutoPlay();
-        }
-    });
-    
-    // Obsługa dotykowa dla urządzeń mobilnych
-    let touchStartX = 0;
-    let touchEndX = 0;
-    
-    testimonialsSlider.addEventListener('touchstart', (e) => {
-        touchStartX = e.changedTouches[0].screenX;
-    }, { passive: true });
-    
-    testimonialsSlider.addEventListener('touchend', (e) => {
-        touchEndX = e.changedTouches[0].screenX;
-        handleSwipe();
-    }, { passive: true });
-    
-    function handleSwipe() {
-        const swipeThreshold = 50; // Minimalna odległość przesunięcia
-        
-        if (touchEndX - touchStartX > swipeThreshold) {
-            // Przesunięcie w prawo - poprzednia opinia
-            stopAutoPlay();
-            prevTestimonial();
-            startAutoPlay();
-        } else if (touchStartX - touchEndX > swipeThreshold) {
-            // Przesunięcie w lewo - następna opinia
-            stopAutoPlay();
-            nextTestimonial();
-            startAutoPlay();
-        }
-    }
-    
-    // Aktywujemy pierwszą opinię i zaczynamy automatyczne przełączanie
-    testimonials[0].classList.add('active');
-    startAutoPlay();
-    
-    // Zatrzymujemy automatyczne przełączanie przy najechaniu myszką
-    testimonialsSlider.addEventListener('mouseenter', stopAutoPlay);
-    testimonialsSlider.addEventListener('mouseleave', startAutoPlay);
-    
-    // Zatrzymuj automatyczne przełączanie, gdy strona nie jest widoczna
-    document.addEventListener('visibilitychange', () => {
-        if (document.hidden) {
-            stopAutoPlay();
-        } else {
-            // Sprawdzamy, czy slider jest w widoku
-            const rect = testimonialsSlider.getBoundingClientRect();
-            const isInView = (
-                rect.top >= -rect.height &&
-                rect.bottom <= (window.innerHeight || document.documentElement.clientHeight) + rect.height
-            );
+    // Dla każdego slajdu, załaduj obraz w tle
+    slides.forEach(slide => {
+        const bgElement = slide.querySelector('.slide-bg');
+        if (bgElement) {
+            // Pobierz styl tła
+            const computedStyle = window.getComputedStyle(bgElement);
+            const backgroundImage = computedStyle.backgroundImage;
             
-            if (isInView) {
-                startAutoPlay();
+            // Wyodrębnij URL obrazu
+            const urlMatch = backgroundImage.match(/url\(['"]?([^'"]+)['"]?\)/);
+            
+            if (urlMatch && urlMatch[1]) {
+                // Utwórz nowy element Image do załadowania obrazu
+                const img = new Image();
+                img.src = urlMatch[1];
+                
+                // Opcjonalnie: Możesz dodać obsługę zdarzeń load/error
+                img.onload = () => console.log(`✅ Załadowano obraz: ${urlMatch[1]}`);
+                img.onerror = () => console.error(`❌ Błąd ładowania obrazu: ${urlMatch[1]}`);
             }
         }
     });
+    
+    console.log('✅ Rozpoczęto preładowanie obrazów slidera');
+}
+
+// ======= 🎠 DODATKOWA FUNKCJA: KARUZELĘ PRODUKTÓW =======
+// Ta funkcja nie jest używana w głównym kodzie, ale została dodana jako przykład
+// rozszerzenia funkcjonalności w przyszłości
+function initProductCarousel() {
+    // Znajdź kontener karuzeli
+    const carousel = document.querySelector('.product-carousel');
+    
+    if (!carousel) return; // Jeśli nie ma karuzeli, zakończ
+    
+    // Znajdź elementy karuzeli
+    const carouselTrack = carousel.querySelector('.carousel-track');
+    const slides = carousel.querySelectorAll('.carousel-item');
+    const nextButton = carousel.querySelector('.carousel-next');
+    const prevButton = carousel.querySelector('.carousel-prev');
+    
+    // Jeśli nie ma wystarczającej liczby slajdów, zakończ
+    if (slides.length <= 1) return;
+    
+    // Zmienne kontrolne
+    let currentIndex = 0;
+    const slidesToShow = 3; // Ile slajdów pokazywać jednocześnie
+    const slideWidth = 100 / slidesToShow; // Szerokość slajdu w procentach
+    let isDragging = false;
+    let startPos = 0;
+    let currentTranslate = 0;
+    let prevTranslate = 0;
+    
+    // Ustaw początkowy wygląd karuzeli
+    slides.forEach(slide => {
+        slide.style.width = `${slideWidth}%`;
+    });
+    
+    // Funkcja przesuwająca karuzelę
+    function moveCarousel(direction) {
+        if (direction === 'next') {
+            currentIndex = Math.min(currentIndex + 1, slides.length - slidesToShow);
+        } else {
+            currentIndex = Math.max(currentIndex - 1, 0);
+        }
+        
+        updateCarousel();
+    }
+    
+    // Funkcja aktualizująca pozycję karuzeli
+    function updateCarousel() {
+        const translateValue = -currentIndex * slideWidth;
+        carouselTrack.style.transform = `translateX(${translateValue}%)`;
+    }
+    
+    // Obsługa przycisków
+    if (nextButton) {
+        nextButton.addEventListener('click', () => moveCarousel('next'));
+    }
+    
+    if (prevButton) {
+        prevButton.addEventListener('click', () => moveCarousel('prev'));
+    }
+    
+    // Obsługa przeciągania (drag) - dla urządzeń dotykowych
+    
+    // Początek przeciągania
+    carouselTrack.addEventListener('mousedown', dragStart);
+    carouselTrack.addEventListener('touchstart', dragStart);
+    
+    // Ruch podczas przeciągania
+    window.addEventListener('mousemove', drag);
+    window.addEventListener('touchmove', drag);
+    
+    // Koniec przeciągania
+    window.addEventListener('mouseup', dragEnd);
+    window.addEventListener('touchend', dragEnd);
+    
+    // Funkcja rozpoczynająca przeciąganie
+    function dragStart(e) {
+        e.preventDefault();
+        
+        if (e.type === 'touchstart') {
+            startPos = e.touches[0].clientX;
+        } else {
+            startPos = e.clientX;
+        }
+        
+        isDragging = true;
+        prevTranslate = currentTranslate;
+    }
+    
+    // Funkcja obsługująca ruch podczas przeciągania
+    function drag(e) {
+        if (!isDragging) return;
+        
+        let currentPosition;
+        if (e.type === 'touchmove') {
+            currentPosition = e.touches[0].clientX;
+        } else {
+            currentPosition = e.clientX;
+        }
+        
+        const diff = currentPosition - startPos;
+        currentTranslate = prevTranslate + diff / carousel.offsetWidth * 100;
+        
+        // Ograniczenie zakresu przesunięcia
+        const maxTranslate = 0;
+        const minTranslate = -(slides.length - slidesToShow) * slideWidth;
+        
+        currentTranslate = Math.max(minTranslate, Math.min(maxTranslate, currentTranslate));
+        
+        carouselTrack.style.transform = `translateX(${currentTranslate}%)`;
+    }
+    
+    // Funkcja kończąca przeciąganie
+    function dragEnd() {
+        isDragging = false;
+        
+        // Oblicz najbliższy indeks slajdu
+        currentIndex = Math.round(Math.abs(currentTranslate) / slideWidth);
+        
+        // Ograniczenie zakresu indeksu
+        currentIndex = Math.max(0, Math.min(slides.length - slidesToShow, currentIndex));
+        
+        // Aktualizuj karuzelę
+        updateCarousel();
+    }
+    
+    console.log('✅ Karuzela produktów zainicjalizowana');
 }
